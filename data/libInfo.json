@@ -1,0 +1,34 @@
+[
+  {
+    "libFiles": [
+      {
+        "path": "script/global.js",
+        "type": "script"
+      },
+      {
+        "path": "script/object.js",
+        "type": "script"
+      },
+      {
+        "path": "script/jsonParser.js",
+        "type": "script"
+      },
+      {
+        "path": "script/scheduler.js",
+        "type": "script"
+      },
+      {
+        "path": "script/objectPool.js",
+        "type": "script"
+      },
+      {
+        "path": "script/html5/base.js",
+        "type": "script"
+      },
+      {
+        "path": "script/html5/dialog.js",
+        "type": "script"
+      }
+    ],
+  }
+]
