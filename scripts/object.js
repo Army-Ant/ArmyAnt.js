@@ -30,6 +30,8 @@ libArmyAnt.Object.Inherit = function(extend) {
         ret.prototype[key] = extend[key];
     }
     ret.prototype.base = {};
+    if(typeof this.prototype.ctor != "function")
+        ret.prototype.base["ctor"] = function(){};
     for (var key in this.prototype) {
         if (typeof this.prototype[key] == "function") {
             ret.prototype.base[key] = this.prototype[key];

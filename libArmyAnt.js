@@ -30,28 +30,40 @@ if(!(typeof libArmyAnt!="undefined" || libArmyAnt)) {
 		config: {},
 
         init: function () {
-            //this.ImportScript("jQuery/jquery-2.1.4.js");
-            $.getJSON("data/libInfo.json", function (data) {
-                //load all library files
-                for (var i = 0; i < data[0].libFiles.length; i++) {
-                    if (data[0].libFiles[i].type == "script") {
-                        libArmyAnt.ImportScript(data[0].libFiles[i].path);
-                        console.log("ArmyAnt : load script " + data[0].libFiles[i].path);
-                    } else if (data[0].libFiles[i].type == "style") {
-                        libArmyAnt.ImportStyle(data[0].libFiles[i].path);
-                        console.log("ArmyAnt : load style " + data[0].libFiles[i].path);
+            //libArmyAnt.ImportScript("jQuery/jquery-2.1.4.js");
+            $.ajax({
+                type: "get",
+                url: "data/libInfo.json",
+                cache: true,
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    //load all library files
+                    for (var i = 0; i < data[0].libFiles.length; i++) {
+                        if (data[0].libFiles[i].type == "script") {
+                            libArmyAnt.ImportScript(data[0].libFiles[i].path);
+                            console.log("ArmyAnt : load script " + data[0].libFiles[i].path);
+                        } else if (data[0].libFiles[i].type == "style") {
+                            libArmyAnt.ImportStyle(data[0].libFiles[i].path);
+                            console.log("ArmyAnt : load style " + data[0].libFiles[i].path);
+                        }
+                    }
+                    for (var key in data[0]) {
+                        if (key != "libFiles")
+                            libArmyAnt.info[key] = data[0][key];
                     }
                 }
-
-                for (var key in data[0]) {
-                    if (key != "libFiles")
-                        libArmyAnt.info[key] = data[0][key];
-                }
             });
-            $.getJSON("data/libConfig.json", function (data) {
-                for (var key in data[0]) {
-                    if (key != "libFiles")
+            $.ajax({
+                type: "get",
+                url:"data/libConfig.json",
+                cache: true,
+                async: false,
+                dataType: "json",
+                success : function (data) {
+                    for (var key in data[0]) {
                         libArmyAnt.config[key] = data[0][key];
+                    }
                 }
             });
 
@@ -61,8 +73,8 @@ if(!(typeof libArmyAnt!="undefined" || libArmyAnt)) {
          * Dynamically insert javascript file
          * @param url : string
          *      The javascript file path
-         * @returns {HTMLElement}
-         *      The script element reference in document
+         * @returns boolean
+         *      The script loaded request sended successful or not
          */
         ImportScript: function (url) {
             var insScript = document.createElement("script");

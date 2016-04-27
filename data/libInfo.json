@@ -2,33 +2,33 @@
   {
     "libFiles": [
       {
-        "path": "script/global.js",
+        "path": "scripts/global.js",
         "type": "script"
       },
       {
-        "path": "script/object.js",
+        "path": "scripts/object.js",
         "type": "script"
       },
       {
-        "path": "script/jsonParser.js",
+        "path": "scripts/jsonParser.js",
         "type": "script"
       },
       {
-        "path": "script/scheduler.js",
+        "path": "scripts/scheduler.js",
         "type": "script"
       },
       {
-        "path": "script/objectPool.js",
+        "path": "scripts/objectPool.js",
         "type": "script"
       },
       {
-        "path": "script/html5/base.js",
+        "path": "scripts/html5/base.js",
         "type": "script"
       },
       {
-        "path": "script/html5/dialog.js",
+        "path": "scripts/html5/dialog.js",
         "type": "script"
       }
-    ],
+    ]
   }
 ]
