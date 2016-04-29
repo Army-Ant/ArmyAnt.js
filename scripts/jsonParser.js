@@ -27,12 +27,30 @@ libArmyAnt.JsonParser = libArmyAnt.Object.Inherit({
         if (url)
             this.url = url;
         if (this.url)
-            $.getJSON(url, this._CallBack.bind(this));
+            $.ajax({
+                type: "get",
+                url: url,
+                cache: true,
+                async: false,
+                dataType: "json",
+                success: this._CallBack.bind(this)
+            });
         else
-            throw "Wrong url string of json file";
+            throw "Error url string for json file";
     },
 
     _CallBack: function (data) {
         this.data = data;
     }
 });
+
+libArmyAnt.JsonParser.GetJson = function(url, callback) {
+    return $.ajax({
+        type: "get",
+        url: url,
+        cache: true,
+        async: false,
+        dataType: "json",
+        success: callback
+    });
+};

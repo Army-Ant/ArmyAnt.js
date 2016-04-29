@@ -26,6 +26,8 @@ if(!(typeof libArmyAnt!="undefined" || libArmyAnt)) {
             }
         },
 
+        loadedReady:false,
+        onLibLoad:null,
         info: {},
 		config: {
 			rootDir:""
@@ -68,22 +70,42 @@ if(!(typeof libArmyAnt!="undefined" || libArmyAnt)) {
                     }
                 }
             });
+            if(this.onLibLoad)
+                this.onLibLoad();
+            this.loadedReady = true;
+        },
 
+        /**
+         * Dynamically insert an HTML element
+         * @param typename : string
+         *      The type of the element you will add
+         * @param parentElem : HTMLElement
+         *      The parent element node you will add to
+         * @param properties : Object
+         *      The properties of this element you will add
+         * @returns {HTMLElement}
+         *      The element you add
+         */
+        InsertElement: function(typename, parentElem, properties){
+            var insertingElem = document.createElement(typename);
+            if(properties){
+                for(var key in properties){
+                    insertingElem[key] = properties[key];
+                }
+            }
+            parentElem.appendChild(insertingElem);
+            return insertingElem;
         },
 
         /**
          * Dynamically insert javascript file
          * @param url : string
          *      The javascript file path
-         * @returns boolean
-         *      The script loaded request sended successful or not
+         * @returns {HTMLElement}
+         *      The script element reference in document
          */
         ImportScript: function (url) {
-            var insScript = document.createElement("script");
-            insScript.type = "text/javascript";
-            insScript.src = url;
-            document.head.appendChild(insScript);
-            return insScript;
+            return libArmyAnt.InsertElement("script",document.head,{src:url,type:"text/javascript"});
         },
 
         /**
@@ -94,11 +116,7 @@ if(!(typeof libArmyAnt!="undefined" || libArmyAnt)) {
          *      The style element reference in document
          */
         ImportStyle: function (url) {
-            var insStyle = document.createElement("style");
-            insStyle.type = "text/css";
-            insStyle.src = url;
-            document.head.appendChild(insStyle);
-            return insStyle;
+            return libArmyAnt.InsertElement("link",document.head,{href:url,type:"text/css",rel:"stylesheet"});
         }
     };
 

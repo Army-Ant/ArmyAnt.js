@@ -25,7 +25,7 @@ libArmyAnt.Object.Inherit = function(extend) {
         if (this.ctor)
             this.ctor.apply(this, Array.prototype.slice.call(arguments));
     };
-    ret.prototype = Object.create(this.prototype);
+    ret.prototype = Object.create(this);
     for (var key in extend) {
         ret.prototype[key] = extend[key];
     }
