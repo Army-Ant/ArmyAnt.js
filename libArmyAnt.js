@@ -27,13 +27,15 @@ if(!(typeof libArmyAnt!="undefined" || libArmyAnt)) {
         },
 
         info: {},
-		config: {},
+		config: {
+			rootDir:""
+		},
 
         init: function () {
             //libArmyAnt.ImportScript("jQuery/jquery-2.1.4.js");
             $.ajax({
                 type: "get",
-                url: "data/libInfo.json",
+                url: libArmyAnt.config.rootDir + "data/libInfo.json",
                 cache: true,
                 async: false,
                 dataType: "json",
@@ -41,10 +43,10 @@ if(!(typeof libArmyAnt!="undefined" || libArmyAnt)) {
                     //load all library files
                     for (var i = 0; i < data[0].libFiles.length; i++) {
                         if (data[0].libFiles[i].type == "script") {
-                            libArmyAnt.ImportScript(data[0].libFiles[i].path);
+                            libArmyAnt.ImportScript(libArmyAnt.config.rootDir + data[0].libFiles[i].path);
                             console.log("ArmyAnt : load script " + data[0].libFiles[i].path);
                         } else if (data[0].libFiles[i].type == "style") {
-                            libArmyAnt.ImportStyle(data[0].libFiles[i].path);
+                            libArmyAnt.ImportStyle(libArmyAnt.config.rootDir + data[0].libFiles[i].path);
                             console.log("ArmyAnt : load style " + data[0].libFiles[i].path);
                         }
                     }
@@ -56,7 +58,7 @@ if(!(typeof libArmyAnt!="undefined" || libArmyAnt)) {
             });
             $.ajax({
                 type: "get",
-                url:"data/libConfig.json",
+                url:libArmyAnt.config.rootDir + "data/libConfig.json",
                 cache: true,
                 async: false,
                 dataType: "json",
