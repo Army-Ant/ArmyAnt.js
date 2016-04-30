@@ -29,7 +29,7 @@ libArmyAnt.JsonParser = libArmyAnt.Object.Inherit({
         if (this.url)
             $.ajax({
                 type: "get",
-                url: url,
+                url: this.url,
                 cache: true,
                 async: false,
                 dataType: "json",

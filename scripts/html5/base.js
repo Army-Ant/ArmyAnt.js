@@ -10,7 +10,7 @@ libArmyAnt.HTML5=new (libArmyAnt.Object.Inherit({
 
     ctor:function(){
         var self = this;
-        $.post(this.modal, null, function (data, statue, jqXHR) {
+        $.post(libArmyAnt.config.rootDir + this.modal, null, function (data, statue, jqXHR) {
             self.data = data;
         }, "html");
     }

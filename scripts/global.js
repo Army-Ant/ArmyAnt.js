@@ -4,20 +4,20 @@
  * @date 2015/8/21
  */
 
-Object.prototype.copy = function() {
-    if (this == null)
+Object.copy = function(obj) {
+    if (obj === null)
         return null;
     var ret = new Object();
-    for (var key in this) {
-        switch (typeof this[key]) {
+    for (var key in obj) {
+        switch (typeof obj[key]) {
             case "undefined":
                 break;
             case "object":
             case "array":
-                ret[key] = this[key].copy();
+                ret[key] = obj[key].copy();
                 break;
             default:
-                ret[key] = this[key];
+                ret[key] = obj[key];
         }
     }
     return ret;
@@ -33,6 +33,7 @@ Array.prototype.copy = function() {
                 ret[i] = null;
                 break;
             case "object":
+                ret[i]=Object.copy(this[i]);
             case "array":
                 ret[i] = this[i].copy();
                 break;
