@@ -30,11 +30,13 @@ if(!(typeof libArmyAnt!="undefined" || libArmyAnt)) {
         onLibLoad:null,
         info: {},
 		config: {
+			/**
+			 * Please change this string value when you use this library in your project
+			 */
 			rootDir:""
 		},
 
         init: function () {
-            //libArmyAnt.ImportScript("jQuery/jquery-2.1.4.js");
             $.ajax({
                 type: "get",
                 url: libArmyAnt.config.rootDir + "data/libInfo.json",
