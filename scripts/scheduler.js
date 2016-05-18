@@ -10,7 +10,9 @@
 libArmyAnt.Scheduler = libArmyAnt.Object.Inherit({
     delayTime: 0.001,
     callFunc: null,
-    running: false,
+
+    _running: false,
+    _runningID:null,
 
     ctor: function (dt) {
         this.base.ctor();
@@ -27,9 +29,9 @@ libArmyAnt.Scheduler = libArmyAnt.Object.Inherit({
         if (func)
             this.callFunc = func;
         if (this.callFunc) {
-            this.running = true;
+            this._running = true;
             var ld = Date.parse(new Date());
-            window.setTimeout(function () {
+            this._runningID = setInterval(function () {
                 this._Callback(ld);
             }.bind(this), this.delayTime * 1000);
         }
@@ -39,7 +41,9 @@ libArmyAnt.Scheduler = libArmyAnt.Object.Inherit({
      * Stop the scheduler
      */
     Stop: function () {
-        this.running = false;
+        this._running = false;
+        if (this._runningID)
+            clearInterval(this._runningID);
     },
 
     /**
@@ -48,16 +52,17 @@ libArmyAnt.Scheduler = libArmyAnt.Object.Inherit({
      *      The time seconds waited
      */
     Sleep: function (sleepTime) {
-        this.running = false;
-        window.setTimeout(this.Run.bind(this), sleepTime * 1000);
+        this._running = false;
+        setTimeout(this.Run.bind(this), sleepTime * 1000);
+    },
+
+    IsRunning:function(){
+        return this._running;
     },
 
     _Callback: function (ld) {
         var nd = Date.parse(new Date());
         this.callFunc(nd - ld);
-        if (this.running)
-            window.setTimeout(function () {
-                this._Callback(nd);
-            }.bind(this), this.delayTime * 1000);
+        ld = nd;
     }
 });

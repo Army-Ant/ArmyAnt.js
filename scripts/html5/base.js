@@ -10,9 +10,15 @@ libArmyAnt.HTML5=new (libArmyAnt.Object.Inherit({
 
     ctor:function(){
         var self = this;
-        $.post(libArmyAnt.config.rootDir + this.modal, null, function (data, statue, jqXHR) {
-            self.data = data;
-        }, "html");
+        if(libArmyAnt.nodeJs){
+            self.data=libArmyAnt.nodeJs.fs["readFile"](libArmyAnt.config.rootDir + this.modal,function(err,filedata){
+                self.data=filedata;
+            });
+        }else {
+            $.post(libArmyAnt.config.rootDir + this.modal, null, function (data, statue, jqXHR) {
+                self.data = data;
+            }, "html");
+        }
     }
 
 }))();

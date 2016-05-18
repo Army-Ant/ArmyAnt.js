@@ -4,24 +4,25 @@
  * @date 2015/8/21
  */
 
-Object.copy = function(obj) {
-    if (obj === null)
-        return null;
-    var ret = new Object();
-    for (var key in obj) {
-        switch (typeof obj[key]) {
-            case "undefined":
-                break;
-            case "object":
-            case "array":
-                ret[key] = obj[key].copy();
-                break;
-            default:
-                ret[key] = obj[key];
+if(typeof Object.copy == "undefined" || !Object.copy)
+    Object.copy = function(obj) {
+        if (obj === null)
+            return null;
+        var ret = {};
+        for (var key in obj) {
+            switch (typeof obj[key]) {
+                case "undefined":
+                    break;
+                case "object":
+                case "array":
+                    ret[key] = obj[key].copy();
+                    break;
+                default:
+                    ret[key] = obj[key];
+            }
         }
-    }
-    return ret;
-};
+        return ret;
+    };
 
 Array.prototype.copy = function() {
     if (this == null)
@@ -33,7 +34,8 @@ Array.prototype.copy = function() {
                 ret[i] = null;
                 break;
             case "object":
-                ret[i]=Object.copy(this[i]);
+                ret[i] = Object.copy(this[i]);
+                break;
             case "array":
                 ret[i] = this[i].copy();
                 break;
@@ -46,17 +48,16 @@ Array.prototype.copy = function() {
 
 /**
  * Return the function itself whose "this" is bind to the target param
- * @param thisbind : *
+ * @param thisBind : *
  *                  Bind target the returned function's "this" will bind to
  * @returns {Function}
  */
-Function.prototype.bind = function(thisbind) {
+Function.prototype.bind = function(thisBind) {
     var self = this;
-    var selfbind = thisbind;
-    var arr = arguments;
+    var selfBind = thisBind;
 
     return function () {
-        return self.apply(selfbind, Array.prototype.slice.call(arguments));
+        return self.apply(selfBind, Array.prototype.slice.call(arguments));
     };
 };
 
@@ -68,22 +69,22 @@ Function.prototype.bind = function(thisbind) {
  * @private
  */
 libArmyAnt._Print = function(mode,array) {
-    var modenum = 0;
-    switch (libArmyAnt.config.debugMode) {
+    var modeNum = 0;
+    switch (libArmyAnt.config["debugMode"]) {
         case "log":
-            modenum = 1;
+            modeNum = 1;
             break;
         case "warn":
-            modenum = 2;
+            modeNum = 2;
             break;
         case "assert":
-            modenum = 3;
+            modeNum = 3;
             break;
         case "error":
-            modenum = 4;
+            modeNum = 4;
             break;
         default:
-            modenum = 0;
+            modeNum = 0;
             return;
     }
     var ret = "ArmyAnt : ";
@@ -92,22 +93,22 @@ libArmyAnt._Print = function(mode,array) {
     }
     switch (mode) {
         case "log":
-            if (modenum > 1)
+            if (modeNum > 1)
                 return;
             console.log(ret);
             break;
         case "warn":
-            if (modenum > 2)
+            if (modeNum > 2)
                 return;
             console.warn(ret);
             break;
         case "assert":
-            if (modenum > 3)
+            if (modeNum > 3)
                 return;
             console.assert(ret);
             break;
         case "error":
-            if (modenum > 4)
+            if (modeNum > 4)
                 return;
             console.error(ret);
             break;
