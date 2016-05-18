@@ -32,37 +32,34 @@
                 http: require("http"),
                 url: require("url"),
                 fs: require("fs"),
+				child_process : require("child_process"),
             },
             loadedReady: false,
+            loading:false,
             onLibLoad: null,
             info: {},
             config: {
                 /**
                  * Please change this string value when you use this library in your project
                  */
-                rootDir: ""
+                rootDir: "",
+                nodeRootDir:"./",
+                dataRootDir:"",
             },
 
             init: function () {
-                if (libArmyAnt.nodeJs)
-                    libArmyAnt.config.rootDir = "./" + libArmyAnt.config.rootDir;
                 if (this.nodeJs) {
-                    this.nodeJs.fs["readFile"](libArmyAnt.config.rootDir + "data/libInfo.json", function (err, jsondata) {
+                    this.nodeJs.fs["readFile"](libArmyAnt.config.dataRootDir + "data/libInfo.json", function (err, jsondata) {
                         if (err) {
-                            console.error("ArmyAnt : load config " + libArmyAnt.config.rootDir + "data/libInfo.json failed !");
+                            console.error("ArmyAnt : load config " + libArmyAnt.config.dataRootDir + "data/libInfo.json failed !");
                         } else {
                             var data = JSON.parse(jsondata);
+                            libArmyAnt._onInitingModules += data[0]["libFiles"].length;
                             for (var i = 0; i < data[0]["libFiles"].length; i++) {
                                 if (data[0]["libFiles"][i].type == "script") {
-                                    //try {
-                                    libArmyAnt.ImportScript(libArmyAnt.config.rootDir + data[0]["libFiles"][i]["path"]);
-                                    /* }
-                                     catch(err){
-                                     console.error("ArmyAnt : loading script " + data[0]["libFiles"][i]["path"] + " caused errors !");
-                                     console.error(err);
-                                     }*/
+                                    libArmyAnt.ImportScript(libArmyAnt.config.nodeRootDir + data[0]["libFiles"][i]["path"]);
                                 } else if (data[0]["libFiles"][i].type == "style") {
-                                    libArmyAnt.ImportStyle(libArmyAnt.config.rootDir + data[0]["libFiles"][i]["path"]);
+                                    libArmyAnt.ImportStyle(libArmyAnt.config.nodeRootDir + data[0]["libFiles"][i]["path"]);
                                 }
                             }
                             for (var key in data[0]) {
@@ -71,9 +68,9 @@
                             }
                         }
                     });
-                    this.nodeJs.fs["readFile"](libArmyAnt.config.rootDir + "data/libConfig.json", function (err, jsondata) {
+                    this.nodeJs.fs["readFile"](libArmyAnt.config.dataRootDir + "data/libConfig.json", function (err, jsondata) {
                         if (err) {
-                            console.error("ArmyAnt : load config " + libArmyAnt.config.rootDir + "data/libConfig.json failed !");
+                            console.error("ArmyAnt : load config " + libArmyAnt.config.dataRootDir + "data/libConfig.json failed !");
                         } else {
                             var data = JSON.parse(jsondata);
                             for (var key in data[0]) {
@@ -90,6 +87,7 @@
                         dataType: "json",
                         success: function (data) {
                             //load all library files
+                            libArmyAnt._onInitingModules += data[0]["libFiles"].length;
                             for (var i = 0; i < data[0]["libFiles"].length; i++) {
                                 if (data[0]["libFiles"][i].type == "script") {
                                     libArmyAnt.ImportScript(libArmyAnt.config.rootDir + data[0]["libFiles"][i]["path"]);
@@ -117,9 +115,20 @@
                         }
                     });
                 }
-                if (this.onLibLoad)
-                    this.onLibLoad();
-                this.loadedReady = true;
+                this._onInited(true);
+            },
+
+            _onInitingModules:1,
+            _onInited:function(ismain){
+                if(this._onInitingModules>2)
+                    this.loading=true;
+                this._onInitingModules--;
+                if(this.loading && !this.loadedReady && this._onInitingModules<=0){
+                    console.log("ArmyAnt : Library loaded OK !");
+                    this.loadedReady = true;
+                    if (this.onLibLoad)
+                        this.onLibLoad();
+                }
             },
 
             /**
@@ -182,8 +191,5 @@
         console.warn('ArmyAnt : The module name "libArmyAnt" has been defined !');
     }
 })();
-
-if(libArmyAnt.nodeJs)
-    require("./externals/jquery-2.1.4.js");
 
 libArmyAnt.init();

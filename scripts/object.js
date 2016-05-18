@@ -40,3 +40,5 @@ libArmyAnt.Object.Inherit = function(extend) {
     ret.Inherit = libArmyAnt.Object.Inherit.bind(ret);
     return ret;
 };
+
+libArmyAnt._onInited();

@@ -47,3 +47,5 @@ libArmyAnt.HTML5.Dialog = libArmyAnt.Object.Inherit({
 });
 
 libArmyAnt.HTML5.Dialog.MESSAGE = 1;
+
+libArmyAnt._onInited();

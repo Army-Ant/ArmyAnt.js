@@ -22,3 +22,5 @@ libArmyAnt.HTML5=new (libArmyAnt.Object.Inherit({
     }
 
 }))();
+
+libArmyAnt._onInited();

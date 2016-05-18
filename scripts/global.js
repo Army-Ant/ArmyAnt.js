@@ -130,3 +130,5 @@ libArmyAnt.assert = function() {
 libArmyAnt.error = function() {
     libArmyAnt._Print("error", Array.prototype.slice.call(arguments));
 };
+
+libArmyAnt._onInited(true);

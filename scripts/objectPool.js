@@ -38,3 +38,5 @@ libArmyAnt.ObjectPool = libArmyAnt.Object.Inherit({
 
     }
 });
+
+libArmyAnt._onInited();

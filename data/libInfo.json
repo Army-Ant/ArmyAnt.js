@@ -28,6 +28,10 @@
       {
         "path": "scripts/html5/dialog.js",
         "type": "script"
+      },
+      {
+        "path": "scripts/node.js_extend/server.js",
+        "type": "script"
       }
     ]
   }

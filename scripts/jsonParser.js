@@ -26,22 +26,23 @@ libArmyAnt.JsonParser = libArmyAnt.Object.Inherit({
         this.data = null;
         if (url)
             this.url = url;
-        if (this.url)
+        if(libArmyAnt.nodeJs){
+            this.data = require("./" + url);
+        }
+        else if (this.url)
             $.ajax({
                 type: "get",
                 url: this.url,
                 cache: true,
                 async: false,
                 dataType: "json",
-                success: this._CallBack.bind(this)
+                success: function (data) {
+                    this.data = data;
+                }.bind(this)
             });
         else
             throw "Error url string for json file";
     },
-
-    _CallBack: function (data) {
-        this.data = data;
-    }
 });
 
 libArmyAnt.JsonParser.GetJson = function(url, callback) {
@@ -54,3 +55,5 @@ libArmyAnt.JsonParser.GetJson = function(url, callback) {
         success: callback
     });
 };
+
+libArmyAnt._onInited();

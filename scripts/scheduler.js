@@ -66,3 +66,5 @@ libArmyAnt.Scheduler = libArmyAnt.Object.Inherit({
         ld = nd;
     }
 });
+
+libArmyAnt._onInited();
