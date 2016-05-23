@@ -1,62 +1,68 @@
-if(libArmyAnt.nodeJs) {
 
-	libArmyAnt.server = libArmyAnt.Object.Inherit({
-		port: 8081,
-		listenning: false,
+(function() {
+	if (libArmyAnt.nodeJs) {
 
-		ctor:function(){
-			this.base.ctor();
-			if(!libArmyAnt.server._content) {
-				var dt = new libArmyAnt.JsonParser();
-				dt.LoadJson("data/contentType.json");
-				libArmyAnt.server._content = dt.data;
-			}
-		},
+		this.libArmyAnt.Server = this.libArmyAnt.Object.Inherit({
+			port: 8081,
+			listenning: false,
 
-		Start: function (port) {
-			if(port)
-				this.port=port;
-			while (!this.listenning) {
-				try {
-					var server = libArmyAnt.nodeJs.http["createServer"](this._ReqResp);
-					server["listen"](this.port);
-				} catch (err) {
-					this.port++;
-					continue;
+			ctor: function () {
+				this.base.ctor();
+				if (!libArmyAnt.Server._content) {
+					var dt = new libArmyAnt.JsonParser();
+					dt.LoadJson("../data/contentType.json");
+					libArmyAnt.Server._content = dt.data;
 				}
-				this.listenning = true;
-			}
-			// console will print the message
-			console.log('Server running at http://127.0.0.1:' + this.port + '/');
-		},
+			},
 
-		_ReqResp: function (request, response) {
-			// Parse the request containing file name
-			var pathname = libArmyAnt.nodeJs.url.parse(request.url).pathname;
-			// Print the name of the file for which request is made.
-			console.log("Request for " + pathname + " received, type: " + request.contentType);
-			// Read the requested file content from file system
-			libArmyAnt.nodeJs.fs["readFile"](pathname.substr(1), function (err, data) {
-				if (err) {
-					console.log(err);
-					// HTTP Status: 404 : NOT FOUND
-					// Content Type: text/plain
-					response["writeHead"](404, {'Content-Type': 'text/plain'});
-				} else {
-					var ext = pathname.split('.')[pathname.split('.').length - 1];
-					if(libArmyAnt.server._content[0][ext])
-						response["writeHead"](200, {'Content-Type': libArmyAnt.server._content[0][ext]});
-					else
-						response["writeHead"](200, {'Content-Type': libArmyAnt.server._content[1]});
-					// Write the content of the file to response body
-					response.write(data.toString());
+			Start: function (port) {
+				if (port)
+					this.port = port;
+				while (!this.listenning) {
+					try {
+						var server = libArmyAnt.nodeJs.http["createServer"](this._ReqResp);
+						server["listen"](this.port);
+					} catch (err) {
+						this.port++;
+						continue;
+					}
+					this.listenning = true;
 				}
-				// Send the response body
-				response.end();
-			});
-		}
-	});
-	libArmyAnt.server._content = null;
-}
+				// console will print the message
+				console.log('Server running at http://127.0.0.1:' + this.port + '/');
+			},
 
-libArmyAnt._onInited();
+			_ReqResp: function (request, response) {
+				// Parse the request containing file name
+				var pathname = libArmyAnt.nodeJs.url.parse(request.url).pathname;
+				var ext = pathname.split('.')[pathname.split('.').length - 1];
+				var contentType = libArmyAnt.Server._content[0][ext] ? libArmyAnt.Server._content[0][ext] : libArmyAnt.Server._content[1];
+				// Print the name of the file for which request is made.
+				console.log("Request for " + pathname + " received, type: " + contentType);
+				// Read the requested file content from file system
+				libArmyAnt.nodeJs.fs["readFile"](pathname.substr(1), function (err, data) {
+					if (err) {
+						console.log(err);
+						// HTTP Status: 404 : NOT FOUND
+						// Content Type: text/plain
+						response["writeHead"](404, {'Content-Type': 'text/plain'});
+					} else {
+						response["writeHead"](200, {'Content-Type': contentType});
+						// Write the content of the file to response body
+
+						if (contentType.substr(0, 4) == "text" || contentType.substr(0, 11) == "application")
+							response.write(data.toString());
+						else
+							response.write(data, "binary");
+					}
+					// Send the response body
+					response.end();
+				});
+			}
+		});
+
+		libArmyAnt.Server._content = null;
+	}
+
+	this.libArmyAnt._onInited();
+})();

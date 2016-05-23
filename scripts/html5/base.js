@@ -4,23 +4,25 @@
  * @date 2015/8/26
  */
 
-libArmyAnt.HTML5=new (libArmyAnt.Object.Inherit({
-    modal:"assets/modals.html",
-    data:null,
+(function() {
+    this.libArmyAnt.HTML5 = new (this.libArmyAnt.Object.Inherit({
+        modal: "assets/modals.html",
+        data: null,
 
-    ctor:function(){
-        var self = this;
-        if(libArmyAnt.nodeJs){
-            self.data=libArmyAnt.nodeJs.fs["readFile"](libArmyAnt.config.rootDir + this.modal,function(err,filedata){
-                self.data=filedata;
-            });
-        }else {
-            $.post(libArmyAnt.config.rootDir + this.modal, null, function (data, statue, jqXHR) {
-                self.data = data;
-            }, "html");
+        ctor: function () {
+            var self = this;
+            if (libArmyAnt.nodeJs) {
+                self.data = libArmyAnt.nodeJs.fs["readFile"](libArmyAnt.config.rootDir + this.modal, function (err, filedata) {
+                    self.data = filedata;
+                });
+            } else {
+                $.post(libArmyAnt.config.rootDir + this.modal, null, function (data, statue, jqXHR) {
+                    self.data = data;
+                }, "html");
+            }
         }
-    }
 
-}))();
+    }))();
 
-libArmyAnt._onInited();
+    this.libArmyAnt._onInited();
+})();

@@ -7,36 +7,38 @@
 /**
  * The class used in libArmyAnt.ObjectPool
  */
-libArmyAnt.ObjectElement = libArmyAnt.Object.Inherit({
-    id:null,
-    staticPart:{},
+(function() {
+    this.libArmyAnt.ObjectElement = this.libArmyAnt.Object.Inherit({
+        id: null,
+        staticPart: {},
 
-    ctor:function(){
-        this.base.ctor();
-    },
+        ctor: function () {
+            this.base.ctor();
+        },
 
-    reuse:function(){
-        
-    }
-});
+        reuse: function () {
 
-/**
- * The class for object pool modal, you should only input ObjectElement and its inherit class object into this pool
- */
-libArmyAnt.ObjectPool = libArmyAnt.Object.Inherit({
-    elements:[],
+        }
+    });
 
-    ctor:function(){
-        this.base.ctor();
-    },
+    /**
+     * The class for object pool modal, you should only input ObjectElement and its inherit class object into this pool
+     */
+    this.libArmyAnt.ObjectPool = this.libArmyAnt.Object.Inherit({
+        elements: [],
 
-    obtain:function(type){
+        ctor: function () {
+            this.base.ctor();
+        },
 
-    },
+        obtain: function (type) {
 
-    clear:function(){
+        },
 
-    }
-});
+        clear: function () {
 
-libArmyAnt._onInited();
+        }
+    });
+
+    this.libArmyAnt._onInited();
+})();
