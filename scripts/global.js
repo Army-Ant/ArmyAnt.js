@@ -46,6 +46,14 @@
         }
         return ret;
     };
+    
+    this.Array.prototype.contains=function(value){
+        for(var i=0;i<this.length;i++) {
+            if (this[i] === value)
+                return i + 1;
+        }
+        return false;
+    };
 
     /**
      * Return the function itself whose "this" is bind to the target param

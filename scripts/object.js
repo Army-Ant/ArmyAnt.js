@@ -10,10 +10,9 @@
  */
 (function() {
     this.libArmyAnt.Object = function () {
-        this.ctor = function () {
-        };
         this.ctor.apply(this, arguments);
     };
+    this.libArmyAnt.Object.prototype.ctor=function(){};
 
     /**
      * The function to inherit from self type
@@ -26,17 +25,21 @@
             if (this.ctor)
                 this.ctor.apply(this, Array.prototype.slice.call(arguments));
         };
-        ret.prototype = Object.create(this);
+
+        //ret.prototype = Object.create(this);
+        ret.prototype={};
+        for (var key in this.prototype) {
+            ret.prototype[key] = this.prototype[key];
+        }
         for (var key in extend) {
             ret.prototype[key] = extend[key];
         }
         ret.prototype.base = {};
-        if (typeof this.prototype.ctor != "function")
-            ret.prototype.base["ctor"] = function () {
-            };
-        for (var key in this.prototype) {
-            if (typeof this.prototype[key] == "function") {
+        for(var key in this.prototype){
+            if(typeof this.prototype[key] === "function"){
                 ret.prototype.base[key] = this.prototype[key];
+            }else if(key=="base"){
+                ret.prototype.base.base=this.prototype.base;
             }
         }
         ret.Inherit = libArmyAnt.Object.Inherit.bind(ret);

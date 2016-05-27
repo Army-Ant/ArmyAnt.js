@@ -15,6 +15,7 @@
 
         _running: false,
         _runningID: null,
+        _lastTime:0,
 
         ctor: function (dt) {
             this.base.ctor();
@@ -32,10 +33,8 @@
                 this.callFunc = func;
             if (this.callFunc) {
                 this._running = true;
-                var ld = Date.parse(new Date());
-                this._runningID = setInterval(function () {
-                    this._Callback(ld);
-                }.bind(this), this.delayTime * 1000);
+                this._lastTime = Date.parse(new Date());
+                this._runningID = setInterval(this._Callback.bind(this), this.delayTime * 1000);
             }
         },
 
@@ -62,10 +61,16 @@
             return this._running;
         },
 
-        _Callback: function (ld) {
+        CallAtOnce:function(){
+            this._Callback();
+            clearInterval(this._runningID);
+            this._runningID = setInterval(this._Callback.bind(this), this.delayTime * 1000);
+        },
+
+        _Callback: function () {
             var nd = Date.parse(new Date());
-            this.callFunc(nd - ld);
-            ld = nd;
+            this.callFunc(nd - this._lastTime);
+            this._lastTime = nd;
         }
     });
 
