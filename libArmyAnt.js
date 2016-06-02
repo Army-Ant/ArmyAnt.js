@@ -33,6 +33,7 @@
                 url: require("url"),
                 fs: require("fs"),
                 child_process: require("child_process"),
+                querystring:require("querystring")
             },
             loadedReady: false,
             info: {},
@@ -43,7 +44,10 @@
                 rootDir: "",
                 nodeRootDir: "./",
                 dataRootDir: "",
-                onLibLoad: null,
+                onLibLoad: function(){
+                    if(libArmyAnt.nodeJs)
+                        serverHost.OnStart();
+                },
             },
 
             init: function () {
