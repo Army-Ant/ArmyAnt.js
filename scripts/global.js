@@ -55,6 +55,16 @@
         return false;
     };
 
+    this.Array.prototype.removeAt=function(index){
+        if(index<0)
+            return false;
+        for(var i=index+1;i<this.length;i++){
+            this[i-1]=this[i];
+        }
+        this.pop();
+        return true;
+    };
+
     /**
      * Return the function itself whose "this" is bind to the target param
      * @param thisBind : *
