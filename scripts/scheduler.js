@@ -9,7 +9,7 @@
  */
 
 (function() {
-    this.libArmyAnt.Scheduler = this.libArmyAnt.Object.Inherit({
+    this.libArmyAnt.Scheduler = this.libArmyAnt.Object.inherit({
         delayTime: 0.001,
         callFunc: null,
 
@@ -28,20 +28,20 @@
          * @param func : {Function}
          *      If no param input into, the scheduler will run latest ran function
          */
-        Run: function (func) {
+        run: function (func) {
             if (func)
                 this.callFunc = func;
             if (this.callFunc) {
                 this._running = true;
                 this._lastTime = Date.parse(new Date());
-                this._runningID = setInterval(this._Callback.bind(this), this.delayTime * 1000);
+                this._runningID = setInterval(this._callback.bind(this), this.delayTime * 1000);
             }
         },
 
         /**
-         * Stop the scheduler
+         * stop the scheduler
          */
-        Stop: function () {
+        stop: function () {
             this._running = false;
             if (this._runningID)
                 clearInterval(this._runningID);
@@ -52,22 +52,22 @@
          * @param sleepTime : Number
          *      The time seconds waited
          */
-        Sleep: function (sleepTime) {
+        sleep: function (sleepTime) {
             this._running = false;
-            setTimeout(this.Run.bind(this), sleepTime * 1000);
+            setTimeout(this.run.bind(this), sleepTime * 1000);
         },
 
-        IsRunning: function () {
+        isRunning: function () {
             return this._running;
         },
 
-        CallAtOnce:function(){
-            this._Callback();
+        callAtOnce:function(){
+            this._callback();
             clearInterval(this._runningID);
-            this._runningID = setInterval(this._Callback.bind(this), this.delayTime * 1000);
+            this._runningID = setInterval(this._callback.bind(this), this.delayTime * 1000);
         },
 
-        _Callback: function () {
+        _callback: function () {
             var nd = Date.parse(new Date());
             this.callFunc(nd - this._lastTime);
             this._lastTime = nd;

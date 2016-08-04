@@ -20,7 +20,7 @@
      *      new params for the new class
      * @returns {class}
      */
-    this.libArmyAnt.Object.Inherit = function (extend) {
+    this.libArmyAnt.Object.inherit = function (extend) {
         var ret = function () {
             if (this.ctor)
                 this.ctor.apply(this, Array.prototype.slice.call(arguments));
@@ -42,7 +42,7 @@
                 ret.prototype.base.base=this.prototype.base;
             }
         }
-        ret.Inherit = libArmyAnt.Object.Inherit.bind(ret);
+        ret.inherit = libArmyAnt.Object.inherit.bind(ret);
         return ret;
     };
 

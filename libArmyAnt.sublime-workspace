@@ -1,0 +1,365 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"di",
+				"dispatchEvent"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "libArmyAnt.js",
+			"settings":
+			{
+				"buffer_size": 8458,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/D/github-work/ArmyAnt.js",
+		"/D/github-work/ArmyAnt.js/assets",
+		"/D/github-work/ArmyAnt.js/data",
+		"/D/github-work/ArmyAnt.js/scripts",
+		"/D/github-work/ArmyAnt.js/scripts/html5",
+		"/D/github-work/ArmyAnt.js/scripts/node.js_extend"
+	],
+	"file_history":
+	[
+		"/D/github-work/ArmyAnt.js/.gitattributes",
+		"/D/github-work/ArmyAnt.js/.idea/workspace.xml",
+		"/D/github-work/ArmyAnt.js/scripts/scheduler.js",
+		"/D/github-work/ArmyAnt.js/scripts/objectPool.js",
+		"/D/github-work/ArmyAnt.js/scripts/html5/dialog.js",
+		"/D/github-work/ArmyAnt.js/scripts/html5/base.js",
+		"/D/github-work/ArmyAnt.js/scripts/object.js",
+		"/D/github-work/ArmyAnt.js/scripts/global.js",
+		"/D/github-work/ArmyAnt.js/libArmyAnt.js",
+		"/D/github-work/ArmyAnt.js/nodetest.js",
+		"/D/github-work/ArmyAnt.js/libArmyAnt.sublime-project",
+		"/D/github-work/ArmyAnt.js/scripts/node.js_extend/server.js",
+		"/D/github-work/ArmyAnt.js/scripts/jsonParser.js",
+		"/D/github-work/ArmyAnt.js/externals/jquery-2.2.4.js",
+		"/D/github-work/ArmyAnt.js/test.html",
+		"/D/github-work/ArmyAnt.js/libArmyAnt.sublime-workspace",
+		"/D/work/texas_code/texas_cocos/texas/frameworks/runtime-src/Classes/qf/shaders/StackGrey.cpp",
+		"/D/work/texas_code/texas_cocos/texas/src/platform/android/Platform.lua",
+		"/D/work/texas_code/texas_cocos/texas/src/main.lua",
+		"/D/work/texas_code/texas_cocos/cocos_ui/cnui/破产界面/Export/bankruptcy_1/bankruptcy_1.json",
+		"/D/work/texas_code/texas_cocos/texas/frameworks/runtime-src/Classes/test/mytest.cpp",
+		"/D/work/texas_code/texas_cocos/texas/frameworks/runtime-src/Classes/test/mytest.h",
+		"/D/work/texas_code/texas_cocos/texas/src/cache/pay/DiamondInfo.lua",
+		"/D/github-work/ArmyAnt.js/LICENSE",
+		"/D/work/texas_code/texas_cocos/texas/frameworks/runtime-src/Classes/qf/shaders/StackGrey.h",
+		"/D/work/texas_code/texas_cocos/texas/runtime/win32/no field package.preload['src.cache.pay.DiamondInfo'][string \"./src/cache/pay/DiamondInfo.lua\"]",
+		"/D/work/texas_code/simulator/1/src/platform/windows/Platform.lua",
+		"/D/work/texas_code/simulator/3/src/platform/windows/Platform.lua",
+		"/D/work/texas_code/simulator/5/src/platform/windows/Platform.lua",
+		"/D/work/texas_code/texas_cocos/texas/src/platform/windows/Platform.lua",
+		"/D/work/texas_code/simulator/2/src/config/SomeConfig.lua",
+		"/D/work/texas_code/simulator/3/src/config/SomeConfig.lua",
+		"/D/work/texas_code/simulator/4/src/config/SomeConfig.lua",
+		"/D/work/texas_code/simulator/5/src/config/SomeConfig.lua",
+		"/D/work/texas_code/simulator/5/config.json",
+		"/D/work/texas_code/simulator/4/config.json",
+		"/D/work/texas_code/simulator/3/config.json",
+		"/D/work/texas_code/simulator/2/config.json",
+		"/D/work/texas_code/simulator/1/config.json",
+		"/D/work/texas_code/simulator/1/src/update/UpdateManager.lua",
+		"/D/install/Sublime Text Build 3083 x64/Data/Packages/User/texas-simu.sublime-build",
+		"/D/work/texas_code/texas_cocos2/texas/src/platform/windows/Platform.lua",
+		"/D/work/texas_code/simulator/1/src/config/SomeConfig.lua",
+		"/D/work/texas_code/texas_cocos/texas/src/modules/game/GameController.lua",
+		"/D/work/texas_code/texas_cocos/texas/src/modules/game/SNGGameView.lua",
+		"/D/work/texas_code/texas_cocos/texas/src/config/Constants.lua",
+		"/D/work/texas_code/texas_cocos/texas/src/modules/game/components/WaitingQueueDialog.lua",
+		"/D/work/texas_code/texas_cocos/texas/runtime/win32/no file 'D",
+		"/D/work/texas_code/texas_cocos/texas/runtime/win32/no field package.preload['src.modules.game.components.WaitingQueueDialog'][string \"./src/modules/game/components/WaitingQueueDia...\"]",
+		"/D/work/texas_code/texas_cocos/texas/src/modules/common/widget/PopupWindow.lua",
+		"/D/work/texas_code/texas_cocos/texas/src/modules/game/components/GameUICheck.lua",
+		"/D/work/texas_code/texas_cocos/texas/runtime/win32/no field package.preload['src.modules.game.components.GameUICheck'][string \"./src/modules/game/components/GameUICheck.lua\"]",
+		"/D/work/texas_code/texas_cocos/texas/src/config/SomeConfig.lua",
+		"/D/work/texas_code/texas_cocos/texas/src/modules/global/GlobalController.lua",
+		"/D/work/texas_code/texas_cocos/texas/src/cache/Desk.lua",
+		"/D/work/texas_code/texas_cocos/texas/src/net/PBAdapter.lua",
+		"/D/work/tbz/texas/src/modules/global/GlobalController.lua",
+		"/D/work/tbz/texas/src/modules/global/components/DayRewardV2.lua",
+		"/D/work/tbz/texas/runtime/win32/ broke_line",
+		"/D/work/tbz/texas/runtime/win32/ gold",
+		"/D/work/tbz/texas/runtime/win32/ status",
+		"/D/install/Sublime Text Build 3083 x64/Data/Packages/User/tbz.sublime-build",
+		"/D/work/texas_code/texas_cocos/texas/src/modules/friend/components/FriendInvite.lua",
+		"/D/work/texas_code/texas_cocos/texas/src/common/Util.lua",
+		"/D/work/texas_code/texas_cocos/texas/src/modules/settle/SettleController.lua",
+		"/D/work/texas_code/texas_cocos/texas/src/modules/game/brcomponents/BrResult.lua",
+		"/D/work/texas_code/texas_cocos/texas/src/modules/friend/FriendController.lua",
+		"/D/work/texas_code/texas_cocos/texas/src/modules/login/LoginView.lua",
+		"/D/work/texas_code/texas_cocos/texas/src/framework/functions.lua",
+		"/D/work/texas_code/texas_cocos/texas/src/platform/ios/Platform.lua",
+		"/D/work/texas_code/texas_cocos/texas/src/framework/downloader/Downloader.lua",
+		"/D/work/texas_code/texas_cocos/texas/runtime/win32/no field package.preload['src.platform.windows.Platform'][string \"./src/platform/windows/Platform.lua\"]",
+		"/D/install/Sublime Text Build 3083 x64/Data/Packages/User/texas-cn.sublime-build"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 90.0,
+		"where_history":
+		[
+			"D:\\github-work\\ArmyAnt.js",
+			"D:\\githubwork\\ArmyAnt.js\\",
+			"D:\\githubwork\\ArmyAnt.js",
+			"D:\\work\\texas_code\\texas_cocos\\texas\\src",
+			"D:\\work\\texas_code\\texas_cocos\\texas\\src\\modules",
+			"D:\\work\\texas_code\\texas_cocos\\texas\\src",
+			"D:\\work\\tbz\\texas\\src",
+			"D:\\work\\texas_code\\texas_cocos\\texas\\src",
+			"D:\\work\\texas_code\\texas_cocos\\texas",
+			"D:\\work\\texas_code\\texas_cocos\\texas\\src"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"_Callback",
+			"CallAtOnce",
+			"IsRunning",
+			"Sleep",
+			"Stop",
+			"Run",
+			"GetJson",
+			"LoadJson",
+			"Inherit",
+			"_Print",
+			"ImportStyle",
+			"ImportScript",
+			"InsertElement",
+			"GameTxt",
+			"processInputGameEvt",
+			"APPLICATION_ACTIONS_EVENT",
+			"APPLICATION",
+			"show_chat",
+			"CHAT",
+			"CMD.QUERY_DESK",
+			"CMD.INVITE_PLAYERS",
+			"5021",
+			"WithoutAction",
+			"_removeBackground",
+			"_backgroundFadeIn",
+			"_removeBackground",
+			"showPoCanReward",
+			"@@@ show pochan",
+			"@@@",
+			"txt_jinbi_get",
+			"Cache.desk",
+			"CURRENT_VERSION",
+			"200",
+			"HOST_NAME",
+			"HOST",
+			"showpclogin",
+			"toast",
+			"io.read",
+			"toast",
+			"io.open",
+			"version",
+			"getKey",
+			"ccui.Helper:seekWidgetByName(self.login,\"qufan_login_btn\")",
+			"initQufanManager",
+			"other_uers_login_btn",
+			"showpclogin",
+			"pcLog",
+			"guestLogin",
+			"showpclogin",
+			"windows",
+			"pc_login_layout",
+			"pc_login",
+			"texas_cocos"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"_callback",
+			"callAtOnce",
+			"isRunning",
+			"sleep",
+			"stop",
+			"run",
+			"getJson",
+			"loadJson",
+			"inherit",
+			"_print",
+			"importStyle",
+			"importScript",
+			"insertElement"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": true,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "libArmyAnt.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8458,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 162.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/User/texas-cn.sublime-build",
+	"project": "libArmyAnt.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 264.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

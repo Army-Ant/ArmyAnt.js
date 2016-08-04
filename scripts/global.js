@@ -87,7 +87,7 @@
      * @param array : Array
      * @private
      */
-    this.libArmyAnt._Print = function (mode, array) {
+    this.libArmyAnt._print = function (mode, array) {
         var modeNum = 0;
         switch (libArmyAnt.config["debugMode"]) {
             case "log":
@@ -138,16 +138,16 @@
     };
 
     this.libArmyAnt.log = function () {
-        libArmyAnt._Print("log", Array.prototype.slice.call(arguments));
+        libArmyAnt._print("log", Array.prototype.slice.call(arguments));
     };
     this.libArmyAnt.warn = function () {
-        libArmyAnt._Print("warn", Array.prototype.slice.call(arguments));
+        libArmyAnt._print("warn", Array.prototype.slice.call(arguments));
     };
     this.libArmyAnt.assert = function () {
-        libArmyAnt._Print("assert", Array.prototype.slice.call(arguments));
+        libArmyAnt._print("assert", Array.prototype.slice.call(arguments));
     };
     this.libArmyAnt.error = function () {
-        libArmyAnt._Print("error", Array.prototype.slice.call(arguments));
+        libArmyAnt._print("error", Array.prototype.slice.call(arguments));
     };
 
     this.libArmyAnt._onInited(true);

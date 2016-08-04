@@ -8,7 +8,7 @@
  * The class to download and parse json file async
  */
 (function() {
-    this.libArmyAnt.JsonParser = this.libArmyAnt.Object.Inherit({
+    this.libArmyAnt.JsonParser = this.libArmyAnt.Object.inherit({
         url: null,
         data: null,
 
@@ -23,7 +23,7 @@
          * @param url : string
          *      The net url or file path of json file
          */
-        LoadJson: function (url) {
+        loadJson: function (url) {
             this.data = null;
             if (url)
                 this.url = url;
@@ -46,7 +46,7 @@
         },
     });
 
-    this.libArmyAnt.JsonParser.GetJson = function (url, callback) {
+    this.libArmyAnt.JsonParser.getJson = function (url, callback) {
         return $.ajax({
             type: "get",
             url: url,

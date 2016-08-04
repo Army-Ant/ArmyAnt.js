@@ -2,7 +2,7 @@
 (function() {
 	if (libArmyAnt.nodeJs) {
 
-		this.libArmyAnt.Server = this.libArmyAnt.Object.Inherit({
+		this.libArmyAnt.Server = this.libArmyAnt.Object.inherit({
 			port: 8081,
 			listening: false,
 			listenFunc: null,
@@ -14,12 +14,12 @@
 				this.base.ctor();
 				if (!libArmyAnt.Server._content) {
 					var dt = new libArmyAnt.JsonParser();
-					dt.LoadJson("../data/contentType.json");
+					dt.loadJson("../data/contentType.json");
 					libArmyAnt.Server._content = dt.data;
 				}
 			},
 
-			Start: function (port) {
+			start: function (port) {
 				if (port)
 					this.port = port;
 				while (!this.listening) {
@@ -36,37 +36,37 @@
 				libArmyAnt.log('Server running at port ' + this.port);
 			},
 
-			ReqResp: function (request, response) {
+			reqResp: function (request, response) {
 				// Print the name of the file for which request is made.
 				libArmyAnt.log("Request '"+request.method+"' received !");
 				switch (request.method) {
 					case 'GET':
-						this._OnGet(request, response);
+						this._onGet(request, response);
 						break;
 					case 'HEAD':
-						this._OnHead(request, response);
+						this._onHead(request, response);
 						break;
 					case 'PUT':
-						this._OnPut(request, response);
+						this._onPut(request, response);
 						break;
 					case 'POST':
-						this._OnPost(request, response);
+						this._onPost(request, response);
 						break;
 					case 'DELETE':
-						this._OnDelete(request, response);
+						this._onDelete(request, response);
 						break;
 					case 'OPTIONS':
-						this._OnOptions(request, response);
+						this._onOptions(request, response);
 						break;
 					case 'TRACE':
-						this._OnTrace(request, response);
+						this._onTrace(request, response);
 						break;
 					default:
 						libArmyAnt.warn("Unknown HTTP request method: " + request.method);
 				}
 			},
 
-			ReturnResponseResource:function(response,pathname,contentType){
+			returnResponseResource:function(response,pathname,contentType){
 				libArmyAnt.nodeJs.fs["readFile"](pathname.substr(1), function (err, data) {
 					if (err) {
 						console.log(err);
@@ -87,30 +87,30 @@
 				});
 			},
 
-			_OnGet:function(request,response) {
+			_onGet:function(request,response) {
 				// Parse the request containing file name
-				var param = libArmyAnt.Server.GetParamByUrl(request.url);
-				var contentType = libArmyAnt.Server.GetContentTypeByPathname(param.pathname);
+				var param = libArmyAnt.Server.getParamByUrl(request.url);
+				var contentType = libArmyAnt.Server.getContentTypeByPathname(param.pathname);
 				libArmyAnt.log("Get request for " + param.pathname + ", type: " + contentType);
 				var pn = param.pathname;
 				if (this.onGet)
 					pn = this.onGet(param);
 				// Read the requested file content from file system
 				if (pn)
-					this.ReturnResponseResource(response, param.pathname, contentType);
+					this.returnResponseResource(response, param.pathname, contentType);
 				else {
 					response["writeHead"](404, {'Content-Type': 'text/plain'});
 					response.end();
 				}
 			},
 
-			_OnHead:function(request, response){
+			_onHead:function(request, response){
 
 			},
 
-			_OnPost:function(request, response) {
+			_onPost:function(request, response) {
 				request["setEncoding"]("utf-8");
-				var param = libArmyAnt.Server.GetParamByUrl(request.url);
+				var param = libArmyAnt.Server.getParamByUrl(request.url);
 				if (this.onPostBegin && !this.onPostBegin(param)){
 					response["writeHead"](404, {'Content-Type': 'text/plain'});
 					// Send the response body
@@ -135,30 +135,30 @@
 				});
 			},
 
-			_OnPut:function(request, response){
+			_onPut:function(request, response){
 
 			},
 
-			_OnDelete:function(request, response){
+			_onDelete:function(request, response){
 
 			},
 
-			_OnOptions:function(request, response){
+			_onOptions:function(request, response){
 
 			},
 
-			_OnTrace:function(request, response){
+			_onTrace:function(request, response){
 
 			}
 		});
 
 		libArmyAnt.Server._content = null;
 
-		libArmyAnt.Server.GetParamByUrl = function (url) {
+		libArmyAnt.Server.getParamByUrl = function (url) {
 			return libArmyAnt.nodeJs.url["parse"](url);
 		};
 
-		libArmyAnt.Server.GetContentTypeByPathname = function (pathname) {
+		libArmyAnt.Server.getContentTypeByPathname = function (pathname) {
 			var ext = pathname.split('.')[pathname.split('.').length - 1];
 			return libArmyAnt.Server._content[0][ext] ? libArmyAnt.Server._content[0][ext] : libArmyAnt.Server._content[1];
 		};

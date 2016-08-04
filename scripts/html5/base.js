@@ -5,7 +5,7 @@
  */
 
 (function() {
-    this.libArmyAnt.HTML5 = new (this.libArmyAnt.Object.Inherit({
+    this.libArmyAnt.HTML5 = new (this.libArmyAnt.Object.inherit({
         modal: "assets/modals.html",
         data: null,
 
