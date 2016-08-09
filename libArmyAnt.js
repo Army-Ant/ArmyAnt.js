@@ -64,7 +64,7 @@
                     if(libArmyAnt.nodeJs)
                         serverHost.onStart();
                     else{
-
+                        libArmyAnt._test();
                     }
                 },
             },
@@ -199,6 +199,10 @@
                     type: "text/css",
                     rel: "stylesheet"
                 });
+            },
+
+            _test:function(){
+                (new libArmyAnt.Scheduler(1)).run(function(dt){document.getElementById('tester').innerHTML += ('<br></br>delaytime='+dt);});
             }
         };
 

@@ -31,7 +31,7 @@
         run: function (func) {
             if (func)
                 this.callFunc = func;
-            if (this.callFunc) {
+            if (this.callFunc && !this._running) {
                 this._running = true;
                 this._lastTime = Date.parse(new Date());
                 this._runningID = setInterval(this._callback.bind(this), this.delayTime * 1000);
