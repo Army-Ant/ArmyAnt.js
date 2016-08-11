@@ -20,14 +20,18 @@
                 relLast: 0,
                 devFirst: 0,
                 devLast: 2,
-                ToNumeric: function () {
+                toNumeric: function () {
                     return this.relFirst * 256 * 256 * 256 + this.relLast * 256 * 256 + this.devFirst * 256 + this.devLast;
                 },
-                ToString: function () {
+                toString: function () {
                     return this.relFirst + "." + this.relLast + "." + this.devFirst + "." + this.devLast + ".";
                 }
             },
 
+            /**
+             * If in the node.js enviroment, this object contains every modules from node.js system packages.
+             * If out of the node.js, this variable is null.
+             */
             nodeJs: (typeof require == "undefined" || !require) ? null : {
                 http: require("http"),
                 url: require("url"),
@@ -35,8 +39,20 @@
                 child_process: require("child_process"),
                 querystring:require("querystring")
             },
+
+            /**
+             * Have the library loaded ready or not, don't change the value in any case
+             */
             loadedReady: false,
+
+            /**
+             * The informations of this library, loaded from "libInfo.json"
+             */
             info: {},
+
+            /**
+             * The configurations of this library, some of it is loaded from "libConfig.json"
+             */
             config: {
                 /**
                  * Please change this string value when you use this library in your project
@@ -46,7 +62,10 @@
                 dataRootDir: "",
                 onLibLoad: function(){
                     if(libArmyAnt.nodeJs)
-                        serverHost.OnStart();
+                        serverHost.onStart();
+                    else{
+                        libArmyAnt._test();
+                    }
                 },
             },
 
@@ -119,11 +138,11 @@
                 while(this.info["libFiles"][this._onInitedModules].type != "script"){
                     switch(this.info["libFiles"][this._onInitedModules].type) {
                         case "style":
-                            this.ImportStyle(rootPath + this.info["libFiles"][this._onInitedModules++]["path"]);
+                            this.importStyle(rootPath + this.info["libFiles"][this._onInitedModules++]["path"]);
                             break;
                     }
                 }
-                this.ImportScript(rootPath + this.info["libFiles"][this._onInitedModules++]["path"]);
+                this.importScript(rootPath + this.info["libFiles"][this._onInitedModules++]["path"]);
             },
 
             /**
@@ -138,7 +157,7 @@
              *      The element you add
              *      If you worked at node.js application, this function shall not work, and always returned null.
              */
-            InsertElement: function (typename, parentElem, properties) {
+            insertElement: function (typename, parentElem, properties) {
                 if (this.nodeJs)
                     return null;
                 var insertingElem = document.createElement(typename);
@@ -159,11 +178,11 @@
              *      HTMLElement : The script element reference in document
              *      Object : the module root of the node.js require returned
              */
-            ImportScript: function (url) {
+            importScript: function (url) {
                 console.log("ArmyAnt : loading script " + url);
                 if (this.nodeJs)
                     return require(url);
-                return libArmyAnt.InsertElement("script", document.head, {src: url, type: "text/javascript"});
+                return libArmyAnt.insertElement("script", document.head, {src: url, type: "text/javascript"});
             },
 
             /**
@@ -173,13 +192,17 @@
              * @return {HTMLElement}
              *      The style element reference in document
              */
-            ImportStyle: function (url) {
+            importStyle: function (url) {
                 console.log("ArmyAnt : load style " + url);
-                return libArmyAnt.InsertElement("link", document.head, {
+                return libArmyAnt.insertElement("link", document.head, {
                     href: url,
                     type: "text/css",
                     rel: "stylesheet"
                 });
+            },
+
+            _test:function(){
+                (new libArmyAnt.Scheduler(1)).run(function(dt){document.getElementById('tester').innerHTML += ('<br></br>delaytime='+dt);});
             }
         };
 

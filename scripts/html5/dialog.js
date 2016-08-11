@@ -5,7 +5,7 @@
  */
 
 (function() {
-    this.libArmyAnt.HTML5.Dialog = this.libArmyAnt.Object.Inherit({
+    this.libArmyAnt.HTML5.Dialog = this.libArmyAnt.Object.inherit({
         title: "Message",
         type: 0,
         text: "",
@@ -26,7 +26,7 @@
          * Create the dialog with current settings and return it
          * @returns {HTMLElement} canvas
          */
-        Return: function () {
+        return: function () {
             this._dialog.children["dialog_title"].innerText = this.title;
             this._dialog.children["dialog_text"].innerText = this.text;
             for (var i = 0; i < this.btnNames.length; i++) {
@@ -36,7 +36,7 @@
             return this._dialog;
         },
 
-        _ParseType: function (type) {
+        _parseType: function (type) {
             if (!type && type !== 0 && this) {
                 type = this.type;
             }

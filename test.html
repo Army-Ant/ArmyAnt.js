@@ -8,15 +8,10 @@
     <style></style>
     <script src="externals/jquery-2.2.4.min.js"></script>
     <script src="libArmyAnt.js"></script>
-    <script type="text/javascript">
-        function AATest_ButtonOnclick(){
-            (new libArmyAnt.Scheduler(1)).Run(function(dt){document.getElementById('tester').innerHTML += ('<br></br>delaytime='+dt);});
-        }
-    </script>
     <title></title>
 </head>
 <body>
-    <button style="height:60px;width:200px; " onclick="AATest_ButtonOnclick()">Test scheduler</button>
+    <button style="height:60px;width:200px; " onclick="libArmyAnt._test()">Test scheduler</button>
     <a id="tester"></a>
 </body>
 </html>

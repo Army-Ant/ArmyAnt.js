@@ -3,9 +3,9 @@
  */
 (function() {
     this.serverHost = {
-        OnStart: function () {
+        onStart: function () {
             var svr = new libArmyAnt.Server();
-            svr.Start();
+            svr.start();
         }
     }
 })();
