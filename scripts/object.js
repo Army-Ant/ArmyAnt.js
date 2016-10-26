@@ -28,17 +28,17 @@
 
         //ret.prototype = Object.create(this);
         ret.prototype={};
-        for (var key in this.prototype) {
-            ret.prototype[key] = this.prototype[key];
+        for (var k1 in this.prototype) {
+            ret.prototype[k1] = this.prototype[k1];
         }
-        for (var key in extend) {
-            ret.prototype[key] = extend[key];
+        for (var k2 in extend) {
+            ret.prototype[k2] = extend[k2];
         }
         ret.prototype.base = {};
-        for(var key in this.prototype){
-            if(typeof this.prototype[key] === "function"){
-                ret.prototype.base[key] = this.prototype[key];
-            }else if(key=="base"){
+        for(var k3 in this.prototype){
+            if(typeof this.prototype[k3] === "function"){
+                ret.prototype.base[k3] = this.prototype[k3];
+            }else if(k3=="base"){
                 ret.prototype.base.base=this.prototype.base;
             }
         }
@@ -46,5 +46,5 @@
         return ret;
     };
 
-    this.libArmyAnt._onInited();
+    this.libArmyAnt._onInitialized();
 })();

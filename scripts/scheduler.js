@@ -74,5 +74,5 @@
         }
     });
 
-    this.libArmyAnt._onInited();
+    this.libArmyAnt._onInitialized();
 })();

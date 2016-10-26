@@ -2,20 +2,25 @@
 (function() {
 	if (libArmyAnt.nodeJs) {
 
-		this.libArmyAnt.Server = this.libArmyAnt.Object.inherit({
-			port: 8081,
+		/*
+		 *
+		 *
+		 */
+		this.libArmyAnt.HttpServer = this.libArmyAnt.Object.inherit({
+			port: 80,
 			listening: false,
 			listenFunc: null,
 			onGet:null,
 			onPostBegin:null,
 			onPostSend:null,
 
+
 			ctor: function () {
 				this.base.ctor();
-				if (!libArmyAnt.Server._content) {
+				if (!libArmyAnt.HttpServer._content) {
 					var dt = new libArmyAnt.JsonParser();
 					dt.loadJson("../data/contentType.json");
-					libArmyAnt.Server._content = dt.data;
+					libArmyAnt.HttpServer._content = dt.data;
 				}
 			},
 
@@ -24,7 +29,7 @@
 					this.port = port;
 				while (!this.listening) {
 					try {
-						var server = libArmyAnt.nodeJs.http["createServer"](this.ReqResp.bind(this));
+						var server = libArmyAnt.nodeJs.http["createServer"](this._reqResp.bind(this));
 						server["listen"](this.port);
 					} catch (err) {
 						this.port++;
@@ -36,7 +41,7 @@
 				libArmyAnt.log('Server running at port ' + this.port);
 			},
 
-			reqResp: function (request, response) {
+			_reqResp: function (request, response) {
 				// Print the name of the file for which request is made.
 				libArmyAnt.log("Request '"+request.method+"' received !");
 				switch (request.method) {
@@ -66,7 +71,7 @@
 				}
 			},
 
-			returnResponseResource:function(response,pathname,contentType){
+			_returnResponseResource:function(response,pathname,contentType){
 				libArmyAnt.nodeJs.fs["readFile"](pathname.substr(1), function (err, data) {
 					if (err) {
 						console.log(err);
@@ -78,30 +83,28 @@
 						// Write the content of the file to response body
 
 						if (contentType.substr(0, 4) == "text" || contentType.substr(0, 11) == "application")
-							response.write(data.toString());
+							response["write"](data.toString());
 						else
-							response.write(data, "binary");
-						// Send the response body
-						response.end();
+							response["write"](data, "binary");
 					}
 				});
 			},
 
 			_onGet:function(request,response) {
 				// Parse the request containing file name
-				var param = libArmyAnt.Server.getParamByUrl(request.url);
-				var contentType = libArmyAnt.Server.getContentTypeByPathname(param.pathname);
+				var param = libArmyAnt.HttpServer.getParamByUrl(request.url);
+				var contentType = libArmyAnt.HttpServer.getContentTypeByPathname(param.pathname);
 				libArmyAnt.log("Get request for " + param.pathname + ", type: " + contentType);
 				var pn = param.pathname;
 				if (this.onGet)
 					pn = this.onGet(param);
 				// Read the requested file content from file system
 				if (pn)
-					this.returnResponseResource(response, param.pathname, contentType);
+					this._returnResponseResource(response, param.pathname, contentType);
 				else {
 					response["writeHead"](404, {'Content-Type': 'text/plain'});
-					response.end();
 				}
+				response.end();
 			},
 
 			_onHead:function(request, response){
@@ -110,7 +113,7 @@
 
 			_onPost:function(request, response) {
 				request["setEncoding"]("utf-8");
-				var param = libArmyAnt.Server.getParamByUrl(request.url);
+				var param = libArmyAnt.HttpServer.getParamByUrl(request.url);
 				if (this.onPostBegin && !this.onPostBegin(param)){
 					response["writeHead"](404, {'Content-Type': 'text/plain'});
 					// Send the response body
@@ -152,18 +155,18 @@
 			}
 		});
 
-		libArmyAnt.Server._content = null;
+		libArmyAnt.HttpServer._content = null;
 
-		libArmyAnt.Server.getParamByUrl = function (url) {
+		libArmyAnt.HttpServer.getParamByUrl = function (url) {
 			return libArmyAnt.nodeJs.url["parse"](url);
 		};
 
-		libArmyAnt.Server.getContentTypeByPathname = function (pathname) {
+		libArmyAnt.HttpServer.getContentTypeByPathname = function (pathname) {
 			var ext = pathname.split('.')[pathname.split('.').length - 1];
-			return libArmyAnt.Server._content[0][ext] ? libArmyAnt.Server._content[0][ext] : libArmyAnt.Server._content[1];
+			return libArmyAnt.HttpServer._content[0][ext] ? libArmyAnt.HttpServer._content[0][ext] : libArmyAnt.HttpServer._content[1];
 		};
 
 	}
 
-	this.libArmyAnt._onInited();
+	this.libArmyAnt._onInitialized();
 })();

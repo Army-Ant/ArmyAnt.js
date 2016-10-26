@@ -29,7 +29,7 @@
             },
 
             /**
-             * If in the node.js enviroment, this object contains every modules from node.js system packages.
+             * If in the node.js environment, this object contains every modules from node.js system packages.
              * If out of the node.js, this variable is null.
              */
             nodeJs: (typeof require == "undefined" || !require) ? null : {
@@ -46,7 +46,7 @@
             loadedReady: false,
 
             /**
-             * The informations of this library, loaded from "libInfo.json"
+             * The information of this library, loaded from "libInfo.json"
              */
             info: {},
 
@@ -66,7 +66,7 @@
                     else{
                         libArmyAnt._test();
                     }
-                },
+                }
             },
 
             init: function () {
@@ -91,7 +91,7 @@
                                 libArmyAnt.info[key] = data[0][key];
                             }
                         }
-                        libArmyAnt._onInited(true);
+                        libArmyAnt._onInitialized(true);
                     });
                 } else {
                     $.ajax({
@@ -118,31 +118,31 @@
                             for (var key in data[0]) {
                                 libArmyAnt.info[key] = data[0][key];
                             }
-                            libArmyAnt._onInited();
+                            libArmyAnt._onInitialized();
                         }
                     });
                 }
             },
 
-            _onInitingModules: 0,
-            _onInitedModules:0,
-            _onInited: function () {
+            _onInitializingModules: 0,
+            _onInitializedModules:0,
+            _onInitialized: function () {
                 var rootPath =this.nodeJs?this.config.nodeRootDir:this.config.rootDir; 
-                if (this._onInitingModules<=this._onInitedModules && !this.loadedReady) {
+                if (this._onInitingModules<=this._onInitializedModules && !this.loadedReady) {
                     console.log("ArmyAnt : Library loaded OK !");
                     this.loadedReady = true;
                     if (this.config.onLibLoad)
                         this.config.onLibLoad();
                     return ;
                 }
-                while(this.info["libFiles"][this._onInitedModules].type != "script"){
-                    switch(this.info["libFiles"][this._onInitedModules].type) {
+                while(this.info["libFiles"][this._onInitializedModules].type != "script"){
+                    switch(this.info["libFiles"][this._onInitializedModules].type) {
                         case "style":
-                            this.importStyle(rootPath + this.info["libFiles"][this._onInitedModules++]["path"]);
+                            this.importStyle(rootPath + this.info["libFiles"][this._onInitializedModules++]["path"]);
                             break;
                     }
                 }
-                this.importScript(rootPath + this.info["libFiles"][this._onInitedModules++]["path"]);
+                this.importScript(rootPath + this.info["libFiles"][this._onInitializedModules++]["path"]);
             },
 
             /**
@@ -202,7 +202,7 @@
             },
 
             _test:function(){
-                (new libArmyAnt.Scheduler(1)).run(function(dt){document.getElementById('tester').innerHTML += ('<br></br>delaytime='+dt);});
+                (new libArmyAnt.Scheduler(1)).run(function(dt){document.getElementById('tester').innerHTML += ('<br/>delayTime='+dt);});
             }
         };
 

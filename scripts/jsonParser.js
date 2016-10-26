@@ -43,7 +43,7 @@
                 });
             else
                 throw "Error url string for json file";
-        },
+        }
     });
 
     this.libArmyAnt.JsonParser.getJson = function (url, callback) {
@@ -57,6 +57,6 @@
         });
     };
 
-    this.libArmyAnt._onInited();
+    this.libArmyAnt._onInitialized();
 
 })();
