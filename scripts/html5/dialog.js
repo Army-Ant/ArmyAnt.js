@@ -49,5 +49,5 @@
 
     this.libArmyAnt.HTML5.Dialog.MESSAGE = 1;
 
-    this.libArmyAnt._onInited();
+    this.libArmyAnt._onInitialized();
 })();

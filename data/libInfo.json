@@ -30,11 +30,11 @@
         "type": "script"
       },
       {
-        "path": "scripts/node.js_extend/server.js",
+        "path": "scripts/node.js_extend/file.js",
         "type": "script"
       },
       {
-        "path": "scripts/node.js_extend/file.js",
+        "path": "scripts/node.js_extend/httpServer.js",
         "type": "script"
       }
     ]

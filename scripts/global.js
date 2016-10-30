@@ -10,16 +10,18 @@
             if (obj === null)
                 return null;
             var ret = {};
-            for (var key in obj) {
-                switch (typeof obj[key]) {
+            for (var k in obj) {
+                //if(!obj.hasOwnProperty(k))
+                //    continue;
+                switch (typeof obj[k]) {
                     case "undefined":
                         break;
                     case "object":
                     case "array":
-                        ret[key] = obj[key].copy();
+                        ret[k] = obj[k].copy();
                         break;
                     default:
-                        ret[key] = obj[key];
+                        ret[k] = obj[k];
                 }
             }
             return ret;
@@ -61,8 +63,7 @@
         for(var i=index+1;i<this.length;i++){
             this[i-1]=this[i];
         }
-        this.pop();
-        return true;
+        return this.pop();
     };
 
     /**
@@ -150,6 +151,6 @@
         libArmyAnt._print("error", Array.prototype.slice.call(arguments));
     };
 
-    this.libArmyAnt._onInited(true);
+    this.libArmyAnt._onInitialized(true);
 
 })();

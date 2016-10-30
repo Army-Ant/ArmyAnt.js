@@ -5,7 +5,7 @@
 (function() {
     if (libArmyAnt.nodeJs) {
 
-        this.libArmyAnt.File = this.libArmyAnt.Object.Inherit({
+        this.libArmyAnt.File = this.libArmyAnt.Object.inherit({
 
 
             ctor:function(){
@@ -15,5 +15,5 @@
         });
 
     }
-    this.libArmyAnt._onInited();
+    this.libArmyAnt._onInitialized();
 })();
