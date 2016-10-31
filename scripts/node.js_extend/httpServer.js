@@ -25,8 +25,13 @@
 			},
 
 			start: function (port) {
-				if (port)
-					this.port = port;
+				if (port) {
+					if(typeof port == "number" && port > 0 && port < 65535)
+						this.port = port;
+					else{
+						libArmyAnt.error('Arguement "port" is invalid in HttpServer.start! it is ', port);
+					}
+				}
 				while (!this.listening) {
 					try {
 						var server = libArmyAnt.nodeJs.http["createServer"](this._reqResp.bind(this));
@@ -38,12 +43,12 @@
 					this.listening = true;
 				}
 				// console will print the message
-				libArmyAnt.log('Server running at port ' + this.port);
+				libArmyAnt.log('Server running at port ', this.port);
 			},
 
 			_reqResp: function (request, response) {
 				// Print the name of the file for which request is made.
-				libArmyAnt.log("Request '"+request.method+"' received !");
+				libArmyAnt.log("Request '", request.method, "' received !");
 				switch (request.method) {
 					case 'GET':
 						this._onGet(request, response);
@@ -67,7 +72,7 @@
 						this._onTrace(request, response);
 						break;
 					default:
-						libArmyAnt.warn("Unknown HTTP request method: " + request.method);
+						libArmyAnt.warn("Unknown HTTP request method: ", request.method);
 				}
 			},
 
@@ -94,7 +99,7 @@
 				// Parse the request containing file name
 				var param = libArmyAnt.HttpServer.getParamByUrl(request.url);
 				var contentType = libArmyAnt.HttpServer.getContentTypeByPathname(param.pathname);
-				libArmyAnt.log("Get request for " + param.pathname + ", type: " + contentType);
+				libArmyAnt.log("Get request for ", param.pathname, ", type: ", contentType);
 				var pn = param.pathname;
 				if (this.onGet)
 					pn = this.onGet(param);
@@ -134,7 +139,7 @@
 					}
 					response["writeHead"](500, {'Content-Type': 'text/plain;charset=utf-8'});
 					response.end();
-					libArmyAnt.log("Post request OK! url: +" + request.url);
+					libArmyAnt.log("Post request OK! url: +", request.url);
 				});
 			},
 
