@@ -4,7 +4,7 @@
  * @date 2015/8/21
  */
 
-(function() {
+(function () {
     if (typeof this.Object.copy == "undefined" || !this.Object.copy)
         this.Object.copy = function (obj) {
             if (obj === null)
@@ -27,6 +27,26 @@
             return ret;
         };
 
+    this.Object.keySet = function (obj){
+        if (obj === null)
+            return null;
+        var ret = [];
+        for (var k in obj){
+            ret.push(k);
+        }
+        return ret;
+    }
+
+    this.Object.contains = function (obj, value){
+        if (obj === null)
+            return false;
+        for (var k in obj){
+            if(obj[k] == value)
+                return k;
+        }
+        return false;
+    }
+
     this.Array.prototype.copy = function () {
         if (this == null)
             return null;
@@ -48,23 +68,39 @@
         }
         return ret;
     };
-    
-    this.Array.prototype.contains=function(value){
-        for(var i=0;i<this.length;i++) {
+
+    this.Array.prototype.contains = function (value) {
+        for (var i = 0; i < this.length; i++) {
             if (this[i] === value)
-                return i + 1;
+                return i;
         }
         return false;
     };
 
-    this.Array.prototype.removeAt=function(index){
-        if(index<0)
+    this.Array.prototype.removeAt = function (index) {
+        if (index < 0)
             return false;
-        for(var i=index+1;i<this.length;i++){
-            this[i-1]=this[i];
+        var ret = this[index];
+        for (var i = index + 1; i < this.length; i++) {
+            this[i - 1] = this[i];
         }
-        return this.pop();
+        this.pop();
+        return ret;
     };
+
+    this.Array.prototype.remove = function (value) {
+        var ret = 0;
+        for (var i = 0; i < this.length; ++i) {
+            if (this[i] === value) {
+                for (var j = i + 1; j < this.length; ++j) {
+                    this[j - 1] = this[j];
+                }
+                this.pop();
+                ret++;
+            }
+        }
+        return ret;
+    }
 
     /**
      * Return the function itself whose "this" is bind to the target param
@@ -151,6 +187,40 @@
         libArmyAnt._print("error", Array.prototype.slice.call(arguments));
     };
 
-    this.libArmyAnt._onInitialized(true);
+    this.libArmyAnt.parseToWords = function (string, seporators) {
+        if (typeof seporators == "undefined" || !seporators || seporators == "PRO") {
+            seporators = ["===", "!==", "::", "++", "--", "+=", "-=", "*=", "/=", "%=", "<=", ">=", "==", "!=", "||", "&&",
+                ",", ' ', '\t', '\r', '\n', ':', '.', '+', '-', '*', '/', '%', '&', '!', '|', '?', '>', '<', ';']
+        } else if (seporators == "TIME") {
+            seporators = [" ", "\r", "\n", "\t", ":", "-", ","];
+        } else if (seporators == "NAT") {
+            seporators = [" ", "\t", ":", ",", ".", ";", "\n", "\r", "?", "!", '"', "'", "<", ">", "(", ")", "[", "]"];
+        }
+        var ret = [];
+        var curr = "";
+        for (var i = 0; i < string.length; ++i) {
+            var index = i + 3 < string.length ? seporators.contains(string.slice(i, i + 4)) : false;
+            if (index === false)
+                index = i + 2 < string.length ? seporators.contains(string.slice(i, i + 3)) : false;
+            if (index === false)
+                index = i + 1 < string.length ? seporators.contains(string.slice(i, i + 2)) : false;
+            if (index === false)
+                index = i < string.length ? seporators.contains(string[i]) : false;
+            if (index === false)
+                curr += string[i];
+            else {
+                if (curr !== "")
+                    ret.push(curr);
+                ret.push(seporators[index]);
+                curr = "";
+                i += seporators[index].length - 1;
+            }
+        }
+        if (curr !== "") {
+            ret.push(curr);
+        }
+        return ret;
+    };
 
+    this.libArmyAnt._onInitialized(true);
 })();

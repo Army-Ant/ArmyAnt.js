@@ -17,11 +17,6 @@
 
 			ctor: function () {
 				this.base.ctor();
-				if (!libArmyAnt.HttpServer._content) {
-					var dt = new libArmyAnt.JsonParser();
-					dt.loadJson("../data/contentType.json");
-					libArmyAnt.HttpServer._content = dt.data;
-				}
 			},
 
 			start: function (port) {
@@ -102,7 +97,7 @@
 				libArmyAnt.log("Get request for ", param.pathname, ", type: ", contentType);
 				var pn = param.pathname;
 				if (this.onGet)
-					pn = this.onGet(param);
+					pn = this.onGet(param, response);
 				// Read the requested file content from file system
 				if (pn)
 					this._returnResponseResource(response, param.pathname, contentType);
@@ -119,7 +114,7 @@
 			_onPost:function(request, response) {
 				request["setEncoding"]("utf-8");
 				var param = libArmyAnt.HttpServer.getParamByUrl(request.url);
-				if (this.onPostBegin && !this.onPostBegin(param)){
+				if (this.onPostBegin && !this.onPostBegin(param, response)){
 					response["writeHead"](404, {'Content-Type': 'text/plain'});
 					// Send the response body
 					response.end();
@@ -131,7 +126,7 @@
 				});
 				request["addListener"]("end", function () {
 					var dataParam = libArmyAnt.nodeJs.querystring.parse(postData);
-					if(this.onPostSend && !this.onPostSend(dataParam)){
+					if(this.onPostSend && !this.onPostSend(dataParam, response)){
 						response["writeHead"](404, {'Content-Type': 'text/plain'});
 						// Send the response body
 						response.end();
@@ -160,7 +155,12 @@
 			}
 		});
 
-		libArmyAnt.HttpServer._content = null;
+		var dt = new libArmyAnt.JsonParser();
+		dt.loadJson("../data/contentType.json");
+		libArmyAnt.HttpServer._content = dt.data;
+		dt = new libArmyAnt.JsonParser();
+		dt.loadJson("../data/httpStatusCode.json");
+		libArmyAnt.HttpServer._statusCode = dt.data;
 
 		libArmyAnt.HttpServer.getParamByUrl = function (url) {
 			return libArmyAnt.nodeJs.url["parse"](url);

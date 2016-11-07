@@ -10,6 +10,10 @@
         "type": "script"
       },
       {
+        "path": "scripts/dateTime.js",
+        "type": "script"
+      },
+      {
         "path": "scripts/jsonParser.js",
         "type": "script"
       },
