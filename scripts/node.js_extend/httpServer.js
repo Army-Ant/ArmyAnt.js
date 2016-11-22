@@ -24,7 +24,7 @@
 					if(typeof port == "number" && port > 0 && port < 65535)
 						this.port = port;
 					else{
-						libArmyAnt.error('Arguement "port" is invalid in HttpServer.start! it is ', port);
+						libArmyAnt.error('Argument "port" is invalid in HttpServer.start! The value is ', port);
 					}
 				}
 				while (!this.listening) {
@@ -32,7 +32,7 @@
 						var server = libArmyAnt.nodeJs.http["createServer"](this._reqResp.bind(this));
 						server["listen"](this.port);
 					} catch (err) {
-						this.port++;
+						++this.port;
 						continue;
 					}
 					this.listening = true;
@@ -72,30 +72,26 @@
 			},
 
 			_returnResponseResource:function(response,pathname,contentType){
-				libArmyAnt.nodeJs.fs["readFile"](pathname.substr(1), function (err, data) {
-					if (err) {
-						console.log(err);
-						// HTTP Status: 404 : NOT FOUND
-						// Content Type: text/plain
-						response["writeHead"](404, {'Content-Type': 'text/plain'});
-					} else {
+				libArmyAnt.File.readFile(pathname.substr(1), function (success, data) {
+					if (success){
 						response["writeHead"](200, {'Content-Type': contentType});
 						// Write the content of the file to response body
-
 						if (contentType.substr(0, 4) == "text" || contentType.substr(0, 11) == "application")
 							response["write"](data.toString());
 						else
 							response["write"](data, "binary");
+					}else {
+						response["writeHead"](404, {'Content-Type': 'text/plain'});
 					}
 				});
 			},
 
 			_onGet:function(request,response) {
 				// Parse the request containing file name
-				var param = libArmyAnt.HttpServer.getParamByUrl(request.url);
-				var contentType = libArmyAnt.HttpServer.getContentTypeByPathname(param.pathname);
+				let param = libArmyAnt.HttpServer.getParamByUrl(request.url);
+				let contentType = libArmyAnt.HttpServer.getContentTypeByPathname(param.pathname);
 				libArmyAnt.log("Get request for ", param.pathname, ", type: ", contentType);
-				var pn = param.pathname;
+				let pn = param.pathname;
 				if (this.onGet)
 					pn = this.onGet(param, response);
 				// Read the requested file content from file system
@@ -155,7 +151,7 @@
 			}
 		});
 
-		var dt = new libArmyAnt.JsonParser();
+		let dt = new libArmyAnt.JsonParser();
 		dt.loadJson("../data/contentType.json");
 		libArmyAnt.HttpServer._content = dt.data;
 		dt = new libArmyAnt.JsonParser();
@@ -167,7 +163,7 @@
 		};
 
 		libArmyAnt.HttpServer.getContentTypeByPathname = function (pathname) {
-			var ext = pathname.split('.')[pathname.split('.').length - 1];
+			let ext = pathname.split('.')[pathname.split('.').length - 1];
 			return libArmyAnt.HttpServer._content[0][ext] ? libArmyAnt.HttpServer._content[0][ext] : libArmyAnt.HttpServer._content[1];
 		};
 

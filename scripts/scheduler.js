@@ -90,7 +90,7 @@
         },
 
         _callback: function () {
-            var nd = Date.parse(new Date());
+            let nd = Date.parse(new Date());
             this.callFunc(nd - this._lastTime);
             this._lastTime = nd;
         }

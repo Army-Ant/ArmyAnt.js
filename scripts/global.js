@@ -9,8 +9,8 @@
         this.Object.copy = function (obj) {
             if (obj === null)
                 return null;
-            var ret = {};
-            for (var k in obj) {
+            let ret = {};
+            for (let k in obj) {
                 //if(!obj.hasOwnProperty(k))
                 //    continue;
                 switch (typeof obj[k]) {
@@ -30,8 +30,8 @@
     this.Object.keySet = function (obj){
         if (obj === null)
             return null;
-        var ret = [];
-        for (var k in obj){
+        let ret = [];
+        for (let k in obj){
             ret.push(k);
         }
         return ret;
@@ -40,7 +40,7 @@
     this.Object.contains = function (obj, value){
         if (obj === null)
             return false;
-        for (var k in obj){
+        for (let k in obj){
             if(obj[k] == value)
                 return k;
         }
@@ -50,8 +50,8 @@
     this.Array.prototype.copy = function () {
         if (this == null)
             return null;
-        var ret = new Array(this.length);
-        for (var i = 0; i < this.length; i++) {
+        let ret = new Array(this.length);
+        for (let i = 0; i < this.length; i++) {
             switch (typeof this[i]) {
                 case "undefined":
                     ret[i] = null;
@@ -70,7 +70,7 @@
     };
 
     this.Array.prototype.contains = function (value) {
-        for (var i = 0; i < this.length; i++) {
+        for (let i = 0; i < this.length; i++) {
             if (this[i] === value)
                 return i;
         }
@@ -80,8 +80,8 @@
     this.Array.prototype.removeAt = function (index) {
         if (index < 0)
             return false;
-        var ret = this[index];
-        for (var i = index + 1; i < this.length; i++) {
+        let ret = this[index];
+        for (let i = index + 1; i < this.length; i++) {
             this[i - 1] = this[i];
         }
         this.pop();
@@ -89,10 +89,10 @@
     };
 
     this.Array.prototype.remove = function (value) {
-        var ret = 0;
-        for (var i = 0; i < this.length; ++i) {
+        let ret = 0;
+        for (let i = 0; i < this.length; ++i) {
             if (this[i] === value) {
-                for (var j = i + 1; j < this.length; ++j) {
+                for (let j = i + 1; j < this.length; ++j) {
                     this[j - 1] = this[j];
                 }
                 this.pop();
@@ -109,8 +109,8 @@
      * @returns {Function}
      */
     this.Function.prototype.bind = function (thisBind) {
-        var self = this;
-        var selfBind = thisBind;
+        let self = this;
+        let selfBind = thisBind;
 
         return function () {
             return self.apply(selfBind, Array.prototype.slice.call(arguments));
@@ -125,7 +125,7 @@
      * @private
      */
     this.libArmyAnt._print = function (mode, array) {
-        var modeNum = 0;
+        let modeNum = 0;
         switch (libArmyAnt.config["debugMode"]) {
             case "log":
                 modeNum = 1;
@@ -143,8 +143,8 @@
                 modeNum = 0;
                 return;
         }
-        var ret = "ArmyAnt : ";
-        for (var i = 0; i < array.length; i++) {
+        let ret = "ArmyAnt : ";
+        for (let i = 0; i < array.length; i++) {
             ret += " " + array[i];
         }
         switch (mode) {
@@ -196,10 +196,10 @@
         } else if (seporators == "NAT") {
             seporators = [" ", "\t", ":", ",", ".", ";", "\n", "\r", "?", "!", '"', "'", "<", ">", "(", ")", "[", "]"];
         }
-        var ret = [];
-        var curr = "";
-        for (var i = 0; i < string.length; ++i) {
-            var index = i + 3 < string.length ? seporators.contains(string.slice(i, i + 4)) : false;
+        let ret = [];
+        let curr = "";
+        for (let i = 0; i < string.length; ++i) {
+            let index = i + 3 < string.length ? seporators.contains(string.slice(i, i + 4)) : false;
             if (index === false)
                 index = i + 2 < string.length ? seporators.contains(string.slice(i, i + 3)) : false;
             if (index === false)

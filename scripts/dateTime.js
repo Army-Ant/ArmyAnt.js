@@ -25,7 +25,7 @@
          */
         ctor: function (httpStringOrCSeconds,formatTypeOrTimeZone) {
             this.base.ctor();
-            var tmp = formatTypeOrTimeZone;
+            let tmp = formatTypeOrTimeZone;
             if((typeof httpStringOrCSeconds == "undefined" || !httpStringOrCSeconds)&&(typeof formatTypeOrTimeZone == "undefined" || !formatTypeOrTimeZone))
                 this.jsTime = (new Date());
             else {
@@ -103,7 +103,7 @@
 
         _setFromHttpString: function(str, type) {
             // Parse to words
-            var words = libArmyAnt.parseToWords(str, "TIME");
+            let words = libArmyAnt.parseToWords(str, "TIME");
             if (!words)
                 return false;
 
@@ -120,7 +120,7 @@
             if (words.length !== 8 || (type == libArmyAnt.DateTime.TimeStringType.Ansi && words.length !== 7))
                 return false;
             if (((typeof type == "undefined" || !type) && (Number(words[2]) !== NaN && Number(words[1]) === NaN)) || (type === libArmyAnt.DateTime.TimeStringType.Ansi)) {
-                var tmp = words[1];
+                let tmp = words[1];
                 words[1] = words[2];
                 words[2] = tmp;
                 tmp = words[6];
@@ -136,7 +136,7 @@
 
             // Set time
             this.jsTime = new Date();
-            var year = parseInt(words[3],10);
+            let year = parseInt(words[3],10);
             if(year<100)
                 year += (year>=70?1900:2000);
             this.jsTime.setYear(year);
