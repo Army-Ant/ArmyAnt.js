@@ -6,6 +6,14 @@
 
 (function () {
     if (typeof this.Object.copy == "undefined" || !this.Object.copy)
+        /**
+         * clone the object with its every child member. Each array and object in its children will also clone recursively
+         * 创建指定Object对象的一个副本，且其所有Object和Array类型的子成员都会被递归式克隆
+         * @param obj : Object
+         *      The Object variable which will be copied
+         *      要拷贝的源对象
+         * @returns {Object}
+         */
         this.Object.copy = function (obj) {
             if (obj === null)
                 return null;
@@ -17,6 +25,8 @@
                     case "undefined":
                         break;
                     case "object":
+                        ret[k] = Object.copy(obj[k]);
+                        break
                     case "array":
                         ret[k] = obj[k].copy();
                         break;
@@ -27,6 +37,12 @@
             return ret;
         };
 
+    /**
+     * Get the set of all keys in the object
+     * 获取对象的所有子成员键的集合
+     * @param obj : Object
+     * @returns {Array}
+     */
     this.Object.keySet = function (obj){
         if (obj === null)
             return null;
@@ -37,11 +53,18 @@
         return ret;
     }
 
+    /**
+     * Check if the value is in the object
+     * 检测Object中是否包含指定的值（仅检测值，不检测键）
+     * @param obj
+     * @param value
+     * @returns {*}
+     */
     this.Object.contains = function (obj, value){
         if (obj === null)
             return false;
         for (var k in obj){
-            if(obj[k] == value)
+            if(obj[k] === value)
                 return k;
         }
         return false;

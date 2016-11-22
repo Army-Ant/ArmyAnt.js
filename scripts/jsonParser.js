@@ -47,7 +47,9 @@
     });
 
     this.libArmyAnt.JsonParser.getJson = function (url, callback) {
-        return $.ajax({
+        return libArmyAnt.nodeJs ?
+            callback(require("./" + url)) :
+            $.ajax({
             type: "get",
             url: url,
             cache: true,
