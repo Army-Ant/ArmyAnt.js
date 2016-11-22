@@ -20,6 +20,7 @@
 
         /**
          * To get and parse the json file async
+         * 异步获取并解析json (node环境下为同步载入json数据)
          * @param url : string
          *      The net url or file path of json file
          */
@@ -46,6 +47,12 @@
         }
     });
 
+    /**
+     * 调用此函数, 以在不创建对象的情况下, 异步读取json数据, 并将数据传入回调方法
+     * @param url : String
+     * @param callback : Function
+     * @returns {*}
+     */
     this.libArmyAnt.JsonParser.getJson = function (url, callback) {
         return $.ajax({
             type: "get",

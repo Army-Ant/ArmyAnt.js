@@ -4,14 +4,25 @@
 
 (function () {
 
-    /*
-     *
-     *
+    /**
+     * The datetime class, used to convert between different format of datetime
+     * 一个表示日期时间的类, 可以进行不同格式的时间的转换和输出
      */
     this.libArmyAnt.DateTime = this.libArmyAnt.Object.inherit({
         jsTime: null,
         timeZone: "GMT",
 
+        /**
+         * Constructor, with params, the position of params can be exchange
+         * @param httpStringOrCSeconds : String/Number
+         *          The datetime string in HTTP format, or the ANSI-C time number
+         *          HTTP格式的日期时间字符串, 或者ANSI-C标准的时间数字(从1970年开始的秒数)
+         * @param formatTypeOrTimeZone : String ( libArmyAnt.DateTime.TimeStringType )
+         *          The member of libArmyAnt.DateTime.TimeStringType, as the format of the HTTP string, it will be automatically judged if this param is null
+         *          Or : The TimeZone string. If the first param is the ANSI-C time number, you need to input the time zone string, or the default time zone is "GMT"
+         *          如果第一个参数是HTTP的日期时间字符串, 则本参数传入字符串的类型,函数将按照指定类型进行解析.如不传,函数将逐一检测字符串的类型
+         *          如果第一个参数是ANSI-C格式的秒数, 则本参数传入时区代表字符串. 如不传, 则默认为GMT
+         */
         ctor: function (httpStringOrCSeconds,formatTypeOrTimeZone) {
             this.base.ctor();
             var tmp = formatTypeOrTimeZone;
@@ -37,30 +48,54 @@
             }
         },
 
+        /**
+         * Output the datetime as the HTTP string by format "RFC1123"
+         * @returns {string}
+         */
         getHttpDateTimeString: function () {
-            return this.libArmyAnt.DateTime.weekday[libArmyAnt.DateTime.daysInWeek[this.jsTime.getDay()]] + "," + this.jsTime.getDate() +
+            return libArmyAnt.DateTime.weekday[libArmyAnt.DateTime.daysInWeek[this.jsTime.getDay()]] + "," + this.jsTime.getDate() +
                 " " + libArmyAnt.DateTime.month[libArmyAnt.DateTime.monthsInYear[this.jsTime.getMonth()]] + " " + this.jsTime.getFullYear() +
                 " " + this.jsTime.getHours() + ":" + this.jsTime.getMinutes() + ":" + this.jsTime.getSeconds() + " " + this.timeZone;
         },
 
+        /**
+         * Output the datetime as the HTTP string by format "RFC1036"
+         * @returns {string}
+         */
         getHttpDateTimeString: function () {
             return libArmyAnt.DateTime.daysInWeek[this.jsTime.getDay()] + "," + this.jsTime.getDate() + "-" + libArmyAnt.DateTime.month[libArmyAnt.DateTime.monthsInYear[this.jsTime.getMonth()]] +
                 "-" + this.jsTime.getFullYear().toString(10).slice(2) + " " + this.jsTime.getHours() + ":" + this.jsTime.getMinutes() + ":" + this.jsTime.getSeconds() + " " + this.timeZone;
         },
 
+        /**
+         * Output the datetime as the HTTP string by format "ANSI-C"
+         * @returns {string}
+         */
         getAscDateTimeString: function () {
-            return this.libArmyAnt.DateTime.weekday[libArmyAnt.DateTime.daysInWeek[this.jsTime.getDay()]] + "," +libArmyAnt.DateTime.month[libArmyAnt.DateTime.monthsInYear[this.jsTime.getMonth()]] +
+            return libArmyAnt.DateTime.weekday[libArmyAnt.DateTime.daysInWeek[this.jsTime.getDay()]] + "," +libArmyAnt.DateTime.month[libArmyAnt.DateTime.monthsInYear[this.jsTime.getMonth()]] +
                 " " + this.jsTime.getDate() + " " + this.jsTime.getHours() + ":" + this.jsTime.getMinutes() + ":" + this.jsTime.getSeconds() + " " + this.jsTime.getFullYear();
         },
 
+        /**
+         * Output the time string only by the format "HH:MM:SS"
+         * @returns {string}
+         */
         getTimeString: function(){
             return this.jsTime.getHours() + ":" + this.jsTime.getMinutes() + ":" + this.jsTime.getSeconds();
         },
 
+        /**
+         * Output the datetime as the ANSI-C time seconds number
+         * @returns {string}
+         */
         getCTimeSeconds: function(){
             return this.jsTime.getTime() / 1000;
         },
 
+        /**
+         * Output the datetime as the ANSI-C time milliseconds number
+         * @returns {string}
+         */
         getMilliseconds: function(){
             return this.jsTime.getMilliseconds();
         },
@@ -114,8 +149,16 @@
         }
     });
 
+    /**
+     * The strings present by the HTTP time string format
+     * @type {{Obsolete: string, Http: string, Ansi: string}}
+     */
     this.libArmyAnt.DateTime.TimeStringType = {Obsolete:"RFC1036",Http:"RFC1123",Ansi:"ANSI"};
 
+    /**
+     * The array of each day in a week
+     * @type {string[]}
+     */
     this.libArmyAnt.DateTime.daysInWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     this.libArmyAnt.DateTime.weekday = {
         Sunday: "Sun",
@@ -127,6 +170,10 @@
         Saturday: "Sat"
     };
 
+    /**
+     * The array of each month in a year
+     * @type {string[]}
+     */
     this.libArmyAnt.DateTime.monthsInYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     this.libArmyAnt.DateTime.month = {
         January: "Jan",

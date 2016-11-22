@@ -6,6 +6,7 @@
 
 /**
  * The base class of most library classes
+ * 一个由本库定义的基本类, 实现了可继承, 可覆写, 可引用父类成员, 及构造函数等功能的类
  * @constructor do nothing
  */
 (function() {
@@ -16,6 +17,7 @@
 
     /**
      * The function to inherit from self type
+     * 类的继承函数, 使用此函数来构造一个新的子类, 函数参数代表子类的初始化对象, 子类初始化对象覆盖父类初始化对象, 形成新的类
      * @param extend : Object
      *      new params for the new class
      * @returns {class}

@@ -5,7 +5,8 @@
  */
 
 /**
- * The class to build a circle called function scheduler
+ * The class to build a scheduler, which can recycle call a function
+ * 建立一个定时器, 以便循环调用某个方法
  */
 
 (function() {
@@ -26,7 +27,7 @@
         /**
          * To run the scheduler with the timed call back function
          * @param func : {Function}
-         *      If no param input into, the scheduler will run latest ran function
+         *      If no param input into, the scheduler will run latest set function
          */
         run: function (func) {
             if (func)
