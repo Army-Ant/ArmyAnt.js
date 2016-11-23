@@ -23,21 +23,21 @@
      * @returns {class}
      */
     this.libArmyAnt.Object.inherit = function (extend) {
-        let ret = function () {
+        var ret = function () {
             if (this.ctor)
                 this.ctor.apply(this, Array.prototype.slice.call(arguments));
         };
 
         //ret.prototype = Object.create(this);
         ret.prototype={};
-        for (let k1 in this.prototype) {
+        for (var k1 in this.prototype) {
             ret.prototype[k1] = this.prototype[k1];
         }
-        for (let k2 in extend) {
+        for (var k2 in extend) {
             ret.prototype[k2] = extend[k2];
         }
         ret.prototype.base = {};
-        for(let k3 in this.prototype){
+        for(var k3 in this.prototype){
             if(typeof this.prototype[k3] === "function"){
                 ret.prototype.base[k3] = this.prototype[k3];
             }else if(k3=="base"){

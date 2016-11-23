@@ -29,10 +29,10 @@
 				}
 				while (!this.listening) {
 					try {
-						var server = libArmyAnt.nodeJs.http["createServer"](this._reqResp.bind(this));
-						server["listen"](this.port);
+						var server = libArmyAnt.nodeJs.http.createServer(this._reqResp.bind(this));
+						server.listen(this.port);
 					} catch (err) {
-						++this.port;
+						libArmyAnt.warn("The port ", this.port, " is busy, try to open the port " + ++this.port);
 						continue;
 					}
 					this.listening = true;
@@ -88,10 +88,10 @@
 
 			_onGet:function(request,response) {
 				// Parse the request containing file name
-				let param = libArmyAnt.HttpServer.getParamByUrl(request.url);
-				let contentType = libArmyAnt.HttpServer.getContentTypeByPathname(param.pathname);
+				var param = libArmyAnt.HttpServer.getParamByUrl(request.url);
+				var contentType = libArmyAnt.HttpServer.getContentTypeByPathname(param.pathname);
 				libArmyAnt.log("Get request for ", param.pathname, ", type: ", contentType);
-				let pn = param.pathname;
+				var pn = param.pathname;
 				if (this.onGet)
 					pn = this.onGet(param, response);
 				// Read the requested file content from file system
@@ -151,7 +151,7 @@
 			}
 		});
 
-		let dt = new libArmyAnt.JsonParser();
+		var dt = new libArmyAnt.JsonParser();
 		dt.loadJson("../data/contentType.json");
 		libArmyAnt.HttpServer._content = dt.data;
 		dt = new libArmyAnt.JsonParser();
@@ -163,7 +163,7 @@
 		};
 
 		libArmyAnt.HttpServer.getContentTypeByPathname = function (pathname) {
-			let ext = pathname.split('.')[pathname.split('.').length - 1];
+			var ext = pathname.split('.')[pathname.split('.').length - 1];
 			return libArmyAnt.HttpServer._content[0][ext] ? libArmyAnt.HttpServer._content[0][ext] : libArmyAnt.HttpServer._content[1];
 		};
 

@@ -10,7 +10,7 @@
         data: null,
 
         ctor: function () {
-            let self = this;
+            var self = this;
             if (libArmyAnt.nodeJs) {
                 self.data = libArmyAnt.nodeJs.fs["readFile"](libArmyAnt.config.rootDir + this.modal, function (err, filedata) {
                     self.data = filedata;

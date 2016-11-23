@@ -29,7 +29,7 @@
         return: function () {
             this._dialog.children["dialog_title"].innerText = this.title;
             this._dialog.children["dialog_text"].innerText = this.text;
-            for (let i = 0; i < this.btnNames.length; i++) {
+            for (var i = 0; i < this.btnNames.length; i++) {
                 this._dialog.children["dialog_btn" + i].innerText = this.btnNames[i];
                 this._dialog.children["dialog_btn" + i].onclick = this.btnCallbacks[i];
             }

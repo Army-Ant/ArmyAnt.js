@@ -109,7 +109,7 @@
                             console.error("ArmyAnt : load config " + libArmyAnt.config.dataRootDir + "data/libInfo.json failed !");
                         } else {
                             var data = JSON.parse(jsondata);
-                            libArmyAnt._onInitingModules += data[0]["libFiles"].length;
+                            libArmyAnt._onInitializingModules += data[0]["libFiles"].length;
                             for (var key in data[0]) {
                                 libArmyAnt.info[key] = data[0][key];
                             }
@@ -137,7 +137,7 @@
                         dataType: "json",
                         success: function (data) {
                             //load all library files
-                            libArmyAnt._onInitingModules += data[0]["libFiles"].length;
+                            libArmyAnt._onInitializingModules += data[0]["libFiles"].length;
                             for (var key in data[0]) {
                                 libArmyAnt.info[key] = data[0][key];
                             }
@@ -150,20 +150,22 @@
             _onInitializingModules: 0,
             _onInitializedModules:0,
             _onInitialized: function () {
-                var rootPath =this.nodeJs?this.config.nodeRootDir:this.config.rootDir; 
-                if (this._onInitingModules<=this._onInitializedModules && !this.loadedReady) {
+                var rootPath = this.nodeJs ? this.config.nodeRootDir : this.config.rootDir;
+                if (this._onInitializingModules <= this._onInitializedModules && !this.loadedReady) {
                     console.log("ArmyAnt : Library loaded OK !");
                     this.loadedReady = true;
                     if (this.config.onLibLoad)
                         this.config.onLibLoad();
-                    return ;
+                    return;
                 }
-                while(this.info["libFiles"][this._onInitializedModules].type != "script"){
-                    switch(this.info["libFiles"][this._onInitializedModules].type) {
+                var currMod = this.info["libFiles"][this._onInitializedModules];
+                while (typeof currMod != "undefined" && currMod.type != "script") {
+                    switch (this.info["libFiles"][this._onInitializedModules].type) {
                         case "style":
                             this.importStyle(rootPath + this.info["libFiles"][this._onInitializedModules++]["path"]);
                             break;
                     }
+                    currMod = this.info["libFiles"][this._onInitializedModules];
                 }
                 this.importScript(rootPath + this.info["libFiles"][this._onInitializedModules++]["path"]);
             },

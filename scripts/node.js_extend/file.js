@@ -81,8 +81,8 @@
             readAllTextSync:function(){
                 if(!this.file_descriptor)
                     return null;
-                let ret = Buffer.alloc(this.file_stats.size + 1);
-                let err = libArmyAnt.nodeJs.fs.readSync(this.file_descriptor, ret, 0, this.file_stats.size + 1, 0);
+                var ret = Buffer.alloc(this.file_stats.size + 1);
+                var err = libArmyAnt.nodeJs.fs.readSync(this.file_descriptor, ret, 0, this.file_stats.size + 1, 0);
                 if(err)
                     libArmyAnt.warn("Error in reading file ", this.filename, " , error code: ", err.code, ", error message: ", err.message);
                 return ret.toString();
