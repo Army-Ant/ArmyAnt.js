@@ -15,10 +15,16 @@
                 self.data = libArmyAnt.nodeJs.fs["readFile"](libArmyAnt.config.rootDir + this.modal, function (err, filedata) {
                     self.data = filedata;
                 });
-            } else {
-                $.post(libArmyAnt.config.rootDir + this.modal, null, function (data, statue, jqXHR) {
+            } else { $.ajax({
+                type: "get",
+                url: libArmyAnt.config.rootDir + this.modal,
+                cache: true,
+                async: true,
+                dataType: "html",
+                success: function (data, statue, jqXHR) {
                     self.data = data;
-                }, "html");
+                }
+            });
             }
         }
 

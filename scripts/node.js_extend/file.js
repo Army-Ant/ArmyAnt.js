@@ -90,7 +90,7 @@
         });
         
         this.libArmyAnt.File.readFile = function(filepath, callback){
-            libArmyAnt.nodeJs.fs["readFile"](filepath, function (err, data) {
+            libArmyAnt.nodeJs.fs.readFile(filepath, function (err, data) {
                 if (err)
                     libArmyAnt.warn("Error in reading file ",filepath, " , error code: ", err.code, ", error message: ", err.message);
                 callback(!err, data);

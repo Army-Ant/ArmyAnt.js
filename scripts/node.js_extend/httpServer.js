@@ -16,8 +16,13 @@
 			onHead:null,
 			onPosting:null,
 			onPost:null,
-			onPutting:null,
-			onPut:null,
+            onPutting:null,
+            onPut:null,
+            onDeleting:null,
+            onDelete:null,
+			onOptions:null,
+			onTrace:null,
+			onConnect:null,
 
 
 			ctor: function () {
@@ -71,100 +76,113 @@
 					case 'TRACE':
 						this._onTrace(request, response);
 						break;
+					case 'CONNECT':
+                        this._onConnect(request, response);
+						break;
 					default:
 						libArmyAnt.warn("Unknown HTTP request method: ", request.method);
 				}
 			},
 
-			_returnResponseResource:function(response,pathname,contentType){
-				libArmyAnt.File.readFile(pathname.substr(1), function (success, data) {
-					if (success){
-						response["writeHead"](200, {'Content-Type': contentType});
-						// Write the content of the file to response body
-						if (contentType.substr(0, 4) == "text" || contentType.substr(0, 11) == "application")
-							response["write"](data.toString());
-						else
-							response["write"](data, "binary");
-					}else {
-						response["writeHead"](404, {'Content-Type': 'text/plain'});
-					}
-				});
-			},
-
 			_onGet:function(request,response) {
 				this._on_download(request, response, false, this.onGetting, this.onGet);
-				response.end();
 			},
 
 			_onHead:function(request, response){
 				this._on_download(request, response, true, this.onHeading, this.onHead);
-				response.end();
 			},
 
 			_onPost:function(request, response) {
-				this._on_upload(request, response, null, this.onPosting, this.onPost);
+				this._on_upload(request, response, this.onPosting, this.onPost, "POST");
 			},
 
 			_onPut:function(request, response){
-				this._on_upload(request, response, null, this.onPutting, this.onPut);
+				this._on_upload(request, response, this.onPutting, this.onPut, "PUT");
 			},
 
 			_onDelete:function(request, response){
-
+                this._on_upload(request, response, this.onDeleting, this.onDelete, "DELETE");
 			},
 
 			_onOptions:function(request, response){
-
+                this.onOptions(request, response);
 			},
 
-			_onTrace:function(request, response){
+            _onTrace:function(request, response){
+                this.onTrace(request, response);
+            },
 
-			},
+            _onConnect:function(request, response){
+                this.onConnect(request, response);
+            },
 
-			_on_download:function(request, response, isOnlyHead, beforeMethod, afterMethod){
-				var param = libArmyAnt.HttpServer.getParamByUrl(request.url);
-				if (beforeMethod)
-					pn = beforeMethod(param, response)
-				// Parse the request containing file name
-				var contentType = libArmyAnt.HttpServer.getContentTypeByPathname(param.pathname);
-				libArmyAnt.log("Get request for ", param.pathname, ", type: ", contentType);
-				var pn = param.pathname?true:false;
-				// Read the requested file content from file system
-				if (pn === true && !isOnlyHead)
-					this._returnResponseResource(response, param.pathname, contentType);
-				else if(pn)
-					response["writeHead"](200, {'Content-Type': contentType});
-				else
-					response["writeHead"](404, {'Content-Type': 'text/plain'});
-				if (afterMethod)
-					pn = afterMethod(param, response);
-			},
+			_on_download:function(request, response, isOnlyHead, beforeMethod, afterMethod) {
+                var pn = libArmyAnt.HttpServer.getParamByUrl(request.url).pathname;
+                var retCode = 0;
+                if (beforeMethod)
+                    pn = beforeMethod(request, response, pn)
+                // Parse the request containing file name
+                var contentType = libArmyAnt.HttpServer.getContentTypeByPathname(pn);
+                libArmyAnt.log("Get request for ", pn, ", type: ", contentType);
+                // Read the requested file content from file system
+                if (pn && !isOnlyHead) {
+                    libArmyAnt.File.readFile(pn.substr(1), function (success, data) {
+                        retCode = success ? 200 : 404;
+                        if (afterMethod)
+                            retCode = afterMethod(request, response, retCode, contentType);
+                        response["writeHead"](retCode, {'Content-Type': contentType});
+                        // Write the content of the file to response body
+                        if (success)
+                            if (contentType.substr(0, 4) == "text" || contentType.substr(0, 11) == "application")
+                                response.write(data.toString());
+                            else
+                                response.write(data, "binary");
+                        response.end();
+                    });
+                    return;
+                }
+                retCode = pn ? 200 : 404;
+                if (afterMethod)
+                    retCode = afterMethod(request, response, retCode, contentType);
+                response["writeHead"](retCode, {'Content-Type': contentType});
+                response.end();
+            },
 
-			_on_upload:function(request, response, pointedPos, beforeMethod, afterMethod){
-				request["setEncoding"]("utf-8");
-				var param = libArmyAnt.HttpServer.getParamByUrl(request.url);
-				if (beforeMethod && !beforeMethod(param, response)){
-					response["writeHead"](404, {'Content-Type': 'text/plain'});
+			_on_upload:function(request, response, beforeMethod, afterMethod, methodName){
+				request.setEncoding("utf-8");
+				var retCode = 0;
+				if(beforeMethod)
+					retCode = beforeMethod(request, response);
+				if (retCode){
+					response.writeHead(retCode, {'Content-Type': 'text/plain'});
 					// Send the response body
 					response.end();
 					return;
 				}
-				var postData = "";
-				request["addListener"]("data", function (postDataChunk) {
-					postData += postDataChunk;
-				});
-				request["addListener"]("end", function () {
-					// var dataParam = libArmyAnt.nodeJs.querystring.parse(postData);
-					if(afterMethod && !afterMethod(postData, param, response)){
-						response["writeHead"](404, {'Content-Type': 'text/plain'});
-						// Send the response body
-						response.end();
-						return;
-					}
-					response["writeHead"](200, {'Content-Type': 'text/plain;charset=utf-8'});
-					response.end();
-					libArmyAnt.log("Get user upload data successful ! url: +", request.url);
-				}.bind(this));
+				if(methodName != "DELETE") {
+                    var postData = "";
+                    request.addListener("data", function (postDataChunk) {
+                        postData += postDataChunk;
+                    });
+                    request.addListener("end", function () {
+                        // var dataParam = libArmyAnt.nodeJs.querystring.parse(postData);
+                        if (afterMethod)
+                            retCode = afterMethod(postData, request, response);
+                        else
+                            retCode = 200;
+                        response.writeHead(retCode, {'Content-Type': 'text/plain'});
+                        response.end();
+                        libArmyAnt.log("Get user upload data successful ! url: +", request.url);
+                    }.bind(this));
+                }else{
+					if(afterMethod)
+						retCode = afterMethod(request, response);
+					else
+						retCode = 200;
+                    response.writeHead(retCode, {'Content-Type': 'text/plain'});
+                    response.end();
+                    libArmyAnt.log("Resolve user's deleting request over ! url: +", request.url);
+				}
 			}
 		});
 
