@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="JavaScriptLibraryMappings">
-    <includedPredefinedLibrary name="Node.js Core" />
-    <excludedPredefinedLibrary name="ArmyAnt.js/externals/node.js/npm_darwin/node_modules" />
-    <excludedPredefinedLibrary name="ArmyAnt.js/externals/node.js/npm_x64/node_modules" />
-    <excludedPredefinedLibrary name="ArmyAnt.js/externals/node.js/npm_x86/node_modules" />
-  </component>
-</project>
