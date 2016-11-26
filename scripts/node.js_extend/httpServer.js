@@ -10,19 +10,19 @@
 			port: 80,
 			listening: false,
 			listenFunc: null,
-			onGetting:null,
-			onGet:null,
-			onHeading:null,
-			onHead:null,
-			onPosting:null,
-			onPost:null,
-            onPutting:null,
-            onPut:null,
-            onDeleting:null,
-            onDelete:null,
-			onOptions:null,
-			onTrace:null,
-			onConnect:null,
+			onGetting:null,	// pathname				function(request,response,pathname)
+			onGet:null,		// returnCode			function(request,response,returnCode,contentType)
+			onHeading:null,	// pathname				function(request,response,pathname)
+			onHead:null,	// returnCode			function(request,response,returnCode,contentType)
+			onPosting:null,	// canceledReturnCode	function(request,response)
+			onPost:null,	// returnCode			function(request,response,returnCode,uploadedData)
+            onPutting:null,	// canceledReturnCode	function(request,response)
+            onPut:null,		// returnCode			function(request,response,returnCode,uploadedData)
+            onDeleting:null,// canceledReturnCode	function(request,response)
+            onDelete:null,	// returnCode			function(request,response,returnCode)
+			onOptions:null,	// void	function(request,response)
+			onTrace:null,	// void	function(request,response)
+			onConnect:null,	// void	function(request,response)
 
 
 			ctor: function () {
@@ -167,7 +167,7 @@
                     request.addListener("end", function () {
                         // var dataParam = libArmyAnt.nodeJs.querystring.parse(postData);
                         if (afterMethod)
-                            retCode = afterMethod(postData, request, response);
+                            retCode = afterMethod(request, response,200,postData);
                         else
                             retCode = 200;
                         response.writeHead(retCode, {'Content-Type': 'text/plain'});
@@ -176,7 +176,7 @@
                     }.bind(this));
                 }else{
 					if(afterMethod)
-						retCode = afterMethod(request, response);
+						retCode = afterMethod(request, response,200);
 					else
 						retCode = 200;
                     response.writeHead(retCode, {'Content-Type': 'text/plain'});
