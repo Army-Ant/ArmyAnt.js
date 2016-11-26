@@ -10,18 +10,18 @@
 			port: 80,
 			listening: false,
 			listenFunc: null,
-			onGetting:null,	// pathname				function(request,response,pathname)
-			onGet:null,		// returnCode			function(request,response,returnCode,contentType)
-			onHeading:null,	// pathname				function(request,response,pathname)
-			onHead:null,	// returnCode			function(request,response,returnCode,contentType)
+			onGetting:null,	// pathname					function(request,response,pathname)
+			onGet:null,		// {contentType, returnCode, data}	function(request,response,returnCode,contentType, data)
+			onHeading:null,	// pathname					function(request,response,pathname)
+			onHead:null,		// {contentType, returnCode}	function(request,response,returnCode,contentType)
 			onPosting:null,	// canceledReturnCode	function(request,response)
-			onPost:null,	// returnCode			function(request,response,returnCode,uploadedData)
+			onPost:null,		// returnCode			function(request,response,returnCode,uploadedData)
             onPutting:null,	// canceledReturnCode	function(request,response)
             onPut:null,		// returnCode			function(request,response,returnCode,uploadedData)
-            onDeleting:null,// canceledReturnCode	function(request,response)
+            onDeleting:null,	// canceledReturnCode	function(request,response)
             onDelete:null,	// returnCode			function(request,response,returnCode)
 			onOptions:null,	// void	function(request,response)
-			onTrace:null,	// void	function(request,response)
+			onTrace:null,		// void	function(request,response)
 			onConnect:null,	// void	function(request,response)
 
 
@@ -117,23 +117,37 @@
             },
 
 			_on_download:function(request, response, isOnlyHead, beforeMethod, afterMethod) {
-                var pn = libArmyAnt.HttpServer.getParamByUrl(request.url).pathname;
+                var pn = libArmyAnt.HttpServer.getParamByUrl(request.url).pathname.substr(1);
                 var retCode = 0;
                 if (beforeMethod)
-                    pn = beforeMethod(request, response, pn)
+                    pn = beforeMethod(request, response, pn);
                 // Parse the request containing file name
-                var contentType = libArmyAnt.HttpServer.getContentTypeByPathname(pn);
+                var contentType = null;
+				if(pn)
+	                contentType = libArmyAnt.HttpServer.getContentTypeByPathname(pn);
                 libArmyAnt.log("Get request for ", pn, ", type: ", contentType);
                 // Read the requested file content from file system
                 if (pn && !isOnlyHead) {
-                    libArmyAnt.File.readFile(libArmyAnt.config.rootDir + pn.substr(1), function (success, data) {
+                    libArmyAnt.File.readFile(libArmyAnt.config.rootDir + pn, function (success, data) {
                         retCode = success ? 200 : 404;
+                        var options = null;
                         if (afterMethod)
-                            retCode = afterMethod(request, response, retCode, contentType);
-                        response["writeHead"](retCode, {'Content-Type': contentType});
+                            options = afterMethod(request, response, retCode, contentType, data);
+                        if(options.hasOwnProperty("retCode"))
+                            retCode = options.returnCode;
+                        if(options.hasOwnProperty("contentType"))
+                            contentType = options.contentType;
+                        if(options.hasOwnProperty("data"))
+                            data = options.data;
+                        if(!contentType)
+                            contentType = "application/octet-stream";
+                        response["writeHead"](success ? 200 : 404, {'Content-Type': contentType});
+
                         // Write the content of the file to response body
-                        if (success)
-                            if (contentType.substr(0, 4) == "text" || contentType.substr(0, 11) == "application")
+                        if (success || data)
+                        	if(typeof data == "string")
+                                response.write(data);
+                            else if (contentType.substr(0, 4) == "text" || contentType.substr(0, 11) == "application")
                                 response.write(data.toString());
                             else
                                 response.write(data, "binary");
@@ -142,9 +156,18 @@
                     return;
                 }
                 retCode = pn ? 200 : 404;
+                var options = null;
                 if (afterMethod)
-                    retCode = afterMethod(request, response, retCode, contentType);
+                    options = afterMethod(request, response, retCode, contentType);
+                if(options.hasOwnProperty("retCode"))
+                    retCode = options.returnCode;
+                if(options.hasOwnProperty("contentType"))
+                    contentType = options.contentType;
+                if(!contentType)
+                	contentType = "application/octet-stream";
                 response["writeHead"](retCode, {'Content-Type': contentType});
+                if(options.hasOwnProperty("data"))
+                    response.write(options.data);
                 response.end();
             },
 
