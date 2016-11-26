@@ -70,10 +70,13 @@
                  * Please change these string value when you use this library in your project
                  * 本库的一些路径参数，记录着你的项目的工作目录。只有设置正确，才能成功载入本库。
                  * 很多情况下，你不会（也不应该）把本库直接放置在工作目录的根目录，因此有必要对这些项进行配置
+				 * rootDir代表从你服务器脚本所在目录，到你的网站的前端根目录的相对路径
+				 * nodeRootDir代表从你服务器脚本所在目录，到本文件所在目录的相对路径
+				 * dataRootDir代表从你的网站的前端根目录，到本文件所在目录的相对路径
                  */
-                rootDir: "",
+                rootDir: "./",
                 nodeRootDir: "./",
-                dataRootDir: "",
+                dataRootDir: "./",
                 /**
                  * The function will be executed after the library is loaded ready
                  * 这是本库载入成功后会立即执行的函数，可以认为是入口函数，或者是本库载入完毕的回调函数
@@ -94,9 +97,9 @@
             init: function () {
                 // node.js环境下，调用系统API直接读取本地磁盘上的文件，HTML5环境下发送虚拟ajax请求获取json数据
                 if (this.nodeJs) {
-                    this.nodeJs.fs["readFile"](libArmyAnt.config.dataRootDir + "data/libConfig.json", function (err, jsondata) {
+                    this.nodeJs.fs["readFile"](libArmyAnt.config.nodeRootDir + "data/libConfig.json", function (err, jsondata) {
                         if (err) {
-                            console.error("ArmyAnt : load config " + libArmyAnt.config.dataRootDir + "data/libConfig.json failed !");
+                            console.error("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + "data/libConfig.json failed !");
                         } else {
                             var data = JSON.parse(jsondata);
                             for (var key in data[0]) {
@@ -104,9 +107,9 @@
                             }
                         }
                     });
-                    this.nodeJs.fs["readFile"](libArmyAnt.config.dataRootDir + "data/libInfo.json", function (err, jsondata) {
+                    this.nodeJs.fs["readFile"](libArmyAnt.config.nodeRootDir + "data/libInfo.json", function (err, jsondata) {
                         if (err) {
-                            console.error("ArmyAnt : load config " + libArmyAnt.config.dataRootDir + "data/libInfo.json failed !");
+                            console.error("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + "data/libInfo.json failed !");
                         } else {
                             var data = JSON.parse(jsondata);
                             libArmyAnt._onInitializingModules += data[0]["libFiles"].length;
@@ -119,7 +122,7 @@
                 } else {
                     $.ajax({
                         type: "get",
-                        url: libArmyAnt.config.rootDir + "data/libConfig.json",
+                        url: libArmyAnt.config.dataRootDir + "data/libConfig.json",
                         cache: true,
                         async: false,
                         dataType: "json",
@@ -131,7 +134,7 @@
                     });
                     $.ajax({
                         type: "get",
-                        url: libArmyAnt.config.rootDir + "data/libInfo.json",
+                        url: libArmyAnt.config.dataRootDir + "data/libInfo.json",
                         cache: true,
                         async: false,
                         dataType: "json",
@@ -150,7 +153,7 @@
             _onInitializingModules: 0,
             _onInitializedModules:0,
             _onInitialized: function () {
-                var rootPath = this.nodeJs ? this.config.nodeRootDir : this.config.rootDir;
+                var rootPath = this.nodeJs?"./":this.config.dataRootDir;
                 if (this._onInitializingModules <= this._onInitializedModules && !this.loadedReady) {
                     console.log("ArmyAnt : Library loaded OK !");
                     this.loadedReady = true;

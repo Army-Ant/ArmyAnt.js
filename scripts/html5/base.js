@@ -12,12 +12,12 @@
         ctor: function () {
             var self = this;
             if (libArmyAnt.nodeJs) {
-                self.data = libArmyAnt.nodeJs.fs["readFile"](libArmyAnt.config.rootDir + this.modal, function (err, filedata) {
+                self.data = libArmyAnt.nodeJs.fs["readFile"]("../" + this.modal, function (err, filedata) {
                     self.data = filedata;
                 });
             } else { $.ajax({
                 type: "get",
-                url: libArmyAnt.config.rootDir + this.modal,
+                url: libArmyAnt.config.dataRootDir + this.modal,
                 cache: true,
                 async: true,
                 dataType: "html",

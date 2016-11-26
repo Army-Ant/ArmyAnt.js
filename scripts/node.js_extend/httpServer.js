@@ -126,7 +126,7 @@
                 libArmyAnt.log("Get request for ", pn, ", type: ", contentType);
                 // Read the requested file content from file system
                 if (pn && !isOnlyHead) {
-                    libArmyAnt.File.readFile(pn.substr(1), function (success, data) {
+                    libArmyAnt.File.readFile(libArmyAnt.config.rootDir + pn.substr(1), function (success, data) {
                         retCode = success ? 200 : 404;
                         if (afterMethod)
                             retCode = afterMethod(request, response, retCode, contentType);
