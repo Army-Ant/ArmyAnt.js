@@ -125,7 +125,7 @@
                 var contentType = null;
 				if(pn)
 	                contentType = libArmyAnt.HttpServer.getContentTypeByPathname(pn);
-                libArmyAnt.log("Get request for ", pn, ", type: ", contentType);
+                libArmyAnt.log("Get request for ", libArmyAnt.HttpServer.getParamByUrl(request.url).pathname.substr(1), ", type: ", contentType?contentType:"unknown");
                 // Read the requested file content from file system
                 if (pn && !isOnlyHead) {
                     libArmyAnt.File.readFile(libArmyAnt.config.rootDir + pn, function (success, data) {
