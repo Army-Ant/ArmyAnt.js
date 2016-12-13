@@ -30,6 +30,7 @@
         realization:{
             unknown:"unknown",
             canvas:"canvas",
+            multiCanvas:"multiCanvas",
             css3:"css3",
             svg:"SVG",
             jQuery:"jQuery",
