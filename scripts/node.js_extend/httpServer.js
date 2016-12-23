@@ -130,15 +130,16 @@
                 if (pn && !isOnlyHead) {
                     libArmyAnt.File.readFile(libArmyAnt.config.rootDir + pn, function (success, data) {
                         retCode = success ? 200 : 404;
-                        var options = null;
-                        if (afterMethod)
+                        if (afterMethod) {
+                            var options = null;
                             options = afterMethod(request, response, retCode, contentType, data);
-                        if(options.hasOwnProperty("retCode"))
-                            retCode = options.returnCode;
-                        if(options.hasOwnProperty("contentType"))
-                            contentType = options.contentType;
-                        if(options.hasOwnProperty("data"))
-                            data = options.data;
+                            if (options.hasOwnProperty("retCode"))
+                                retCode = options.returnCode;
+                            if (options.hasOwnProperty("contentType"))
+                                contentType = options.contentType;
+                            if (options.hasOwnProperty("data"))
+                                data = options.data;
+                        }
                         if(!contentType)
                             contentType = "application/octet-stream";
                         response["writeHead"](success ? 200 : 404, {'Content-Type': contentType});

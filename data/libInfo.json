@@ -26,6 +26,10 @@
         "type": "script"
       },
       {
+        "path": "scripts/httpClient.js",
+        "type": "script"
+      },
+      {
         "path": "scripts/html5/base.js",
         "type": "script"
       },
@@ -39,6 +43,58 @@
       },
       {
         "path": "scripts/node.js_extend/httpServer.js",
+        "type": "script"
+      },
+      {
+        "path": "scripts/animation/base.js",
+        "type": "script"
+      },
+      {
+        "path": "scripts/animation/factory.js",
+        "type": "script"
+      },
+      {
+        "path": "scripts/animation/tagIndexList.js",
+        "type": "script"
+      },
+      {
+        "path": "scripts/animation/maker.js",
+        "type": "script"
+      },
+      {
+        "path": "scripts/animation/imageManager.js",
+        "type": "script"
+      },
+      {
+        "path": "scripts/animation/avatar.js",
+        "type": "script"
+      },
+      {
+        "path": "scripts/animation/scene.js",
+        "type": "script"
+      },
+      {
+        "path": "scripts/animation/node.js",
+        "type": "script"
+      },
+      {
+        "path": "scripts/animation/canvas/canvas.js",
+        "type": "script"
+      },
+      {
+        "path": "scripts/animation/canvas/canvasHelper.js",
+        "type": "script"
+      },
+      {
+        "path": "scripts/animation/canvas/avatar.js",
+        "type": "script"
+      },
+      {
+        "path": "scripts/animation/canvas/scene.js",
+        "type": "script"
+      },
+      {
+        "path": "scripts/animation/canvas/node.js",
         "type": "script"
       }
     ]

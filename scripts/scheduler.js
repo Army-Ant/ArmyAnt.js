@@ -50,8 +50,10 @@
          */
         stop: function () {
             this._running = false;
-            if (this._runningID)
+            if (this._runningID) {
                 clearInterval(this._runningID);
+                this._runningID = null;
+            }
         },
 
         /**

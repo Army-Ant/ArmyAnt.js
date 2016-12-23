@@ -24,8 +24,26 @@
      */
     this.libArmyAnt.Object.inherit = function (extend) {
         var ret = function () {
-            if (this.ctor)
+            for (var kk in this.base) {
+                if (kk != "base")
+                    this.base[kk] = function(name) {
+                        var tmpName = name;
+                        var currFunc = this.base[name];
+                        return function () {
+                            var base = this.base;
+                            if (this.base.base)
+                                this.base = this.base.base;
+                            else
+                                this.base = null;
+                            var ret = currFunc.apply(this, Array.prototype.slice.call(arguments));
+                            this.base = base;
+                            return ret;
+                        }.bind(this);
+                    }.bind(this)(kk);
+            }
+            if (this.ctor) {
                 this.ctor.apply(this, Array.prototype.slice.call(arguments));
+            }
         };
 
         //ret.prototype = Object.create(this);
@@ -40,7 +58,7 @@
         for(var k3 in this.prototype){
             if(typeof this.prototype[k3] === "function"){
                 ret.prototype.base[k3] = this.prototype[k3];
-            }else if(k3=="base"){
+            }else if(k3==="base"){
                 ret.prototype.base.base=this.prototype.base;
             }
         }

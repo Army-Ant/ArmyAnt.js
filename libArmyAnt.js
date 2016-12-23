@@ -85,7 +85,7 @@
                     if(libArmyAnt.nodeJs)
                         serverHost.onStart();
                     else{
-                        libArmyAnt._test();
+                        libArmyAnt._testLoad();
                     }
                 }
             },
@@ -242,8 +242,29 @@
                 });
             },
 
+            _testLoad:function(){
+                window._test_clicked = 0;
+                window._test={};
+            },
             _test:function(){
-                (new libArmyAnt.Scheduler(1)).run(function(dt){document.getElementById('tester').innerHTML += ('<br/>delayTime='+dt);});
+
+                switch(window._test_clicked) {
+                    case 0:
+                        //(new libArmyAnt.Scheduler(1)).run(function(dt){document.getElementById('tester').innerHTML += ('<br/>delayTime='+dt);});
+                        window._test.cvs = libArmyAnt.animation.factory.getMaker(libArmyAnt.animation.realization.canvas,
+                            document.getElementById("animation_tester"),
+                            {width: 640, height: 960, style: ""});
+                        window._test.scene = window._test.cvs.createScene("starter", 0, 0, 640, 960);
+                        libArmyAnt.log("Canvas created!");
+                        break;
+                    case 1:
+                        window._test.avatar = libArmyAnt.animation.IAvatar.create(libArmyAnt.animation.realization.canvas,
+                            libArmyAnt.animation.IAvatar.Type.color, {color: "red"});
+                        window._test.scene.background = window._test.avatar;
+                        libArmyAnt.log("Red avatar enjoyed");
+                        break;
+                }
+               ++window._test_clicked;
             }
         };
 

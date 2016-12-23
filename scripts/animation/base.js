@@ -34,7 +34,8 @@
             css3:"css3",
             svg:"SVG",
             jQuery:"jQuery",
-            webGL:"webGL"
+            webGL:"webGL",
+            flash:"flash"
         }
 
     }))();
