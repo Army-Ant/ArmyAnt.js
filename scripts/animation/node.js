@@ -32,7 +32,7 @@
             this.scene = scene;
             if(parent)
                 this.parent = parent;
-            this.timer = new libArmyAnt.Scheduler(this.libArmyAnt.animation.factory.refreshTime);
+            this.timer = new libArmyAnt.Scheduler(libArmyAnt.animation.factory.refreshTime);
             this.timer.run(this.update.bind(this));
         },
 

@@ -40,15 +40,15 @@
         },
 
         refresh:function(){
-            this.background.draw(this.parent.context, this);
-            var index = this.children.getMinIndex();
-            for(var index = this.children.getMinIndex(); index !== null; index = this.scenes.getNextIndex(index)){
+            if(this.background)
+                this.background.draw(this.parent.context, this);
+            for(var index = this.children.getMinIndex(); index !== null; index = this.children.getNextIndex(index)){
                 var children = this.children.getByIndex(index);
                 if(children)
                     for(var k=0; k< children.length; ++k){
-                        var scene = this.children.get(children[k]);
-                        if(scene && scene.shown)
-                            scene.refresh();
+                        var node = this.children.get(children[k]);
+                        if(node && node.shown)
+                            node.refresh();
                     }
             }
         },

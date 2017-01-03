@@ -12,6 +12,9 @@
         /**
          *
          * @param elem {HTMLElement}
+         * @param width {Number}
+         * @param height
+         * @param style
          */
         ctor:function(elem, width, height, style){
             this.canvas = document.createElement("canvas");
@@ -20,7 +23,7 @@
             if(style)
                 this.canvas.style = style;
             this.context = this.canvas.getContext("2d");
-            this.base._ctor(elem, width, height);
+            this.base._ctor.bind(this)(elem, width, height);
         },
 
         /**
@@ -42,7 +45,7 @@
         },
 
         createScene:function(tag, x, y, width, height){
-            var ret = new libArmyAnt.animation.Canvas.Scene(this, 0, x, y, width, height);
+            var ret = new libArmyAnt.animation.Canvas.Scene(this, x, y, width, height);
             this.scenes.put(tag, ret);
             return ret;
         },
@@ -70,7 +73,6 @@
         createBoneUnit:null,
 
         refresh:function(){
-            var index = this.scenes.getMinIndex();
             for(var index = this.scenes.getMinIndex(); index !== null; index = this.scenes.getNextIndex(index)){
                 var scenes = this.scenes.getByIndex(index);
                 if(scenes)

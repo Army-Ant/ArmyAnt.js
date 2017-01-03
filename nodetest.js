@@ -9,4 +9,4 @@
         }
     }
 })();
-require("./libArmyAnt.js")
+require("./libArmyAnt.js");

@@ -18,7 +18,7 @@
                 zIndex = 0;
             this.lists[tag] = {
                 node: node,
-                zIndex: zIndex,
+                zIndex: zIndex
             };
             return true;
         },

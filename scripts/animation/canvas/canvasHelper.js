@@ -3,8 +3,9 @@
  */
 
 (function() {
-    this.libArmyAnt.animation.Canvas.CanvasHelper = new (this.libArmyAnt.Object.inherit({
+    this.libArmyAnt.animation.Canvas.canvasHelper = new (this.libArmyAnt.Object.inherit({
         ctor:function(){
+            this.base.ctor();
         },
 
         RectPointStyle:{

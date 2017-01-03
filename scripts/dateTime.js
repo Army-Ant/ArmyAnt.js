@@ -62,7 +62,7 @@
          * Output the datetime as the HTTP string by format "RFC1036"
          * @returns {string}
          */
-        getHttpDateTimeString: function () {
+        getObsoleteDateTimeString: function () {
             return libArmyAnt.DateTime.daysInWeek[this.jsTime.getDay()] + "," + this.jsTime.getDate() + "-" + libArmyAnt.DateTime.month[libArmyAnt.DateTime.monthsInYear[this.jsTime.getMonth()]] +
                 "-" + this.jsTime.getFullYear().toString(10).slice(2) + " " + this.jsTime.getHours() + ":" + this.jsTime.getMinutes() + ":" + this.jsTime.getSeconds() + " " + this.timeZone;
         },
@@ -86,7 +86,7 @@
 
         /**
          * Output the datetime as the ANSI-C time seconds number
-         * @returns {string}
+         * @returns {number}
          */
         getCTimeSeconds: function(){
             return this.jsTime.getTime() / 1000;

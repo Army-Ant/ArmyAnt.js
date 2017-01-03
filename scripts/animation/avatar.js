@@ -37,7 +37,7 @@
         ret.type = avatarType;
         ret.args = Object.copy(args);
         return ret;
-    }
+    };
 
     this.libArmyAnt._onInitialized();
 })();
