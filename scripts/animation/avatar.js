@@ -23,6 +23,7 @@
         color:"color",
         image:"image",
         action:"action",
+        animation:"animation",
         video:"video",
         event:"event"
     };

@@ -46,7 +46,7 @@
                 tagOrScene = this.getSceneTag(tagOrScene);
             if(!tagOrScene)
                 throw "Cannot found the scene";
-            this.scenes.setZIndex(tagOrScene, zIndex);
+            return this.scenes.setZIndex(tagOrScene, zIndex);
         },
 
         _ctor: function (elem, width, height) {
@@ -55,7 +55,15 @@
             this.timer = new libArmyAnt.Scheduler(libArmyAnt.animation.factory.refreshTime);
             if (elem)
                 this.addToElem(elem);
-            this.timer.run(this.update.bind(this));
+            this.timer.run(this._timerFunc.bind(this));
+        },
+
+        _timerFunc:function(dt){
+            this.update(dt);
+            for(var k in this.scenes.lists.length){
+                if(this.scenes.lists[k].running)
+                    this.scenes.lists[k]._timerFunc(dt);
+            }
         }
     });
 

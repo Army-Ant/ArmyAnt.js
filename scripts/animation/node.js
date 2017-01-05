@@ -14,7 +14,6 @@
         zIndex:0,
 
         shown:true,
-        timer:null,
 
         children:null,
 
@@ -32,14 +31,54 @@
             this.scene = scene;
             if(parent)
                 this.parent = parent;
-            this.timer = new libArmyAnt.Scheduler(libArmyAnt.animation.factory.refreshTime);
-            this.timer.run(this.update.bind(this));
+            this.children = new libArmyAnt.animation.TagIndexList();
         },
 
-        show:null,
-        hide:null,
-        pause:null,
-        resume:null,
+        _timerFunc:function(dt){
+            this.update(dt);
+            for(var k in this.children.lists.length){
+                if(this.children.lists[k].running)
+                    this.children.lists[k]._timerFunc(dt);
+            }
+        },
+
+        show:function() {
+            this.shown = true;
+        },
+
+        hide:function(){
+            this.shown = false;
+        },
+
+        pause:function(){
+            this.timer.stop();
+            for(var k in this.children.lists)
+                this.children.get(k).pause();
+            this.running = false;
+        },
+
+        resume:function(){
+            this.timer.callAtOnce();
+            for(var k in this.children.lists) {
+                var node = this.children.get(k);
+                if (node.running)
+                    node.resume();
+            }
+            this.running = true;
+        },
+
+        getThisTag:function(){
+            return this.parent.getChildTag(this);
+        },
+
+        setZIndex:function(zIndex){
+            return this.parent.setChildZIndex(this, zIndex);
+        },
+
+        getZIndex:function(){
+            return this.parent.getChildZIndex(this);
+        },
+
         addChild:null,
         removeChild:null,
         createChild:null,
