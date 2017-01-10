@@ -49,7 +49,7 @@
                 ret.prototype[k2] = extend[k2];
             }
         }
-        ret.prototype.__ctor__ = function() {
+        ret.prototype.__ctor__ = function(noChild) {
             for (var k2 in extend) {
                 if(typeof this[k2] != "undefined")
                     continue;
@@ -69,10 +69,12 @@
                     this[k2] = ret.prototype[k2]
                 }
             }
-            var base__ctor__ = this.base;
-            while(base__ctor__ && base__ctor__.__ctor__){
-                base__ctor__.__ctor__.apply(this);
-                base__ctor__ = base__ctor__.base;
+            if(!noChild) {
+                var base__ctor__ = this.base;
+                while (base__ctor__ && base__ctor__.__ctor__) {
+                    base__ctor__.__ctor__.bind(this)(true);
+                    base__ctor__ = base__ctor__.base;
+                }
             }
         }
         ret.prototype.base = {};

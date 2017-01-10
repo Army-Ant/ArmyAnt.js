@@ -19,8 +19,8 @@
                 return null;
             var ret = {};
             for (var k in obj) {
-                //if(!obj.hasOwnProperty(k))
-                //    continue;
+                if(!obj.hasOwnProperty(k))
+                    continue;
                 switch (typeof obj[k]) {
                     case "undefined":
                         break;

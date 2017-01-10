@@ -28,6 +28,16 @@
         event:"event"
     };
 
+    this.libArmyAnt.animation.IAvatar.Action = {
+        line:"line",
+        arc:"arc",
+        rect:"rect",
+        clear:"clear",
+        rotate:"rotate",
+        save:"save",
+        load:"load"
+    };
+
     this.libArmyAnt.animation.IAvatar.create = function(animationType, avatarType, args){
         var ret = null;
         switch(animationType){
@@ -36,7 +46,7 @@
                 break;
         }
         ret.type = avatarType;
-        ret.args = Object.copy(args);
+        ret.args = args;
         return ret;
     };
 

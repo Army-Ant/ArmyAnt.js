@@ -55,11 +55,11 @@
         },
 
         createNode:function(x,y){
-            return new libArmyAnt.animation.Canvas.Node(null, this, x, y, 0, 0);
+            return new libArmyAnt.animation.Canvas.Node(null, this, 0, x, y, 0, 0);
         },
 
-        createSprite:function(x,y,width,height){
-
+        createSprite:function(avatar, x, y, width, height){
+            return new libArmyAnt.animation.Canvas.Sprite(avatar, null, null, 0, x, y, width, height);
         },
 
         createLabel:function(x,y){

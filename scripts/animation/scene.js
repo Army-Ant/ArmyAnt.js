@@ -16,7 +16,7 @@
 
         children:null,
 
-        ctor:function(){
+        ctor:function(parent, x, y, width, height, background){
             throw "This interface cannot be created an object";
         },
 
@@ -97,6 +97,7 @@
         addNode:null,
         removeNode:null,
         createNode:null,
+        createSprite:null,
         removeAllNodes:null,
         removeSelf:function(){
             delete this.parent.scenes.lists[tag];

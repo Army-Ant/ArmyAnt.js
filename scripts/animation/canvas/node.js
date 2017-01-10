@@ -16,6 +16,7 @@
             if(typeof y == "number")
                 node.y = y;
             node.parent = this;
+            node.scene = this.scene;
             this.children.put(tag, node);
             return true;
         },
@@ -25,8 +26,12 @@
                 this.children[tag].removeSelf();
         },
 
-        createChild:function(tag, x, y){
-            return this.addChild(tag, this.parent.createNode(x, y));
+        createNode:function(tag, x, y){
+            return this.addChild(tag, this.scene.parent.createNode(x, y));
+        },
+
+        createSprite:function(tag, avatar, x, y, width, height){
+            return this.addChild(tag, this.scene.parent.createSprite(tag, avatar, x, y, width, height));
         },
 
         removeAllChildren:function(){

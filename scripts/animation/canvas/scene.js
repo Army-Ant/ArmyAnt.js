@@ -16,6 +16,7 @@
             if(typeof y == "number")
                 node.y = y;
             node.parent = this;
+            node.scene = this;
             this.children.put(tag, node);
             return true;
         },
@@ -27,6 +28,10 @@
 
         createNode:function(tag, x, y){
             return this.addNode(tag, this.parent.createNode(x, y));
+        },
+
+        createSprite:function(tag, avatar, x, y, width, height){
+            return this.addNode(tag, this.parent.createSprite(avatar, x, y, width, height));
         },
 
         removeAllNodes:function(){

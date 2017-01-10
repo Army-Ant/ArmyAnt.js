@@ -14,10 +14,11 @@
         zIndex:0,
 
         shown:true,
+        running:true,
 
         children:null,
 
-        ctor:function(){
+        ctor:function(parent, scene, zIndex, x, y, width, height){
             throw "This interface cannot be created an object";
         },
 
@@ -51,19 +52,10 @@
         },
 
         pause:function(){
-            this.timer.stop();
-            for(var k in this.children.lists)
-                this.children.get(k).pause();
             this.running = false;
         },
 
         resume:function(){
-            this.timer.callAtOnce();
-            for(var k in this.children.lists) {
-                var node = this.children.get(k);
-                if (node.running)
-                    node.resume();
-            }
             this.running = true;
         },
 
@@ -81,7 +73,8 @@
 
         addChild:null,
         removeChild:null,
-        createChild:null,
+        createNode:null,
+        createSprite:null,
         removeAllChildren:null,
         setParent:null,
         removeSelf:function(){

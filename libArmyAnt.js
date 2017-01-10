@@ -263,6 +263,16 @@
                         window._test.scene.background = window._test.avatar;
                         libArmyAnt.log("Red avatar enjoyed");
                         break;
+                    case 2:
+                        window.picture_img = new Image();
+                        window.picture_img.onload = function(){
+                            window._test.picture = libArmyAnt.animation.IAvatar.create(libArmyAnt.animation.realization.canvas,
+                                libArmyAnt.animation.IAvatar.Type.image, {img:window.picture_img, imgX:10, imgY:10});
+                            window._test.scene.createSprite("pic", window._test.picture, 10, 10, 60, 60);
+                            libArmyAnt.log("Picture avatar enjoyed");
+                        }.bind(window.picture_img);
+                        window.picture_img.src = "testResources/Actor01-Braver01_1_1.png";
+                        break;
                 }
                ++window._test_clicked;
             }

@@ -78,6 +78,10 @@
         "type": "script"
       },
       {
+        "path": "scripts/animation/sprite.js",
+        "type": "script"
+      },
+      {
         "path": "scripts/animation/canvas/canvas.js",
         "type": "script"
       },
@@ -95,6 +99,10 @@
       },
       {
         "path": "scripts/animation/canvas/node.js",
+        "type": "script"
+      },
+      {
+        "path": "scripts/animation/canvas/sprite.js",
         "type": "script"
       }
     ]

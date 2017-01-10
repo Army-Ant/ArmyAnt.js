@@ -9,7 +9,7 @@
         scenes: null,
         parentElem: null,
 
-        ctor: function () {
+        ctor: function (elem, width, height) {
             throw "This interface cannot be created an object";
         },
 
