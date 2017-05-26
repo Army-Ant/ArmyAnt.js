@@ -2,8 +2,7 @@
  * Created by Jason Zhao Jie on 2016/12/13.
  */
 
-(function() {
-    this.libArmyAnt.animation.IScene = this.libArmyAnt.Object.inherit({
+    libArmyAnt.animation.IScene = libArmyAnt.Object.inherit({
         parent:null,
         x:0,
         y:0,
@@ -17,10 +16,6 @@
         children:null,
 
         ctor:function(parent, x, y, width, height, background){
-            throw "This interface cannot be created an object";
-        },
-
-        _ctor:function(parent, x, y, width, height, background){
             this.base.ctor();
             this.x = x;
             this.y = y;
@@ -31,6 +26,7 @@
                 this.background = background;
             this.children = new libArmyAnt.animation.TagIndexList();
         },
+
 
         _timerFunc:function(dt){
             this.update(dt);
@@ -106,5 +102,4 @@
         update:null
     });
 
-    this.libArmyAnt._onInitialized();
-})();
+    libArmyAnt._onInitialized();

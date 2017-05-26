@@ -8,7 +8,16 @@
  * The class to download and parse json file async
  */
 (function() {
-    this.libArmyAnt.JsonParser = this.libArmyAnt.Object.inherit({
+
+    var libArmyAnt;
+    if (typeof require == "undefined")
+        libArmyAnt = window.libArmyAnt;
+    else {
+        libArmyAnt = require("../global.js");
+        libArmyAnt.Object = require("../object.js");
+    }
+
+    var JsonParser = libArmyAnt.Object.inherit({
         url: null,
         data: null,
 
@@ -28,7 +37,7 @@
             this.data = null;
             if (url)
                 this.url = url;
-            if (libArmyAnt.nodeJs) {
+            if (typeof require != "undefined") {
                 this.data = require("./" + url);
             }
             else if (this.url)
@@ -53,19 +62,22 @@
      * @param callback : Function
      * @returns {*}
      */
-    this.libArmyAnt.JsonParser.getJson = function (url, callback) {
-        return libArmyAnt.nodeJs ?
-            callback(require("./" + url)) :
+    JsonParser.getJson = function (url, callback) {
+        return (typeof require == "undefined") ?
             $.ajax({
-            type: "get",
-            url: url,
-            cache: true,
-            async: false,
-            dataType: "json",
-            success: callback
-        });
+                type: "get",
+                url: url,
+                cache: true,
+                async: false,
+                dataType: "json",
+                success: callback
+            }) : callback(require("./" + url));
     };
 
-    this.libArmyAnt._onInitialized();
-
+    if (typeof require == "undefined"){
+        libArmyAnt.JsonParser = JsonParser;
+        libArmyAnt._onInitialized();
+    }
+    else
+        module.exports = JsonParser;
 })();

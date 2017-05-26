@@ -2,13 +2,21 @@
  * Created by Jason Zhao Jie on 2016/11/1.
  */
 
-(function () {
+/**
+ * The datetime class, used to convert between different format of datetime
+ * 一个表示日期时间的类, 可以进行不同格式的时间的转换和输出
+ */
+(function() {
 
-    /**
-     * The datetime class, used to convert between different format of datetime
-     * 一个表示日期时间的类, 可以进行不同格式的时间的转换和输出
-     */
-    this.libArmyAnt.DateTime = this.libArmyAnt.Object.inherit({
+    var libArmyAnt;
+    if (typeof require != "undefined") {
+        libArmyAnt = require("../global.js");
+        libArmyAnt.Object = require("../object.js");
+    } else {
+        libArmyAnt = window.libArmyAnt;
+    }
+
+    var DateTime = libArmyAnt.Object.inherit({
         jsTime: null,
         timeZone: "GMT",
 
@@ -17,31 +25,31 @@
          * @param httpStringOrCSeconds : String/Number
          *          The datetime string in HTTP format, or the ANSI-C time number
          *          HTTP格式的日期时间字符串, 或者ANSI-C标准的时间数字(从1970年开始的秒数)
-         * @param formatTypeOrTimeZone : String ( libArmyAnt.DateTime.TimeStringType )
-         *          The member of libArmyAnt.DateTime.TimeStringType, as the format of the HTTP string, it will be automatically judged if this param is null
+         * @param formatTypeOrTimeZone : String ( DateTime.TimeStringType )
+         *          The member of DateTime.TimeStringType, as the format of the HTTP string, it will be automatically judged if this param is null
          *          Or : The TimeZone string. If the first param is the ANSI-C time number, you need to input the time zone string, or the default time zone is "GMT"
          *          如果第一个参数是HTTP的日期时间字符串, 则本参数传入字符串的类型,函数将按照指定类型进行解析.如不传,函数将逐一检测字符串的类型
          *          如果第一个参数是ANSI-C格式的秒数, 则本参数传入时区代表字符串. 如不传, 则默认为GMT
          */
-        ctor: function (httpStringOrCSeconds,formatTypeOrTimeZone) {
+        ctor: function (httpStringOrCSeconds, formatTypeOrTimeZone) {
             this.base.ctor();
             var tmp = formatTypeOrTimeZone;
-            if((typeof httpStringOrCSeconds == "undefined" || !httpStringOrCSeconds)&&(typeof formatTypeOrTimeZone == "undefined" || !formatTypeOrTimeZone))
+            if ((typeof httpStringOrCSeconds == "undefined" || !httpStringOrCSeconds) && (typeof formatTypeOrTimeZone == "undefined" || !formatTypeOrTimeZone))
                 this.jsTime = (new Date());
             else {
-                if(     (formatTypeOrTimeZone != NaN && (typeof formatTypeOrTimeZone == "number" || Number(formatTypeOrTimeZone) != NaN))
-                        (typeof formatTypeOrTimeZone == "string" && (typeof httpStringOrCSeconds == "undefined" || !httpStringOrCSeconds))
-                   ){
+                if ((formatTypeOrTimeZone != NaN && (typeof formatTypeOrTimeZone == "number" || Number(formatTypeOrTimeZone) != NaN))
+                    (typeof formatTypeOrTimeZone == "string" && (typeof httpStringOrCSeconds == "undefined" || !httpStringOrCSeconds))
+                ) {
                     formatTypeOrTimeZone = httpStringOrCSeconds;
                     httpStringOrCSeconds = tmp;
                 }
-                if(httpStringOrCSeconds != NaN && (typeof httpStringOrCSeconds == "number" || Number(httpStringOrCSeconds) != NaN)){
+                if (httpStringOrCSeconds != NaN && (typeof httpStringOrCSeconds == "number" || Number(httpStringOrCSeconds) != NaN)) {
                     this.jsTime = new Date();
                     this.jsTime.setTime(httpStringOrCSeconds * 1000);
-                    if(typeof formatTypeOrTimeZone == "string")
+                    if (typeof formatTypeOrTimeZone == "string")
                         this.timeZone = formatTypeOrTimeZone;
-                }else if(typeof httpStringOrCSeconds == "string"){
-                    if(!this._setFromHttpString(httpStringOrCSeconds,formatTypeOrTimeZone) && (typeof formatTypeOrTimeZone == "string" || !this._setFromHttpString(formatTypeOrTimeZone, httpStringOrCSeconds))){
+                } else if (typeof httpStringOrCSeconds == "string") {
+                    if (!this._setFromHttpString(httpStringOrCSeconds, formatTypeOrTimeZone) && (typeof formatTypeOrTimeZone == "string" || !this._setFromHttpString(formatTypeOrTimeZone, httpStringOrCSeconds))) {
                         libArmyAnt.warn("Cannot parse the time string of : ", httpStringOrCSeconds);
                     }
                 }
@@ -53,8 +61,8 @@
          * @returns {string}
          */
         getHttpDateTimeString: function () {
-            return libArmyAnt.DateTime.weekday[libArmyAnt.DateTime.daysInWeek[this.jsTime.getDay()]] + "," + this.jsTime.getDate() +
-                " " + libArmyAnt.DateTime.month[libArmyAnt.DateTime.monthsInYear[this.jsTime.getMonth()]] + " " + this.jsTime.getFullYear() +
+            return DateTime.weekday[DateTime.daysInWeek[this.jsTime.getDay()]] + "," + this.jsTime.getDate() +
+                " " + DateTime.month[DateTime.monthsInYear[this.jsTime.getMonth()]] + " " + this.jsTime.getFullYear() +
                 " " + this.jsTime.getHours() + ":" + this.jsTime.getMinutes() + ":" + this.jsTime.getSeconds() + " " + this.timeZone;
         },
 
@@ -63,7 +71,7 @@
          * @returns {string}
          */
         getObsoleteDateTimeString: function () {
-            return libArmyAnt.DateTime.daysInWeek[this.jsTime.getDay()] + "," + this.jsTime.getDate() + "-" + libArmyAnt.DateTime.month[libArmyAnt.DateTime.monthsInYear[this.jsTime.getMonth()]] +
+            return DateTime.daysInWeek[this.jsTime.getDay()] + "," + this.jsTime.getDate() + "-" + DateTime.month[DateTime.monthsInYear[this.jsTime.getMonth()]] +
                 "-" + this.jsTime.getFullYear().toString(10).slice(2) + " " + this.jsTime.getHours() + ":" + this.jsTime.getMinutes() + ":" + this.jsTime.getSeconds() + " " + this.timeZone;
         },
 
@@ -72,7 +80,7 @@
          * @returns {string}
          */
         getAscDateTimeString: function () {
-            return libArmyAnt.DateTime.weekday[libArmyAnt.DateTime.daysInWeek[this.jsTime.getDay()]] + "," +libArmyAnt.DateTime.month[libArmyAnt.DateTime.monthsInYear[this.jsTime.getMonth()]] +
+            return DateTime.weekday[DateTime.daysInWeek[this.jsTime.getDay()]] + "," + DateTime.month[DateTime.monthsInYear[this.jsTime.getMonth()]] +
                 " " + this.jsTime.getDate() + " " + this.jsTime.getHours() + ":" + this.jsTime.getMinutes() + ":" + this.jsTime.getSeconds() + " " + this.jsTime.getFullYear();
         },
 
@@ -80,7 +88,7 @@
          * Output the time string only by the format "HH:MM:SS"
          * @returns {string}
          */
-        getTimeString: function(){
+        getTimeString: function () {
             return this.jsTime.getHours() + ":" + this.jsTime.getMinutes() + ":" + this.jsTime.getSeconds();
         },
 
@@ -88,7 +96,7 @@
          * Output the datetime as the ANSI-C time seconds number
          * @returns {number}
          */
-        getCTimeSeconds: function(){
+        getCTimeSeconds: function () {
             return this.jsTime.getTime() / 1000;
         },
 
@@ -96,12 +104,12 @@
          * Output the datetime as the ANSI-C time milliseconds number
          * @returns {string}
          */
-        getMilliseconds: function(){
+        getMilliseconds: function () {
             return this.jsTime.getMilliseconds();
         },
 
 
-        _setFromHttpString: function(str, type) {
+        _setFromHttpString: function (str, type) {
             // Parse to words
             var words = libArmyAnt.parseToWords(str, "TIME");
             if (!words)
@@ -117,9 +125,9 @@
             words.remove(",");
 
             // Check words number
-            if (words.length !== 8 || (type == libArmyAnt.DateTime.TimeStringType.Ansi && words.length !== 7))
+            if (words.length !== 8 || (type == DateTime.TimeStringType.Ansi && words.length !== 7))
                 return false;
-            if (((typeof type == "undefined" || !type) && (Number(words[2]) !== NaN && Number(words[1]) === NaN)) || (type === libArmyAnt.DateTime.TimeStringType.Ansi)) {
+            if (((typeof type == "undefined" || !type) && (Number(words[2]) !== NaN && Number(words[1]) === NaN)) || (type === DateTime.TimeStringType.Ansi)) {
                 var tmp = words[1];
                 words[1] = words[2];
                 words[2] = tmp;
@@ -136,16 +144,16 @@
 
             // Set time
             this.jsTime = new Date();
-            var year = parseInt(words[3],10);
-            if(year<100)
-                year += (year>=70?1900:2000);
+            var year = parseInt(words[3], 10);
+            if (year < 100)
+                year += (year >= 70 ? 1900 : 2000);
             this.jsTime.setYear(year);
-            this.jsTime.setMonth(libArmyAnt.DateTime.monthsInYear.contains(libArmyAnt.DateTime.month.contains(words[2])));
-            this.jsTime.setDate(parseInt(words[1],10));
-            this.jsTime.setHours(parseInt(words[4],10),parseInt(words[5],10),parseInt(words[6],10));
-            if(words[7])
+            this.jsTime.setMonth(DateTime.monthsInYear.contains(DateTime.month.contains(words[2])));
+            this.jsTime.setDate(parseInt(words[1], 10));
+            this.jsTime.setHours(parseInt(words[4], 10), parseInt(words[5], 10), parseInt(words[6], 10));
+            if (words[7])
                 this.timeZone = words[7];
-            return words[7] === libArmyAnt.DateTime.daysInWeek[this.jsTime.getDay()] || words[7] === libArmyAnt.DateTime.weekday[libArmyAnt.DateTime.daysInWeek[this.jsTime.getDay()]];
+            return words[7] === DateTime.daysInWeek[this.jsTime.getDay()] || words[7] === DateTime.weekday[DateTime.daysInWeek[this.jsTime.getDay()]];
         }
     });
 
@@ -153,14 +161,14 @@
      * The strings present by the HTTP time string format
      * @type {{Obsolete: string, Http: string, Ansi: string}}
      */
-    this.libArmyAnt.DateTime.TimeStringType = {Obsolete:"RFC1036",Http:"RFC1123",Ansi:"ANSI"};
+    DateTime.TimeStringType = {Obsolete: "RFC1036", Http: "RFC1123", Ansi: "ANSI"};
 
     /**
      * The array of each day in a week
      * @type {string[]}
      */
-    this.libArmyAnt.DateTime.daysInWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    this.libArmyAnt.DateTime.weekday = {
+    DateTime.daysInWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    DateTime.weekday = {
         Sunday: "Sun",
         Monday: "Mon",
         Tuesday: "Tues",
@@ -174,8 +182,8 @@
      * The array of each month in a year
      * @type {string[]}
      */
-    this.libArmyAnt.DateTime.monthsInYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    this.libArmyAnt.DateTime.month = {
+    DateTime.monthsInYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    DateTime.month = {
         January: "Jan",
         February: "Feb",
         March: "Mar",
@@ -190,5 +198,12 @@
         December: "Dec"
     };
 
-    this.libArmyAnt._onInitialized();
+    if (typeof require == "undefined") {
+        libArmyAnt.DateTime = DateTime;
+        libArmyAnt._onInitialized();
+    }
+    else {
+        module.exports = DateTime;
+    }
+
 })();

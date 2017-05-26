@@ -5,7 +5,16 @@
  */
 
 (function() {
-    this.libArmyAnt.HTML5.Dialog = this.libArmyAnt.Object.inherit({
+
+    var libArmyAnt;
+    if (typeof require == "undefined")
+        libArmyAnt = window.libArmyAnt;
+    else {
+        libArmyAnt = require("../global.js");
+        libArmyAnt.Object = require("../object.js");
+    }
+
+    var Dialog = libArmyAnt.Object.inherit({
         title: "Message",
         type: 0,
         text: "",
@@ -47,7 +56,12 @@
         }
     });
 
-    this.libArmyAnt.HTML5.Dialog.MESSAGE = 1;
+    Dialog.MESSAGE = 1;
 
-    this.libArmyAnt._onInitialized();
+    if (typeof require == "undefined") {
+        libArmyAnt.HTML5.Dialog = Dialog;
+        libArmyAnt._onInitialized();
+    }
+    else
+        module.exports = Dialog;
 })();

@@ -3,48 +3,46 @@
     "libFiles": [
       {
         "path": "scripts/global.js",
+        "name": "",
         "type": "script"
       },
       {
         "path": "scripts/object.js",
+        "name": "Object",
         "type": "script"
       },
       {
-        "path": "scripts/dateTime.js",
+        "path": "scripts/common/dateTime.js",
+        "name": "DateTime",
         "type": "script"
       },
       {
-        "path": "scripts/jsonParser.js",
+        "path": "scripts/common/jsonParser.js",
+        "name": "JsonParser",
         "type": "script"
       },
       {
-        "path": "scripts/scheduler.js",
+        "path": "scripts/common/scheduler.js",
+        "name": "Scheduler",
         "type": "script"
       },
       {
-        "path": "scripts/objectPool.js",
-        "type": "script"
-      },
-      {
-        "path": "scripts/httpClient.js",
+        "path": "scripts/common/httpClient.js",
+        "name": "HttpClient",
         "type": "script"
       },
       {
         "path": "scripts/html5/base.js",
+        "name": "HTML5",
         "type": "script"
       },
       {
         "path": "scripts/html5/dialog.js",
+        "name": null,
         "type": "script"
-      },
-      {
-        "path": "scripts/node.js_extend/file.js",
-        "type": "script"
-      },
-      {
-        "path": "scripts/node.js_extend/httpServer.js",
-        "type": "script"
-      },
+      }
+    ],
+    "webPageFiles": [
       {
         "path": "scripts/animation/base.js",
         "type": "script"
@@ -103,6 +101,18 @@
       },
       {
         "path": "scripts/animation/canvas/sprite.js",
+        "type": "script"
+      }
+    ],
+    "nodeJsFiles": [
+      {
+        "path": "scripts/node.js_extend/file.js",
+        "name": "File",
+        "type": "script"
+      },
+      {
+        "path": "scripts/node.js_extend/httpServer.js",
+        "name": "HttpServer",
         "type": "script"
       }
     ]

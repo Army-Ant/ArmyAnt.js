@@ -2,87 +2,80 @@
  * Created by Jason Zhao Jie on 2016/12/13.
  */
 
-(function() {
+libArmyAnt.animation.INode = libArmyAnt.Object.inherit({
+    scene: null,
+    parent: null,
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+    zIndex: 0,
 
-    this.libArmyAnt.animation.INode = this.libArmyAnt.Object.inherit({
-        scene:null,
-        parent:null,
-        x:0,
-        y:0,
-        width:0,
-        height:0,
-        zIndex:0,
+    shown: true,
+    running: true,
 
-        shown:true,
-        running:true,
+    children: null,
 
-        children:null,
+    ctor: function (parent, scene, zIndex, x, y, width, height) {
+        this.base.ctor();
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.zIndex = zIndex;
+        this.scene = scene;
+        if (parent)
+            this.parent = parent;
+        this.children = new libArmyAnt.animation.TagIndexList();
+    },
 
-        ctor:function(parent, scene, zIndex, x, y, width, height){
-            throw "This interface cannot be created an object";
-        },
+    _timerFunc: function (dt) {
+        this.update(dt);
+        for (var k in this.children.lists.length) {
+            if (this.children.lists[k].running)
+                this.children.lists[k]._timerFunc(dt);
+        }
+    },
 
-        _ctor:function(parent, scene, zIndex, x, y, width, height){
-            this.base.ctor();
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
-            this.zIndex = zIndex;
-            this.scene = scene;
-            if(parent)
-                this.parent = parent;
-            this.children = new libArmyAnt.animation.TagIndexList();
-        },
+    show: function () {
+        this.shown = true;
+    },
 
-        _timerFunc:function(dt){
-            this.update(dt);
-            for(var k in this.children.lists.length){
-                if(this.children.lists[k].running)
-                    this.children.lists[k]._timerFunc(dt);
-            }
-        },
+    hide: function () {
+        this.shown = false;
+    },
 
-        show:function() {
-            this.shown = true;
-        },
+    pause: function () {
+        this.running = false;
+    },
 
-        hide:function(){
-            this.shown = false;
-        },
+    resume: function () {
+        this.running = true;
+    },
 
-        pause:function(){
-            this.running = false;
-        },
+    getThisTag: function () {
+        return this.parent.getChildTag(this);
+    },
 
-        resume:function(){
-            this.running = true;
-        },
+    setZIndex: function (zIndex) {
+        return this.parent.setChildZIndex(this, zIndex);
+    },
 
-        getThisTag:function(){
-            return this.parent.getChildTag(this);
-        },
+    getZIndex: function () {
+        return this.parent.getChildZIndex(this);
+    },
 
-        setZIndex:function(zIndex){
-            return this.parent.setChildZIndex(this, zIndex);
-        },
+    addChild: null,
+    removeChild: null,
+    createNode: null,
+    createSprite: null,
+    removeAllChildren: null,
+    setParent: null,
+    removeSelf: function () {
+        delete this.parent.children.lists[tag];
+    },
+    refresh: null,
+    update: null
+});
 
-        getZIndex:function(){
-            return this.parent.getChildZIndex(this);
-        },
-
-        addChild:null,
-        removeChild:null,
-        createNode:null,
-        createSprite:null,
-        removeAllChildren:null,
-        setParent:null,
-        removeSelf:function(){
-            delete this.parent.children.lists[tag];
-        },
-        refresh:null,
-        update:null
-    });
-
-    this.libArmyAnt._onInitialized();
-})();
+libArmyAnt._onInitialized();

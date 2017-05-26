@@ -10,7 +10,16 @@
  */
 
 (function() {
-    this.libArmyAnt.Scheduler = this.libArmyAnt.Object.inherit({
+
+    var libArmyAnt;
+    if (typeof require == "undefined")
+        libArmyAnt = window.libArmyAnt;
+    else {
+        libArmyAnt = require("../global.js");
+        libArmyAnt.Object = require("../object.js");
+    }
+
+    var Scheduler = libArmyAnt.Object.inherit({
         delayTime: 0.001,
         callFunc: null,
 
@@ -98,5 +107,11 @@
         }
     });
 
-    this.libArmyAnt._onInitialized();
+    if (typeof require == "undefined"){
+        libArmyAnt.Scheduler = Scheduler;
+        libArmyAnt._onInitialized();
+    }
+    else
+        module.exports = Scheduler;
+
 })();

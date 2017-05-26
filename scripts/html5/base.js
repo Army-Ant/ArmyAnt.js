@@ -5,7 +5,16 @@
  */
 
 (function() {
-    this.libArmyAnt.HTML5 = new (this.libArmyAnt.Object.inherit({
+
+    var libArmyAnt;
+    if (typeof require == "undefined")
+        libArmyAnt = window.libArmyAnt;
+    else {
+        libArmyAnt = require("../global.js");
+        libArmyAnt.Object = require("../object.js");
+    }
+
+    var HTML5 = libArmyAnt.Object.inherit({
         modal: "assets/modals.html",
         data: null,
 
@@ -15,20 +24,28 @@
                 self.data = libArmyAnt.nodeJs.fs["readFile"]("../" + this.modal, function (err, filedata) {
                     self.data = filedata;
                 });
-            } else { $.ajax({
-                type: "get",
-                url: libArmyAnt.config.dataRootDir + this.modal,
-                cache: true,
-                async: true,
-                dataType: "html",
-                success: function (data, statue, jqXHR) {
-                    self.data = data;
-                }
-            });
+            } else {
+                $.ajax({
+                    type: "get",
+                    url: libArmyAnt.config.dataRootDir + this.modal,
+                    cache: true,
+                    async: true,
+                    dataType: "html",
+                    success: function (data, statue, jqXHR) {
+                        self.data = data;
+                    }
+                });
             }
         }
 
-    }))();
+    });
 
-    this.libArmyAnt._onInitialized();
+    if (typeof require == "undefined"){
+        libArmyAnt.HTML5 = new HTML5();
+        libArmyAnt._onInitialized();
+    }
+    else {
+        HTML5.Dialog = require("./dialog.js");
+        module.exports = HTML5;
+    }
 })();

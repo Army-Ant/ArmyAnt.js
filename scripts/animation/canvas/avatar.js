@@ -5,7 +5,7 @@
 (function() {
     this.libArmyAnt.animation.Canvas.Avatar = this.libArmyAnt.animation.IAvatar.inherit({
         ctor:function() {
-            this.base._ctor();
+            this.base.ctor();
         },
 
         /**
