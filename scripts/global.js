@@ -7,7 +7,7 @@
 (function () {
 
     var running = function () {
-        if (typeof this.Object.copy == "undefined" || !this.Object.copy)
+        if (typeof this.Object.copy === "undefined" || !this.Object.copy)
             /**
              * clone the object with its every child member. Each array and object in its children will also clone recursively
              * 创建指定Object对象的一个副本，且其所有Object和Array类型的子成员都会被递归式克隆
@@ -22,7 +22,7 @@
                 var ret = Object.create(obj);
                 for (var k in obj) {
                     if (obj.hasOwnProperty(k))
-                        if (typeof obj[k] == "object")
+                        if (typeof obj[k] === "object")
                             Object.copyTo(obj[k], ret, k);
                         else
                             ret[k] = obj[k];
@@ -38,13 +38,13 @@
             dst[dstKey] = Object.create(src);
             for (var k in src) {
                 if (src.hasOwnProperty(k))
-                    if (typeof src[k] == "object")
+                    if (typeof src[k] === "object")
                         Object.copyTo(src[k], dst[dstKey], k);
                     else
                         dst[dstKey][k] = src[k];
             }
             return true;
-        }
+        };
 
         /**
          * Get the set of all keys in the object
@@ -60,7 +60,7 @@
                 ret.push(k);
             }
             return ret;
-        }
+        };
 
         /**
          * Check if the value is in the object
@@ -77,10 +77,10 @@
                     return k;
             }
             return false;
-        }
+        };
 
         this.Array.prototype.copy = function () {
-            if (this == null)
+            if (this === null)
                 return null;
             var ret = new Array(this.length);
             for (var i = 0; i < this.length; i++) {
@@ -128,7 +128,7 @@
                 }
             }
             return ret;
-        }
+        };
 
         /**
          * Return the function itself whose "this" is bind to the target param
@@ -147,7 +147,7 @@
     };
 
     var debugMode = 0;
-    if (typeof require == "undefined")
+    if (typeof require === "undefined")
         debugMode = libArmyAnt.config["debugMode"];
     var output = {
 
@@ -222,33 +222,33 @@
             output._print("error", Array.prototype.slice.call(arguments));
         },
 
-        parseToWords: function (string, seporators) {
-            if (typeof seporators == "undefined" || !seporators || seporators == "PRO") {
-                seporators = ["===", "!==", "::", "++", "--", "+=", "-=", "*=", "/=", "%=", "<=", ">=", "==", "!=", "||", "&&",
+        parseToWords: function (string, separators) {
+            if (typeof separators === "undefined" || !separators || separators === "PRO") {
+                separators = ["===", "!==", "::", "++", "--", "+=", "-=", "*=", "/=", "%=", "<=", ">=", "==", "!=", "||", "&&",
                     ",", ' ', '\t', '\r', '\n', ':', '.', '+', '-', '*', '/', '%', '&', '!', '|', '?', '>', '<', ';']
-            } else if (seporators == "TIME") {
-                seporators = [" ", "\r", "\n", "\t", ":", "-", ","];
-            } else if (seporators == "NAT") {
-                seporators = [" ", "\t", ":", ",", ".", ";", "\n", "\r", "?", "!", '"', "'", "<", ">", "(", ")", "[", "]"];
+            } else if (separators === "TIME") {
+                separators = [" ", "\r", "\n", "\t", ":", "-", ","];
+            } else if (separators === "NAT") {
+                separators = [" ", "\t", ":", ",", ".", ";", "\n", "\r", "?", "!", '"', "'", "<", ">", "(", ")", "[", "]"];
             }
             var ret = [];
             var curr = "";
             for (var i = 0; i < string.length; ++i) {
-                var index = i + 3 < string.length ? seporators.contains(string.slice(i, i + 4)) : false;
+                var index = i + 3 < string.length ? separators.contains(string.slice(i, i + 4)) : false;
                 if (index === false)
-                    index = i + 2 < string.length ? seporators.contains(string.slice(i, i + 3)) : false;
+                    index = i + 2 < string.length ? separators.contains(string.slice(i, i + 3)) : false;
                 if (index === false)
-                    index = i + 1 < string.length ? seporators.contains(string.slice(i, i + 2)) : false;
+                    index = i + 1 < string.length ? separators.contains(string.slice(i, i + 2)) : false;
                 if (index === false)
-                    index = i < string.length ? seporators.contains(string[i]) : false;
+                    index = i < string.length ? separators.contains(string[i]) : false;
                 if (index === false)
                     curr += string[i];
                 else {
                     if (curr !== "")
                         ret.push(curr);
-                    ret.push(seporators[index]);
+                    ret.push(separators[index]);
                     curr = "";
-                    i += seporators[index].length - 1;
+                    i += separators[index].length - 1;
                 }
             }
             if (curr !== "") {
@@ -258,7 +258,7 @@
         }
     };
 
-    if (typeof require == "undefined") {
+    if (typeof require === "undefined") {
         libArmyAnt.log = output.log;
         libArmyAnt.warn = output.warn;
         libArmyAnt.assert = output.assert;

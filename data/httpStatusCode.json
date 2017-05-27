@@ -64,6 +64,6 @@
     "notExtended":510
   },
   {
-    "unparseableResponseHeaders":600
+    "unparsableResponseHeaders": 600
   }
 ]

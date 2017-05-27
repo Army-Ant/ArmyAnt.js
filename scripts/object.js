@@ -13,7 +13,7 @@
 (function() {
 
     var libArmyAnt;
-    if (typeof require != "undefined")
+    if (typeof require !== "undefined")
         libArmyAnt = require("./global.js");
     else
         libArmyAnt = window.libArmyAnt;
@@ -35,13 +35,12 @@
     newObject.inherit = function (extend) {
         var parent = this;
         var ret = function () {
-            var newBase = {};
-            if (typeof this["__objectProperties__"] != "undefined") {
+            if (typeof this["__objectProperties__"] !== "undefined") {
                 for (var k in this["__objectProperties__"]) {
                     if (!this["__objectProperties__"].hasOwnProperty(k))
                         continue;
                     var oldObj = this["__objectProperties__"][k];
-                    if (typeof this["__objectProperties__"][k] == "object") {
+                    if (typeof this["__objectProperties__"][k] === "object") {
                         Object.copyTo(oldObj, this, k);
                     } else {
                         this[k] = oldObj;
@@ -53,21 +52,21 @@
         };
         for (var k in parent.prototype) {
             if (parent.prototype.hasOwnProperty(k))
-                if (k == "__objectProperties__")
+                if (k === "__objectProperties__")
                     Object.copyTo(parent.prototype[k], ret.prototype, k);
                 else
                     ret.prototype[k] = parent.prototype[k];
         }
         for (var k in extend) {
             if (extend.hasOwnProperty(k))
-                if (k == "__objectProperties__")
+                if (k === "__objectProperties__")
                     libArmyAnt.warn("There is a property named '" + k + "' !");
-                else if (typeof extend[k] == "object") {
+                else if (typeof extend[k] === "object") {
                     Object.copyTo(extend[k], ret.prototype["__objectProperties__"], k);
                 }
-                else if (typeof extend[k] == "function") {
+                else if (typeof extend[k] === "function") {
                     ret.prototype[k] = extend[k];
-                    if (typeof ret.prototype["__objectProperties__"][k] != "undefined")
+                    if (typeof ret.prototype["__objectProperties__"][k] !== "undefined")
                         delete ret.prototype["__objectProperties__"][k];
                 }
                 else
@@ -76,7 +75,7 @@
         ret.inherit = newObject.inherit.bind(ret);
         ret.extendSingleton = newObject.extendSingleton;
         return ret;
-    }
+    };
 
     newObject.extendSingleton = function (extend) {
         var newArgs = Object.copy(arguments);
@@ -87,16 +86,16 @@
         var ret = new this(newArgs);
         for (var k in extend) {
             if (extend.hasOwnProperty(k))
-                if (typeof extend[k] == "object") {
+                if (typeof extend[k] === "object") {
                     Object.copyTo(extend[k], ret, k);
                 }
                 else
                     ret[k] = extend[k];
         }
         return ret;
-    }
+    };
 
-    if (typeof require == "undefined") {
+    if (typeof require === "undefined") {
         libArmyAnt.Object = newObject;
         libArmyAnt._onInitialized();
     } else {
