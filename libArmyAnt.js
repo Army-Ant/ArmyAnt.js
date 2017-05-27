@@ -37,10 +37,10 @@
              * 本库的版本号
              */
             version: {
-                major: 0,
+                major: 1,
                 minor: 0,
                 publish: 0,
-                build: 2,
+                build: 0,
                 toNumeric: function () {
                     return this.major * 256 * 256 * 256 + this.minor * 256 * 256 + this.publish * 256 + this.build;
                 },
