@@ -27,7 +27,7 @@
 
 (function () {
 
-    var libArmyAnt;
+    let libArmyAnt;
     if (typeof require == "undefined")
         libArmyAnt = window.libArmyAnt;
     else {
@@ -39,7 +39,7 @@
      *
      *
      */
-    var HttpClient = libArmyAnt.Object.inherit({
+    let HttpClient = libArmyAnt.Object.inherit({
         serverURL: "http://127.0.0.1:80",
         beforeSend: null,    // function(XMLHttpRequest), used to change the XMLHttpRequest parameters, before the request sends
         complete: null, // function(XMLHttpRequest, requestType), used to resolve something after called back and before you resolve result
@@ -75,7 +75,7 @@
         _getAjaxParams: function (isSync, type, param, data, contentType, username, password) {
             if (!type)
                 type = HttpClient.functionType.get;
-            var ret = {
+            let ret = {
                 type: type,
                 url: this._getUrlByParams(param)
             }

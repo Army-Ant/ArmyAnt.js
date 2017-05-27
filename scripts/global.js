@@ -33,7 +33,7 @@
      * Defined some global complement functions, need to do function working in node.js
      * 定义了一些对全局量的补充方法，因此在node.js下用立即执行的全局方法来生效
      */
-    var running = function () {
+    let running = function () {
         if (typeof this.Object.copy === "undefined" || !this.Object.copy)
             /**
              * clone the object with its every child member. Each array and object in its children will also clone recursively
@@ -46,8 +46,8 @@
             this.Object.copy = function (obj) {
                 if (!obj)
                     return obj;
-                var ret = Object.create(obj);
-                for (var k in obj) {
+                let ret = Object.create(obj);
+                for (let k in obj) {
                     if (obj.hasOwnProperty(k))
                         if (typeof obj[k] === "object")
                             Object.copyTo(obj[k], ret, k);
@@ -63,7 +63,7 @@
                 return true;
             }
             dst[dstKey] = Object.create(src);
-            for (var k in src) {
+            for (let k in src) {
                 if (src.hasOwnProperty(k))
                     if (typeof src[k] === "object")
                         Object.copyTo(src[k], dst[dstKey], k);
@@ -82,8 +82,8 @@
         this.Object.keySet = function (obj) {
             if (obj === null)
                 return null;
-            var ret = [];
-            for (var k in obj) {
+            let ret = [];
+            for (let k in obj) {
                 ret.push(k);
             }
             return ret;
@@ -99,7 +99,7 @@
         this.Object.contains = function (obj, value) {
             if (obj === null)
                 return false;
-            for (var k in obj) {
+            for (let k in obj) {
                 if (obj[k] === value)
                     return k;
             }
@@ -109,8 +109,8 @@
         this.Array.prototype.copy = function () {
             if (this === null)
                 return null;
-            var ret = new Array(this.length);
-            for (var i = 0; i < this.length; i++) {
+            let ret = new Array(this.length);
+            for (let i = 0; i < this.length; i++) {
                 switch (typeof this[i]) {
                     case "undefined":
                         break;
@@ -125,7 +125,7 @@
         };
 
         this.Array.prototype.contains = function (value) {
-            for (var i = 0; i < this.length; i++) {
+            for (let i = 0; i < this.length; i++) {
                 if (this[i] === value)
                     return i;
             }
@@ -135,8 +135,8 @@
         this.Array.prototype.removeAt = function (index) {
             if (index < 0)
                 return false;
-            var ret = this[index];
-            for (var i = index + 1; i < this.length; i++) {
+            let ret = this[index];
+            for (let i = index + 1; i < this.length; i++) {
                 this[i - 1] = this[i];
             }
             this.pop();
@@ -144,10 +144,10 @@
         };
 
         this.Array.prototype.remove = function (value) {
-            var ret = 0;
-            for (var i = 0; i < this.length; ++i) {
+            let ret = 0;
+            for (let i = 0; i < this.length; ++i) {
                 if (this[i] === value) {
-                    var j;
+                    let j;
                     for (j = i + 1; j < this.length; ++j) {
                         this[j - 1] = this[j];
                     }
@@ -167,8 +167,8 @@
          */
         if (!this.Function.prototype.bind)
             this.Function.prototype.bind = function (thisBind) {
-                var self = this;
-                var selfBind = thisBind;
+                let self = this;
+                let selfBind = thisBind;
 
                 return function () {
                     return self.apply(selfBind, arguments);
@@ -177,14 +177,14 @@
     };
 
     // This variable will be replaced after whole library loaded OK in node.js, and at once in web pages
-    var debugMode = 0;
+    let debugMode = 0;
     if (typeof require === "undefined")
         debugMode = libArmyAnt.config["debugMode"];
 
     /**
      * Root properties in this library;
      */
-    var output = {
+    let output = {
 
         /**
          * Print debug messages with setting mode
@@ -195,7 +195,7 @@
          */
 
         _print: function (mode, array) {
-            var modeNum = 0;
+            let modeNum = 0;
             switch (debugMode) {
                 case "log":
                     modeNum = 1;
@@ -213,8 +213,8 @@
                     modeNum = 0;
                     return;
             }
-            var ret = "ArmyAnt : ";
-            for (var i = 0; i < array.length; i++) {
+            let ret = "ArmyAnt : ";
+            for (let i = 0; i < array.length; i++) {
                 ret += " " + array[i];
             }
             switch (mode) {
@@ -266,10 +266,10 @@
             } else if (separators === "NAT") {
                 separators = [" ", "\t", ":", ",", ".", ";", "\n", "\r", "?", "!", '"', "'", "<", ">", "(", ")", "[", "]"];
             }
-            var ret = [];
-            var curr = "";
-            for (var i = 0; i < string.length; ++i) {
-                var index = i + 3 < string.length ? separators.contains(string.slice(i, i + 4)) : false;
+            let ret = [];
+            let curr = "";
+            for (let i = 0; i < string.length; ++i) {
+                let index = i + 3 < string.length ? separators.contains(string.slice(i, i + 4)) : false;
                 if (index === false)
                     index = i + 2 < string.length ? separators.contains(string.slice(i, i + 3)) : false;
                 if (index === false)

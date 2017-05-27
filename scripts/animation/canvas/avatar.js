@@ -37,7 +37,7 @@
          * @param parent
          */
         draw:function(context, parent){
-            var type = libArmyAnt.animation.IAvatar.Type;
+            let type = libArmyAnt.animation.IAvatar.Type;
             if(typeof this.args.strokeColor != "undefined" && this.args.strokeColor) {
                 context.strokeStyle = this.args.strokeColor;
                 context.strokeRect(parent.x, parent.y, parent.width, parent.height);

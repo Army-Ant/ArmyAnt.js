@@ -32,7 +32,7 @@
  */
 (function() {
 
-    var libArmyAnt;
+    let libArmyAnt;
     if (typeof require == "undefined")
         libArmyAnt = window.libArmyAnt;
     else {
@@ -40,7 +40,7 @@
         libArmyAnt.Object = require("../object.js");
     }
 
-    var JsonParser = libArmyAnt.Object.inherit({
+    let JsonParser = libArmyAnt.Object.inherit({
         url: null,
         data: null,
 

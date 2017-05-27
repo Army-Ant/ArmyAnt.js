@@ -35,13 +35,13 @@
 
 (function() {
 
-    var libArmyAnt;
+    let libArmyAnt;
     if (typeof require !== "undefined")
         libArmyAnt = require("./global.js");
     else
         libArmyAnt = window.libArmyAnt;
 
-    var newObject = function () {
+    let newObject = function () {
         return this;
     };
     newObject.prototype.ctor = function () {
@@ -56,13 +56,13 @@
      * @returns {class}
      */
     newObject.inherit = function (extend) {
-        var parent = this;
-        var ret = function () {
+        let parent = this;
+        let ret = function () {
             if (typeof this["__objectProperties__"] !== "undefined") {
-                for (var k in this["__objectProperties__"]) {
+                for (let k in this["__objectProperties__"]) {
                     if (!this["__objectProperties__"].hasOwnProperty(k))
                         continue;
-                    var oldObj = this["__objectProperties__"][k];
+                    let oldObj = this["__objectProperties__"][k];
                     if (typeof this["__objectProperties__"][k] === "object") {
                         Object.copyTo(oldObj, this, k);
                     } else {
@@ -73,14 +73,14 @@
             this.ctor.apply(this, arguments);
             return this;
         };
-        for (var k in parent.prototype) {
+        for (let k in parent.prototype) {
             if (parent.prototype.hasOwnProperty(k))
                 if (k === "__objectProperties__")
                     Object.copyTo(parent.prototype[k], ret.prototype, k);
                 else
                     ret.prototype[k] = parent.prototype[k];
         }
-        for (var k in extend) {
+        for (let k in extend) {
             if (extend.hasOwnProperty(k))
                 if (k === "__objectProperties__")
                     libArmyAnt.warn("There is a property named '" + k + "' !");
@@ -101,13 +101,13 @@
     };
 
     newObject.extendSingleton = function (extend) {
-        var newArgs = Object.copy(arguments);
-        for (var i = 0; i < newArgs.length - 1; ++i) {
+        let newArgs = Object.copy(arguments);
+        for (let i = 0; i < newArgs.length - 1; ++i) {
             newArgs[i] = newArgs[i + 1];
         }
         newArgs[newArgs.length - 1] = undefined;
-        var ret = new this(newArgs);
-        for (var k in extend) {
+        let ret = new this(newArgs);
+        for (let k in extend) {
             if (extend.hasOwnProperty(k))
                 if (typeof extend[k] === "object") {
                     Object.copyTo(extend[k], ret, k);

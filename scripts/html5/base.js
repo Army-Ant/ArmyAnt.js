@@ -29,7 +29,7 @@
 
 (function() {
 
-    var libArmyAnt;
+    let libArmyAnt;
     if (typeof require == "undefined")
         libArmyAnt = window.libArmyAnt;
     else {
@@ -37,12 +37,12 @@
         libArmyAnt.Object = require("../object.js");
     }
 
-    var HTML5 = libArmyAnt.Object.extendSingleton({
+    let HTML5 = libArmyAnt.Object.extendSingleton({
         modal: "assets/modals.html",
         data: null,
 
         ctor: function () {
-            var self = this;
+            let self = this;
             if (libArmyAnt.nodeJs) {
                 self.data = libArmyAnt.nodeJs.fs["readFile"]("../" + this.modal, function (err, filedata) {
                     self.data = filedata;

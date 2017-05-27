@@ -61,18 +61,18 @@ libArmyAnt.animation.Canvas.Node = libArmyAnt.animation.INode.inherit({
     },
 
     setParent: function (parentNode) {
-        var tg = this.getThisTag();
+        let tg = this.getThisTag();
         this.parent = parentNode;
         this.parent.children.put(tg, parentNode);
         return true;
     },
 
     refresh: function () {
-        for (var index = this.children.getMinIndex(); index !== null; index = this.children.getNextIndex(index)) {
-            var children = this.children.getByIndex(index);
+        for (let index = this.children.getMinIndex(); index !== null; index = this.children.getNextIndex(index)) {
+            let children = this.children.getByIndex(index);
             if (children)
-                for (var k = 0; k < children.length; ++k) {
-                    var node = this.children.get(children[k]);
+                for (let k = 0; k < children.length; ++k) {
+                    let node = this.children.get(children[k]);
                     if (node && node.shown)
                         node.refresh();
                 }

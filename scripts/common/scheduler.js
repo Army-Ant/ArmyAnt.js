@@ -34,7 +34,7 @@
 
 (function() {
 
-    var libArmyAnt;
+    let libArmyAnt;
     if (typeof require == "undefined")
         libArmyAnt = window.libArmyAnt;
     else {
@@ -42,7 +42,7 @@
         libArmyAnt.Object = require("../object.js");
     }
 
-    var Scheduler = libArmyAnt.Object.inherit({
+    let Scheduler = libArmyAnt.Object.inherit({
         delayTime: 0.001,
         callFunc: null,
 
@@ -123,7 +123,7 @@
         },
 
         _callback: function () {
-            var nd = Date.parse(new Date());
+            let nd = Date.parse(new Date());
             this.callFunc(nd - this._lastTime);
             this._lastTime = nd;
         }

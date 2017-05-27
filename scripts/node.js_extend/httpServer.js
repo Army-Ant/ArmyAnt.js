@@ -27,7 +27,7 @@
 
 (function() {
 
-    var libArmyAnt = require("../global.js");
+    let libArmyAnt = require("../global.js");
     libArmyAnt.Object = require("../object.js");
     libArmyAnt.File = require("./file.js");
     libArmyAnt.JsonParser = require("../common/jsonParser.js");
@@ -36,7 +36,7 @@
 	 *
 	 *
 	 */
-    var HttpServer = libArmyAnt.Object.inherit({
+    let HttpServer = libArmyAnt.Object.inherit({
         port: 80,
         listening: false,
         listenFunc: null,
@@ -68,7 +68,7 @@
             }
             while (!this.listening) {
                 try {
-                    var server = libArmyAnt.nodeJs.http.createServer(this._reqResp.bind(this));
+                    let server = libArmyAnt.nodeJs.http.createServer(this._reqResp.bind(this));
                     server.listen(this.port);
                 } catch (err) {
                     libArmyAnt.warn("The port ", this.port, " is busy, try to open the port " + ++this.port);
@@ -146,12 +146,12 @@
         },
 
         _on_download: function (request, response, isOnlyHead, beforeMethod, afterMethod) {
-            var pn = HttpServer.getParamByUrl(request.url).pathname.substr(1);
-            var retCode = 0;
+            let pn = HttpServer.getParamByUrl(request.url).pathname.substr(1);
+            let retCode = 0;
             if (beforeMethod)
                 pn = beforeMethod(request, response, pn);
             // Parse the request containing file name
-            var contentType = null;
+            let contentType = null;
             if (pn)
                 contentType = HttpServer.getContentTypeByPathname(pn);
             libArmyAnt.log("Get request for ", HttpServer.getParamByUrl(request.url).pathname.substr(1), ", type: ", contentType ? contentType : "unknown");
@@ -160,7 +160,7 @@
                 libArmyAnt.File.readFile(libArmyAnt.config.rootDir + pn, function (success, data) {
                     retCode = success ? 200 : 404;
                     if (afterMethod) {
-                        var options = null;
+                        let options = null;
                         options = afterMethod(request, response, retCode, contentType, data);
                         if (options.hasOwnProperty("retCode"))
                             retCode = options.returnCode;
@@ -186,7 +186,7 @@
                 return;
             }
             retCode = pn ? 200 : 404;
-            var options = null;
+            let options = null;
             if (!afterMethod)
                 afterMethod = function(){return {data:" "}};
 			options = afterMethod(request, response, retCode, contentType);
@@ -204,7 +204,7 @@
 
         _on_upload: function (request, response, beforeMethod, afterMethod, methodName) {
             request.setEncoding("utf-8");
-            var retCode = 0;
+            let retCode = 0;
             if (beforeMethod)
                 retCode = beforeMethod(request, response);
             if (retCode) {
@@ -214,12 +214,12 @@
                 return;
             }
             if (methodName != libArmyAnt.HttpClient.functionType.delete) {
-                var postData = "";
+                let postData = "";
                 request.addListener("data", function (postDataChunk) {
                     postData += postDataChunk;
                 });
                 request.addListener("end", function () {
-                    // var dataParam = libArmyAnt.nodeJs.querystring.parse(postData);
+                    // let dataParam = libArmyAnt.nodeJs.querystring.parse(postData);
                     if (afterMethod)
                         retCode = afterMethod(request, response, 200, postData);
                     else
@@ -240,7 +240,7 @@
         }
     });
 
-    var dt = new libArmyAnt.JsonParser();
+    let dt = new libArmyAnt.JsonParser();
     dt.loadJson("../../data/contentType.json");
     HttpServer._content = dt.data;
     dt = new libArmyAnt.JsonParser();
@@ -252,7 +252,7 @@
     };
 
     HttpServer.getContentTypeByPathname = function (pathname) {
-        var ext = pathname.split('.')[pathname.split('.').length - 1];
+        let ext = pathname.split('.')[pathname.split('.').length - 1];
         return HttpServer._content[0][ext] ? HttpServer._content[0][ext] : HttpServer._content[1];
     };
 

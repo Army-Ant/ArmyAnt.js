@@ -32,7 +32,7 @@ libArmyAnt.animation.ImageManager = libArmyAnt.Object.inherit({
     },
 
     updateImage: function (tag, url) {
-        var newImg = new Image();
+        let newImg = new Image();
         newImg.onload = function () {
             this.resourceList[tag] = newImg;
         };

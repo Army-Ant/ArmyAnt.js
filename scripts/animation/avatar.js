@@ -57,7 +57,7 @@ libArmyAnt.animation.IAvatar.Action = {
 };
 
 libArmyAnt.animation.IAvatar.create = function (animationType, avatarType, args) {
-    var ret = null;
+    let ret = null;
     switch (animationType) {
         case libArmyAnt.animation.realization.canvas:
             ret = new libArmyAnt.animation.Canvas.Avatar();

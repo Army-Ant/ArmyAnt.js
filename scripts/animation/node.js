@@ -53,7 +53,7 @@ libArmyAnt.animation.INode = libArmyAnt.Object.inherit({
 
     _timerFunc: function (dt) {
         this.update(dt);
-        for (var k in this.children.lists.length) {
+        for (let k in this.children.lists.length) {
             if (this.children.lists[k].running)
                 this.children.lists[k]._timerFunc(dt);
         }

@@ -54,7 +54,7 @@
          */
         if (typeof require !== "undefined")
             global.$ = require('jquery');
-        var libArmyAnt = {
+        let libArmyAnt = {
 
             /**
              * The version of library
@@ -135,8 +135,8 @@
                         if (err) {
                             console.error("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + "data/libConfig.json failed !");
                         } else {
-                            var data = JSON.parse(jsonData);
-                            for (var key in data[0]) {
+                            let data = JSON.parse(jsonData);
+                            for (let key in data[0]) {
                                 if (data[0].hasOwnProperty(key))
                                     libArmyAnt.config[key] = data[0][key];
                             }
@@ -147,9 +147,9 @@
                         if (err) {
                             console.error("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + "data/libInfo.json failed !");
                         } else {
-                            var data = JSON.parse(jsonData);
+                            let data = JSON.parse(jsonData);
                             libArmyAnt._onInitializingModules += data[0]["libFiles"].length + data[0]["nodeJsFiles"].length;
-                            for (var key in data[0]) {
+                            for (let key in data[0]) {
                                 if (data[0].hasOwnProperty(key))
                                     libArmyAnt.info[key] = data[0][key];
                             }
@@ -164,7 +164,7 @@
                         async: false,
                         dataType: "json",
                         success: function (data) {
-                            for (var key in data[0]) {
+                            for (let key in data[0]) {
                                 if (data[0].hasOwnProperty(key))
                                     libArmyAnt.config[key] = data[0][key];
                             }
@@ -184,7 +184,7 @@
                         success: function (data) {
                             //load all library files
                             libArmyAnt._onInitializingModules += data[0]["libFiles"].length + data[0]["webPageFiles"].length;
-                            for (var key in data[0]) {
+                            for (let key in data[0]) {
                                 if (data[0].hasOwnProperty(key))
                                     libArmyAnt.info[key] = data[0][key];
                             }
@@ -208,17 +208,17 @@
                     this._onInitializedModules = 0;
                     return;
                 }
-                var rootPath = this.config.dataRootDir;
+                let rootPath = this.config.dataRootDir;
                 if (this.nodeJs) {
-                    for (var i = 0; i < this.info["libFiles"].length; ++i) {
+                    for (let i = 0; i < this.info["libFiles"].length; ++i) {
                         ++this._onInitializedModules;
                         if (this.info["libFiles"][i].name === null) {
                             console.log("ArmyAnt : Library " + this.info["libFiles"][i].path + " will be loaded later.");
                             continue;
                         }
                         if (this.info["libFiles"][i].name === "") {
-                            var ret = this.importScript('./' + this.info["libFiles"][i].path);
-                            for (var k in ret) {
+                            let ret = this.importScript('./' + this.info["libFiles"][i].path);
+                            for (let k in ret) {
                                 if (ret.hasOwnProperty(k) && !this[k])
                                     this[k] = ret[k];
                             }
@@ -227,7 +227,7 @@
                             this[this.info["libFiles"][i].name] = this.importScript('./' + this.info["libFiles"][i].path);
                         }
                     }
-                    for (var i = 0; i < this.info["nodeJsFiles"].length; ++i) {
+                    for (let i = 0; i < this.info["nodeJsFiles"].length; ++i) {
                         ++this._onInitializedModules;
                         if (this.info["nodeJsFiles"][i].name === null) {
                             console.log("ArmyAnt : Library " + this.info["nodeJsFiles"][i].path + " will be loaded later.");
@@ -243,8 +243,8 @@
                         this.config.onLibLoad();
                     return;
                 }
-                var currMod = null;
-                var libFileLength = this.info["libFiles"].length;
+                let currMod = null;
+                let libFileLength = this.info["libFiles"].length;
                 do {
                     if (this._onInitializedModules < libFileLength)
                         currMod = this.info["libFiles"][this._onInitializedModules];
@@ -284,9 +284,9 @@
             insertElement: function (typename, parentElem, properties) {
                 if (this.nodeJs)
                     return null;
-                var insertingElem = document.createElement(typename);
+                let insertingElem = document.createElement(typename);
                 if (properties) {
-                    for (var key in properties) {
+                    for (let key in properties) {
                         insertingElem[key] = properties[key];
                     }
                 }

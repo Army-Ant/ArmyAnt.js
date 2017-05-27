@@ -30,7 +30,7 @@ libArmyAnt.animation = libArmyAnt.Object.extendSingleton({
     data: null,
 
     ctor: function () {
-        var self = this;
+        let self = this;
         $.ajax({
             type: "get",
             url: libArmyAnt.config.dataRootDir + this.style,

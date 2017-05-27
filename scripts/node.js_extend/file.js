@@ -27,7 +27,7 @@
 
 (function() {
 
-    var libArmyAnt = require("../global.js");
+    let libArmyAnt = require("../global.js");
     libArmyAnt.Object = require("../object.js");
 
     /**
@@ -36,7 +36,7 @@
      * @type {class}
      */
 
-    var File = libArmyAnt.Object.inherit({
+    let File = libArmyAnt.Object.inherit({
         filename: "",
         file_descriptor: null,
         file_stats: null,
@@ -162,8 +162,8 @@
         readAllTextSync: function () {
             if (!this.file_descriptor)
                 return null;
-            var ret = Buffer.alloc(this.file_stats.size + 1);
-            var err = libArmyAnt.nodeJs.fs.readSync(this.file_descriptor, ret, 0, this.file_stats.size + 1, 0);
+            let ret = Buffer.alloc(this.file_stats.size + 1);
+            let err = libArmyAnt.nodeJs.fs.readSync(this.file_descriptor, ret, 0, this.file_stats.size + 1, 0);
             if (err) {
                 libArmyAnt.warn("Error in reading file ", this.filename, " , error code: ", err.code, ", error message: ", err.message);
                 return null;

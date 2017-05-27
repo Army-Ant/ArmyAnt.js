@@ -77,7 +77,7 @@ libArmyAnt.animation.IMaker = libArmyAnt.Object.inherit({
 
     _timerFunc: function (dt) {
         this.update(dt);
-        for (var k in this.scenes.lists.length) {
+        for (let k in this.scenes.lists.length) {
             if (this.scenes.lists[k].running)
                 this.scenes.lists[k]._timerFunc(dt);
         }

@@ -29,7 +29,7 @@
 
 (function() {
 
-    var libArmyAnt;
+    let libArmyAnt;
     if (typeof require == "undefined")
         libArmyAnt = window.libArmyAnt;
     else {
@@ -37,7 +37,7 @@
         libArmyAnt.Object = require("../object.js");
     }
 
-    var Dialog = libArmyAnt.Object.inherit({
+    let Dialog = libArmyAnt.Object.inherit({
         title: "Message",
         type: 0,
         text: "",
@@ -60,7 +60,7 @@
         return: function () {
             this._dialog.children["dialog_title"].innerText = this.title;
             this._dialog.children["dialog_text"].innerText = this.text;
-            for (var i = 0; i < this.btnNames.length; i++) {
+            for (let i = 0; i < this.btnNames.length; i++) {
                 this._dialog.children["dialog_btn" + i].innerText = this.btnNames[i];
                 this._dialog.children["dialog_btn" + i].onclick = this.btnCallbacks[i];
             }

@@ -58,7 +58,7 @@ libArmyAnt.animation.Canvas = libArmyAnt.animation.IMaker.inherit({
 
     removeFromElem: function () {
         if (this.parentElem) {
-            var cvs = Object.copy(this.canvas);
+            let cvs = Object.copy(this.canvas);
             $(this.canvas).remove();
             this.canvas = cvs;
             this.context = this.canvas.getContext("2d");
@@ -66,7 +66,7 @@ libArmyAnt.animation.Canvas = libArmyAnt.animation.IMaker.inherit({
     },
 
     createScene: function (tag, x, y, width, height) {
-        var ret = new libArmyAnt.animation.Canvas.Scene(this, x, y, width, height);
+        let ret = new libArmyAnt.animation.Canvas.Scene(this, x, y, width, height);
         this.scenes.put(tag, ret);
         return ret;
     },
@@ -94,11 +94,11 @@ libArmyAnt.animation.Canvas = libArmyAnt.animation.IMaker.inherit({
     createBoneUnit: null,
 
     refresh: function () {
-        for (var index = this.scenes.getMinIndex(); index !== null; index = this.scenes.getNextIndex(index)) {
-            var scenes = this.scenes.getByIndex(index);
+        for (let index = this.scenes.getMinIndex(); index !== null; index = this.scenes.getNextIndex(index)) {
+            let scenes = this.scenes.getByIndex(index);
             if (scenes)
-                for (var k = 0; k < scenes.length; ++k) {
-                    var scene = this.scenes.get(scenes[k]);
+                for (let k = 0; k < scenes.length; ++k) {
+                    let scene = this.scenes.get(scenes[k]);
                     if (scene && scene.shown)
                         scene.refresh();
                 }

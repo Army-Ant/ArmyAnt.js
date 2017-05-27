@@ -31,7 +31,7 @@
  */
 (function() {
 
-    var libArmyAnt;
+    let libArmyAnt;
     if (typeof require != "undefined") {
         libArmyAnt = require("../global.js");
         libArmyAnt.Object = require("../object.js");
@@ -39,7 +39,7 @@
         libArmyAnt = window.libArmyAnt;
     }
 
-    var DateTime = libArmyAnt.Object.inherit({
+    let DateTime = libArmyAnt.Object.inherit({
         jsTime: null,
         timeZone: "GMT",
 
@@ -55,7 +55,7 @@
          *          如果第一个参数是ANSI-C格式的秒数, 则本参数传入时区代表字符串. 如不传, 则默认为GMT
          */
         ctor: function (httpStringOrCSeconds, formatTypeOrTimeZone) {
-            var tmp = formatTypeOrTimeZone;
+            let tmp = formatTypeOrTimeZone;
             if ((typeof httpStringOrCSeconds == "undefined" || !httpStringOrCSeconds) && (typeof formatTypeOrTimeZone == "undefined" || !formatTypeOrTimeZone))
                 this.jsTime = (new Date());
             else {
@@ -133,7 +133,7 @@
 
         _setFromHttpString: function (str, type) {
             // Parse to words
-            var words = libArmyAnt.parseToWords(str, "TIME");
+            let words = libArmyAnt.parseToWords(str, "TIME");
             if (!words)
                 return false;
 
@@ -150,7 +150,7 @@
             if (words.length !== 8 || (type == DateTime.TimeStringType.Ansi && words.length !== 7))
                 return false;
             if (((typeof type == "undefined" || !type) && (Number(words[2]) !== NaN && Number(words[1]) === NaN)) || (type === DateTime.TimeStringType.Ansi)) {
-                var tmp = words[1];
+                let tmp = words[1];
                 words[1] = words[2];
                 words[2] = tmp;
                 tmp = words[6];
@@ -166,7 +166,7 @@
 
             // Set time
             this.jsTime = new Date();
-            var year = parseInt(words[3], 10);
+            let year = parseInt(words[3], 10);
             if (year < 100)
                 year += (year >= 70 ? 1900 : 2000);
             this.jsTime.setYear(year);
