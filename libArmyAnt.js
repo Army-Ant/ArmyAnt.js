@@ -8,13 +8,28 @@
 /**
  *
  */
+(function () {
 
-if (!(typeof libArmyAnt !== "undefined" && libArmyAnt)) {
+    /**
+     * Check if the library is run on node.js or not
+     * 检查运行环境是否是nodeJS
+     * Warning: This library is incompatible with "require.js".
+     * 警告：本库不能与require.js相互兼容
+     * You do not need to use require.js when you use this library
+     * 本库拥有与require.js类似的功能，没必要与require.js同时使用
+     * This library depends on the jquery library. In web pages, you must add jquery script before this file
+     * 本库依赖于jQuery库。在网页环境下，你必须在载入本库（本文件）之前先载入jquery脚本（任何较新版本）
+     */
 
+    if (typeof require === "undefined" && typeof libArmyAnt !== "undefined" && libArmyAnt) {
+        console.warn('ArmyAnt : The module name "libArmyAnt" has been defined !');
+    } else {
         /**
          * The base variable node of all this libArmyAnt content
          * 本库的基本命名空间，根节点
          */
+        if (typeof require !== "undefined")
+            global.$ = require('jquery');
         var libArmyAnt = {
 
             /**
@@ -45,7 +60,7 @@ if (!(typeof libArmyAnt !== "undefined" && libArmyAnt)) {
                 url: require("url"),
                 fs: require("fs"),
                 child_process: require("child_process"),
-                querystring:require("querystring")
+                querystring: require("querystring"),
             },
 
             /**
@@ -69,25 +84,25 @@ if (!(typeof libArmyAnt !== "undefined" && libArmyAnt)) {
                  * Please change these string value when you use this library in your project
                  * 本库的一些路径参数，记录着你的项目的工作目录。只有设置正确，才能成功载入本库。
                  * 很多情况下，你不会（也不应该）把本库直接放置在工作目录的根目录，因此有必要对这些项进行配置
-				 * rootDir代表从你服务器脚本所在目录，到你的网站的前端根目录的相对路径
-				 * nodeRootDir代表从你服务器脚本所在目录，到本文件所在目录的相对路径
-				 * dataRootDir代表从你的网站的前端根目录，到本文件所在目录的相对路径
+                 * rootDir代表从你服务器脚本所在目录，到你的网站的前端根目录的相对路径
+                 * nodeRootDir代表从你服务器脚本所在目录，到本文件所在目录的相对路径
+                 * dataRootDir代表从你的网站的前端根目录，到本文件所在目录的相对路径
                  */
                 rootDir: "./",
                 nodeRootDir: "./",
                 dataRootDir: "./",
                 /**
                  * The function will be executed after the library is loaded ready
-                 * 这是本库载入成功后会立即执行的函数，可以认为是入口函数，或者是本库载入完毕的回调函数
+                 * 这是本库载入成功后会立即执行的方法，可以认为是入口方法，或者是本库载入完毕的回调方法
                  */
-                onLibLoad: function(){
-                        libArmyAnt._testLoad();
+                onLibLoad: function () {
+                    libArmyAnt._testLoad();
                 }
             },
 
             /**
              * The initialization function which called in library loading. Don't call it anyway others
-             * 载入时的初始化函数，这是自动调用的，不需要（也不应该）手动调用它
+             * 载入时的初始化方法，这是自动调用的，不需要（也不应该）手动调用它
              */
             init: function () {
                 // node.js环境下，调用系统API直接读取本地磁盘上的文件，HTML5环境下发送虚拟ajax请求获取json数据
@@ -131,7 +146,7 @@ if (!(typeof libArmyAnt !== "undefined" && libArmyAnt)) {
                             }
                             libArmyAnt._onInitialized();
                         },
-                        error:function(data, err, exception){
+                        error: function (data, err, exception) {
                             console.error("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + "data/libConfig.json failed !");
                             libArmyAnt._onInitialized();
                         }
@@ -151,7 +166,7 @@ if (!(typeof libArmyAnt !== "undefined" && libArmyAnt)) {
                             }
                             libArmyAnt._onInitialized();
                         },
-                        error:function(data, err, exception){
+                        error: function (data, err, exception) {
                             console.error("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + "data/libInfo.json failed !");
                             libArmyAnt._onInitialized();
                         }
@@ -159,33 +174,36 @@ if (!(typeof libArmyAnt !== "undefined" && libArmyAnt)) {
                 }
             },
 
+            // 需要载入的模块总数
             _onInitializingModules: 0,
-            _onInitializedModules:-1,
+            // 已经载入完毕的模块数
+            _onInitializedModules: -1,
+            // 模块载入方法，由init方法调用
             _onInitialized: function () {
-                if(this._onInitializedModules<0) {
+                if (this._onInitializedModules < 0) {
                     this._onInitializedModules = 0;
                     return;
                 }
                 var rootPath = this.config.dataRootDir;
-                if(this.nodeJs){
-                    for(var i=0;i<this.info["libFiles"].length;++i){
+                if (this.nodeJs) {
+                    for (var i = 0; i < this.info["libFiles"].length; ++i) {
                         ++this._onInitializedModules;
-                        if(this.info["libFiles"][i].name === null) {
-                            console.log("ArmyAnt : Library "+this.info["libFiles"][i].path+" will be loaded later.");
+                        if (this.info["libFiles"][i].name === null) {
+                            console.log("ArmyAnt : Library " + this.info["libFiles"][i].path + " will be loaded later.");
                             continue;
                         }
                         if (this.info["libFiles"][i].name === "") {
                             var ret = this.importScript('./' + this.info["libFiles"][i].path);
-                            for(var k in ret){
-                                if(ret.hasOwnProperty(k) && !this[k])
+                            for (var k in ret) {
+                                if (ret.hasOwnProperty(k) && !this[k])
                                     this[k] = ret[k];
                             }
                             ret.config.setDebugMode(this.config["debugMode"]);
-                        }else{
+                        } else {
                             this[this.info["libFiles"][i].name] = this.importScript('./' + this.info["libFiles"][i].path);
                         }
                     }
-                    for(var i=0;i<this.info["nodeJsFiles"].length;++i) {
+                    for (var i = 0; i < this.info["nodeJsFiles"].length; ++i) {
                         ++this._onInitializedModules;
                         if (this.info["nodeJsFiles"][i].name === null) {
                             console.log("ArmyAnt : Library " + this.info["nodeJsFiles"][i].path + " will be loaded later.");
@@ -237,7 +255,7 @@ if (!(typeof libArmyAnt !== "undefined" && libArmyAnt)) {
              *      The element you add
              *      返回你添加成功的元素引用。如果元素创建失败，返回null
              *      If you worked at node.js application, this function shall not work, and always returned null.
-             *      如果实在node.js环境中，则此函数将不起作用，并且总是返回null
+             *      如果是在node.js环境中，则此方法将不起作用，并且总是返回null
              */
             insertElement: function (typename, parentElem, properties) {
                 if (this.nodeJs)
@@ -280,6 +298,8 @@ if (!(typeof libArmyAnt !== "undefined" && libArmyAnt)) {
              * @return {HTMLElement}
              *      The style element reference in document
              *      返回添加成功的style元素的引用
+             *      If you worked at node.js application, this function shall not work, and always returned null.
+             *      如果是在node.js环境中，则此方法将不起作用，并且总是返回null
              */
             importStyle: function (url) {
                 console.log("ArmyAnt : load style " + url);
@@ -290,17 +310,18 @@ if (!(typeof libArmyAnt !== "undefined" && libArmyAnt)) {
                 });
             },
 
-            _testLoad:function(){
-                if(libArmyAnt.nodeJs)
+            // 以下方法用于测试
+            _testLoad: function () {
+                if (libArmyAnt.nodeJs)
                     global.serverHost.onStart();
                 else {
                     window._test_clicked = 0;
                     window._test = {};
                 }
             },
-            _test:function(){
+            _test: function () {
 
-                switch(window._test_clicked) {
+                switch (window._test_clicked) {
                     case 0:
                         //(new libArmyAnt.Scheduler(1)).run(function(dt){document.getElementById('tester').innerHTML += ('<br/>delayTime='+dt);});
                         window._test.cvs = libArmyAnt.animation.factory.getMaker(libArmyAnt.animation.realization.canvas,
@@ -317,26 +338,38 @@ if (!(typeof libArmyAnt !== "undefined" && libArmyAnt)) {
                         break;
                     case 2:
                         window.picture_img = new Image();
-                        window.picture_img.onload = function(){
+                        window.picture_img.onload = function () {
                             window._test.picture = libArmyAnt.animation.IAvatar.create(libArmyAnt.animation.realization.canvas,
-                                libArmyAnt.animation.IAvatar.Type.image, {img:window.picture_img, imgX:10, imgY:10});
+                                libArmyAnt.animation.IAvatar.Type.image, {img: window.picture_img, imgX: 10, imgY: 10});
                             window._test.scene.createSprite("pic", window._test.picture, 10, 10, 60, 60);
                             libArmyAnt.log("Picture avatar enjoyed");
                         }.bind(window.picture_img);
                         window.picture_img.src = "testResources/Actor01-Braver01_1_1.png";
                         break;
                 }
-               ++window._test_clicked;
+                ++window._test_clicked;
             }
         };
 
-        if(libArmyAnt.nodeJs)
+        // Automatically calls the initialization function
+        // 自动调用初始化方法
+        libArmyAnt.init();
+
+        /**
+         * Do different works in different environment.
+         * 不同环境下将采取不同操作
+         * Export whole library in node.js
+         * 在NodeJS下将export整个库
+         * Bind the whole library to global "window.libArmyAnt" in web pages
+         * 在网页环境下则会将库绑定到全局变量window.libArmyAnt上
+         * Some others files in this library which used in both node.js and web pages, also do this in theirs file ending
+         * 本库其他一些同时适用于NodeJS和前端页面的库也采用了此方式
+         */
+        if (libArmyAnt.nodeJs)
             module.exports = libArmyAnt;
         else
             window.libArmyAnt = libArmyAnt;
 
-        libArmyAnt.init();
+    }
 
-    } else {
-        console.warn('ArmyAnt : The module name "libArmyAnt" has been defined !');
-}
+})();

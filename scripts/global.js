@@ -6,6 +6,10 @@
 
 (function () {
 
+    /**
+     * Defined some global complement functions, need to do function working in node.js
+     * 定义了一些对全局量的补充方法，因此在node.js下用立即执行的全局方法来生效
+     */
     var running = function () {
         if (typeof this.Object.copy === "undefined" || !this.Object.copy)
             /**
@@ -132,23 +136,30 @@
 
         /**
          * Return the function itself whose "this" is bind to the target param
+         * This function is on stantard ECMAScript 5, but in some cases it is still needed
          * @param thisBind : *
          *                  Bind target the returned function's "this" will bind to
          * @returns {Function}
          */
-        this.Function.prototype.bind = function (thisBind) {
-            var self = this;
-            var selfBind = thisBind;
+        if (!this.Function.prototype.bind)
+            this.Function.prototype.bind = function (thisBind) {
+                var self = this;
+                var selfBind = thisBind;
 
-            return function () {
-                return self.apply(selfBind, arguments);
+                return function () {
+                    return self.apply(selfBind, arguments);
+                };
             };
-        };
     };
 
+    // This variable will be replaced after whole library loaded OK in node.js, and at once in web pages
     var debugMode = 0;
     if (typeof require === "undefined")
         debugMode = libArmyAnt.config["debugMode"];
+
+    /**
+     * Root properties in this library;
+     */
     var output = {
 
         /**
@@ -269,6 +280,7 @@
     } else {
         running.apply(global, null);
 
+        // In node.js, this js file used to replace the main library file, so redefined some root properties here
         output.nodeJs = {
             http: require("http"),
             url: require("url"),

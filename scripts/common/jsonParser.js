@@ -56,7 +56,7 @@
     });
 
     /**
-     * 调用此函数, 以在不创建对象的情况下, 异步读取json数据, 并将数据传入回调方法
+     * 调用此方法, 以在不创建对象的情况下, 异步读取json数据, 并将数据传入回调方法
      * @param url : String
      * @param callback : Function
      * @returns {*}

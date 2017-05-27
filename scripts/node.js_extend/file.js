@@ -7,16 +7,39 @@
     var libArmyAnt = require("../global.js");
     libArmyAnt.Object = require("../object.js");
 
+    /**
+     * The file reader included the simplified node.js file operation
+     * 封装了一些操作来简化node.js的文件操作
+     * @type {class}
+     */
+
     var File = libArmyAnt.Object.inherit({
         filename: "",
         file_descriptor: null,
         file_stats: null,
 
+        /**
+         * if new this object with params, the file will be open at the same time
+         * 如果构造函数带参，则会在创建此对象后立刻打开参数所指定的文件
+         * @param filename : {String}
+         *          The file opened when create the object, if need;
+         * @param callback : {Function} （See the function "open"）
+         *          The callback after file opened when create the object, if need;
+         */
         ctor: function (filename, callback) {
             if (filename)
                 this.open(filename, callback);
         },
 
+        /**
+         * Open the file
+         * 打开文件
+         * @param filename : {String}
+         *          If the filename is invalid, The file which is opened last time will be open again. If this is the first time to call "open", the open will return false
+         * @param callback : {Function}     undefined Function(isSuccess(boolean))
+         *          The callback will told you whether the file opened successful or not
+         * @returns {boolean}
+         */
         open: function (filename, callback) {
             if (this.file_descriptor)
                 return false;
@@ -43,6 +66,11 @@
             return true;
         },
 
+        /**
+         * Close the file
+         * @param callback : {Function}     undefined Function(isSuccess(boolean))
+         *          The callback will told you whether the file closed successful or not
+         */
         close: function (callback) {
             if (this.file_descriptor)
                 libArmyAnt.nodeJs.fs.close(this.file_descriptor, function (err) {
@@ -56,6 +84,18 @@
                 }.bind(this));
         },
 
+        /**
+         * Read data from the opened file
+         * @param buffer : {Buffer}
+         *          The node.js buffer that you want to receive the data read from this file
+         * @param pos : {Numeric}
+         *          The position in file that you want to read begin
+         * @param length : {Numeric}
+         *          The max data length that you want to read from file
+         * @param callback : {Function}     undefined Function(error(Error), bytesRead(Numeric), buffer(Buffer))
+         *          The function will be called after read success or failure. If failed, the error param will be not empty
+         * @returns {boolean} : If there is no file opened, the function will return false
+         */
         read: function (buffer, pos, length, callback) {
             if (!this.file_descriptor)
                 return false;
@@ -63,11 +103,23 @@
                 if (err) {
                     libArmyAnt.warn("Error in reading file ", this.filename, " , error code: ", err.code, ", error message: ", err.message);
                 }
-                callback(bytesRead, buffer);
+                callback(err, bytesRead, buffer);
             }.bind(this));
             return true;
         },
 
+        /**
+         * Write data to the opened file
+         * @param buffer : {Buffer}
+         *          The node.js buffer that you want to write data from
+         * @param pos : {Numeric}
+         *          The position in file that you want to write begin
+         * @param length : {Numeric}
+         *          The max data length that you want to write to file
+         * @param callback : {Function}     undefined Function(error(Error), bytesWritten(Numeric), buffer(Buffer))
+         *          The function will be called after write success or failure. If failed, the error param will be not empty
+         * @returns {boolean} : If there is no file opened, the function will return false
+         */
         write: function (buffer, pos, length, callback) {
             if (!this.file_descriptor)
                 return false;
@@ -75,22 +127,34 @@
                 if (err) {
                     libArmyAnt.warn("Error in writing file ", this.filename, " , error code: ", err.code, ", error message: ", err.message);
                 }
-                callback(bytesWritten, buffer);
+                callback(err, bytesWritten, buffer);
             }.bind(this));
             return true;
         },
 
+        /**
+         * Quickly read all text from the opened file sync.
+         * @returns {String}    The result will be returned here, or null will be returned if the file is not opened or file operation failed
+         */
         readAllTextSync: function () {
             if (!this.file_descriptor)
                 return null;
             var ret = Buffer.alloc(this.file_stats.size + 1);
             var err = libArmyAnt.nodeJs.fs.readSync(this.file_descriptor, ret, 0, this.file_stats.size + 1, 0);
-            if (err)
+            if (err) {
                 libArmyAnt.warn("Error in reading file ", this.filename, " , error code: ", err.code, ", error message: ", err.message);
+                return null;
+            }
             return ret.toString();
         }
     });
 
+    /**
+     * Static reading function to read whole file
+     * @param filepath : {String}
+     *          The file path you want to read from
+     * @param callback : {Function}     undefined Function(isSuccess(Boolean), data)
+     */
     File.readFile = function (filepath, callback) {
         libArmyAnt.nodeJs.fs.readFile(filepath, function (err, data) {
             if (err)

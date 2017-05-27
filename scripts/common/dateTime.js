@@ -28,7 +28,7 @@
          * @param formatTypeOrTimeZone : String ( DateTime.TimeStringType )
          *          The member of DateTime.TimeStringType, as the format of the HTTP string, it will be automatically judged if this param is null
          *          Or : The TimeZone string. If the first param is the ANSI-C time number, you need to input the time zone string, or the default time zone is "GMT"
-         *          如果第一个参数是HTTP的日期时间字符串, 则本参数传入字符串的类型,函数将按照指定类型进行解析.如不传,函数将逐一检测字符串的类型
+         *          如果第一个参数是HTTP的日期时间字符串, 则本参数传入字符串的类型,本方法将按照指定类型进行解析.如不传,则本方法将逐一检测字符串的类型
          *          如果第一个参数是ANSI-C格式的秒数, 则本参数传入时区代表字符串. 如不传, 则默认为GMT
          */
         ctor: function (httpStringOrCSeconds, formatTypeOrTimeZone) {

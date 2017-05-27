@@ -4,8 +4,8 @@
     var libArmyAnt = require("../global.js");
     libArmyAnt.Object = require("../object.js");
     libArmyAnt.File = require("./file.js");
-    libArmyAnt.JsonParser = require("../common/JsonParser");
-
+    libArmyAnt.JsonParser = require("../common/jsonParser.js");
+    libArmyAnt.HttpClient = require("../common/httpClient.js")
 	/*
 	 *
 	 *
@@ -58,28 +58,28 @@
             // Print the name of the file for which request is made.
             libArmyAnt.log("Request '", request.method, "' received !");
             switch (request.method) {
-                case 'GET':
+                case libArmyAnt.HttpClient.functionType.get:
                     this._onGet(request, response);
                     break;
-                case 'HEAD':
+                case libArmyAnt.HttpClient.functionType.head:
                     this._onHead(request, response);
                     break;
-                case 'PUT':
+                case libArmyAnt.HttpClient.functionType.put:
                     this._onPut(request, response);
                     break;
-                case 'POST':
+                case libArmyAnt.HttpClient.functionType.post:
                     this._onPost(request, response);
                     break;
-                case 'DELETE':
+                case libArmyAnt.HttpClient.functionType.delete:
                     this._onDelete(request, response);
                     break;
-                case 'OPTIONS':
+                case libArmyAnt.HttpClient.functionType.options:
                     this._onOptions(request, response);
                     break;
-                case 'TRACE':
+                case libArmyAnt.HttpClient.functionType.trace:
                     this._onTrace(request, response);
                     break;
-                case 'CONNECT':
+                case libArmyAnt.HttpClient.functionType.connect:
                     this._onConnect(request, response);
                     break;
                 default:
@@ -96,15 +96,15 @@
         },
 
         _onPost: function (request, response) {
-            this._on_upload(request, response, this.onPosting, this.onPost, "POST");
+            this._on_upload(request, response, this.onPosting, this.onPost, libArmyAnt.HttpClient.functionType.post);
         },
 
         _onPut: function (request, response) {
-            this._on_upload(request, response, this.onPutting, this.onPut, "PUT");
+            this._on_upload(request, response, this.onPutting, this.onPut, libArmyAnt.HttpClient.functionType.put);
         },
 
         _onDelete: function (request, response) {
-            this._on_upload(request, response, this.onDeleting, this.onDelete, "DELETE");
+            this._on_upload(request, response, this.onDeleting, this.onDelete, libArmyAnt.HttpClient.functionType.delete);
         },
 
         _onOptions: function (request, response) {
@@ -187,7 +187,7 @@
                 response.end();
                 return;
             }
-            if (methodName != "DELETE") {
+            if (methodName != libArmyAnt.HttpClient.functionType.delete) {
                 var postData = "";
                 request.addListener("data", function (postDataChunk) {
                     postData += postDataChunk;
