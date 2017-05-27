@@ -4,7 +4,7 @@
  * @date 2015/8/21
  */
 
-(function() {
+(function () {
 
     var running = function () {
         if (typeof this.Object.copy == "undefined" || !this.Object.copy)
@@ -17,27 +17,34 @@
              * @returns {Object}
              */
             this.Object.copy = function (obj) {
-                if (obj === null)
-                    return null;
-                var ret = {};
+                if (!obj)
+                    return obj;
+                var ret = Object.create(obj);
                 for (var k in obj) {
-                    if (!obj.hasOwnProperty(k))
-                        continue;
-                    switch (typeof obj[k]) {
-                        case "undefined":
-                            break;
-                        case "object":
-                            ret[k] = Object.copy(obj[k]);
-                            break
-                        case "array":
-                            ret[k] = obj[k].copy();
-                            break;
-                        default:
+                    if (obj.hasOwnProperty(k))
+                        if (typeof obj[k] == "object")
+                            Object.copyTo(obj[k], ret, k);
+                        else
                             ret[k] = obj[k];
-                    }
                 }
                 return ret;
             };
+
+        this.Object.copyTo = function (src, dst, dstKey) {
+            if (!src || !dst) {
+                dst[dstKey] = src;
+                return true;
+            }
+            dst[dstKey] = Object.create(src);
+            for (var k in src) {
+                if (src.hasOwnProperty(k))
+                    if (typeof src[k] == "object")
+                        Object.copyTo(src[k], dst[dstKey], k);
+                    else
+                        dst[dstKey][k] = src[k];
+            }
+            return true;
+        }
 
         /**
          * Get the set of all keys in the object
@@ -79,13 +86,9 @@
             for (var i = 0; i < this.length; i++) {
                 switch (typeof this[i]) {
                     case "undefined":
-                        ret[i] = null;
                         break;
                     case "object":
-                        ret[i] = Object.copy(this[i]);
-                        break;
-                    case "array":
-                        ret[i] = this[i].copy();
+                        Object.copyTo(this[i], ret, i);
                         break;
                     default:
                         ret[i] = this[i];
@@ -144,7 +147,7 @@
     };
 
     var debugMode = 0;
-    if(typeof require == "undefined")
+    if (typeof require == "undefined")
         debugMode = libArmyAnt.config["debugMode"];
     var output = {
 
@@ -271,12 +274,12 @@
             url: require("url"),
             fs: require("fs"),
             child_process: require("child_process"),
-            querystring:require("querystring")
+            querystring: require("querystring")
         };
         output.config = {
-            rootDir : "./",
+            rootDir: "./",
 
-            setDebugMode: function(dMode){
+            setDebugMode: function (dMode) {
                 debugMode = dMode;
             }
         };

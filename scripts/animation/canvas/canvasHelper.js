@@ -2,9 +2,8 @@
  * Created by Jason Zhao Jie on 2016/12/21.
  */
 
-libArmyAnt.animation.Canvas.canvasHelper = new (libArmyAnt.Object.inherit({
+libArmyAnt.animation.Canvas.canvasHelper = libArmyAnt.Object.extendSingleton({
     ctor: function () {
-        this.base.ctor();
     },
 
     RectPointStyle: {
@@ -15,6 +14,6 @@ libArmyAnt.animation.Canvas.canvasHelper = new (libArmyAnt.Object.inherit({
     },
 
     color: {}
-}))();
+});
 
 libArmyAnt._onInitialized();

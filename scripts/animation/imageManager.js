@@ -6,7 +6,6 @@ libArmyAnt.animation.ImageManager = libArmyAnt.Object.inherit({
     resourceList: {},
 
     ctor: function () {
-        this.base.ctor();
     },
 
     updateImage: function (tag, url) {

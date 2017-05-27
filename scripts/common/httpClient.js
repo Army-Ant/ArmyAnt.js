@@ -19,7 +19,6 @@
     var HttpClient = libArmyAnt.Object.inherit({
 
         ctor: function () {
-            this.base.ctor();
         }
 
     });

@@ -2,7 +2,7 @@
  * Created by Jason Zhao Jie on 2016/12/13.
  */
 
-libArmyAnt.animation.factory = new (libArmyAnt.Object.inherit({
+libArmyAnt.animation.factory = libArmyAnt.Object.extendSingleton({
     manager: [],
     refreshTime: 0.0166,
 
@@ -23,7 +23,7 @@ libArmyAnt.animation.factory = new (libArmyAnt.Object.inherit({
                 break;
         }
     }
-}));
+});
 
 
 libArmyAnt._onInitialized();

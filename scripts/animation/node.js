@@ -17,7 +17,6 @@ libArmyAnt.animation.INode = libArmyAnt.Object.inherit({
     children: null,
 
     ctor: function (parent, scene, zIndex, x, y, width, height) {
-        this.base.ctor();
         this.x = x;
         this.y = y;
         this.width = width;

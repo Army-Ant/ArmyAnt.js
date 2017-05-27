@@ -16,7 +16,6 @@
         children:null,
 
         ctor:function(parent, x, y, width, height, background){
-            this.base.ctor();
             this.x = x;
             this.y = y;
             this.width = width;

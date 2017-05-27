@@ -9,7 +9,6 @@ libArmyAnt.animation.IMaker = libArmyAnt.Object.inherit({
     parentElem: null,
 
     ctor: function (elem, width, height) {
-        this.base.ctor();
         this.scenes = new libArmyAnt.animation.TagIndexList();
         this.timer = new libArmyAnt.Scheduler(libArmyAnt.animation.factory.refreshTime);
         if (elem)

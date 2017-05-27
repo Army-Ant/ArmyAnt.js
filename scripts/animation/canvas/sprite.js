@@ -13,7 +13,7 @@ libArmyAnt.animation.Canvas.Sprite = libArmyAnt.animation.Canvas.Node.inherit({
     avatar: null,
 
     ctor: function (avatar, parent, scene, zIndex, x, y, width, height) {
-        this.base.ctor.bind(this)(parent, scene, zIndex, x, y, width, height);
+        libArmyAnt.animation.Canvas.Node.prototype.ctor.bind(this)(parent, scene, zIndex, x, y, width, height);
         this.avatar = avatar;
     },
 
@@ -21,7 +21,7 @@ libArmyAnt.animation.Canvas.Sprite = libArmyAnt.animation.Canvas.Node.inherit({
         if (this.avatar) {
             this.avatar.draw(this.scene.parent.context, this);
         }
-        this.base.refresh();
+        libArmyAnt.animation.Canvas.Node.prototype.refresh.apply(this);
     },
 
     update: function (dt) {

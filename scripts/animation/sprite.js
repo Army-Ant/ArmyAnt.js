@@ -14,7 +14,7 @@ libArmyAnt.animation.ISprite = libArmyAnt.animation.INode.inherit({
     avatar: null,
 
     ctor: function (avatar, parent, scene, zIndex, x, y, width, height) {
-        this.base.ctor(parent, scene, zIndex, x, y, width, height);
+        libArmyAnt.animation.INode.prototype.ctor.bind(this)(parent, scene, zIndex, x, y, width, height);
         this.avatar = avatar;
     }
 });

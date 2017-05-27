@@ -6,7 +6,7 @@
 libArmyAnt.animation.Canvas.Scene = libArmyAnt.animation.IScene.inherit({
 
     ctor: function (parent, x, y, width, height, background) {
-        this.base.ctor(parent, x, y, width, height, background);
+        libArmyAnt.animation.IScene.prototype.ctor.bind(this)(parent, x, y, width, height, background);
     },
 
     addNode: function (tag, node, x, y) {
@@ -40,7 +40,7 @@ libArmyAnt.animation.Canvas.Scene = libArmyAnt.animation.IScene.inherit({
 
     removeSelf: function () {
 
-        this.base.removeSelf();
+        libArmyAnt.animation.IScene.prototype.removeSelf.apply(this);
     },
 
     refresh: function () {

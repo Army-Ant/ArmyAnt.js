@@ -28,7 +28,6 @@
         _lastTime:0,
 
         ctor: function (dt) {
-            this.base.ctor();
             if (dt)
                 this.delayTime = dt;
         },

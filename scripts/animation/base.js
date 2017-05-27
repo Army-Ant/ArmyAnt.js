@@ -2,7 +2,7 @@
  * Created by Jason Zhao Jie on 2016/12/12.
  */
 
-libArmyAnt.animation = new (libArmyAnt.Object.inherit({
+libArmyAnt.animation = libArmyAnt.Object.extendSingleton({
     style: "assets/animation.css",
     data: null,
 
@@ -31,6 +31,6 @@ libArmyAnt.animation = new (libArmyAnt.Object.inherit({
         flash: "flash"
     }
 
-}));
+});
 
 libArmyAnt._onInitialized();

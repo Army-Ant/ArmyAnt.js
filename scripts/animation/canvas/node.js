@@ -5,7 +5,7 @@
 libArmyAnt.animation.Canvas.Node = libArmyAnt.animation.INode.inherit({
 
     ctor: function (parent, scene, zIndex, x, y, width, height) {
-        this.base.ctor(parent, scene, zIndex, x, y, width, height);
+        libArmyAnt.animation.INode.prototype.ctor.bind(this)(parent, scene, zIndex, x, y, width, height);
     },
 
     addChild: function (tag, node, x, y) {

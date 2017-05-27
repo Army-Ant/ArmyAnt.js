@@ -32,7 +32,6 @@
          *          如果第一个参数是ANSI-C格式的秒数, 则本参数传入时区代表字符串. 如不传, 则默认为GMT
          */
         ctor: function (httpStringOrCSeconds, formatTypeOrTimeZone) {
-            this.base.ctor();
             var tmp = formatTypeOrTimeZone;
             if ((typeof httpStringOrCSeconds == "undefined" || !httpStringOrCSeconds) && (typeof formatTypeOrTimeZone == "undefined" || !formatTypeOrTimeZone))
                 this.jsTime = (new Date());

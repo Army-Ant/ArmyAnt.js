@@ -30,7 +30,6 @@
 
 
         ctor: function () {
-            this.base.ctor();
         },
 
         start: function (port) {

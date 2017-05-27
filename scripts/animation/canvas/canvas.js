@@ -21,7 +21,7 @@ libArmyAnt.animation.Canvas = libArmyAnt.animation.IMaker.inherit({
         if (style)
             this.canvas.style = style;
         this.context = this.canvas.getContext("2d");
-        this.base.ctor(elem, width, height);
+        libArmyAnt.animation.IMaker.prototype.ctor.bind(this)(elem, width, height);
     },
 
     /**

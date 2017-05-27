@@ -14,7 +14,7 @@
         libArmyAnt.Object = require("../object.js");
     }
 
-    var HTML5 = libArmyAnt.Object.inherit({
+    var HTML5 = libArmyAnt.Object.extendSingleton({
         modal: "assets/modals.html",
         data: null,
 
@@ -41,7 +41,7 @@
     });
 
     if (typeof require == "undefined"){
-        libArmyAnt.HTML5 = new HTML5();
+        libArmyAnt.HTML5 = HTML5;
         libArmyAnt._onInitialized();
     }
     else {

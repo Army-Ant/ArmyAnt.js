@@ -24,7 +24,6 @@
         _dialog: null,
 
         ctor: function (text, title, type) {
-            this.base.ctor();
             this._getModal();
             this.title = title;
             this.text = text;

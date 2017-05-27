@@ -3,9 +3,9 @@
  */
 
 (function() {
-    this.libArmyAnt.animation.Canvas.Avatar = this.libArmyAnt.animation.IAvatar.inherit({
+    libArmyAnt.animation.Canvas.Avatar = libArmyAnt.animation.IAvatar.inherit({
         ctor:function() {
-            this.base.ctor();
+            libArmyAnt.animation.IAvatar.prototype.ctor.apply(this);
         },
 
         /**
@@ -68,5 +68,5 @@
         }
     });
 
-    this.libArmyAnt._onInitialized();
+    libArmyAnt._onInitialized();
 })();

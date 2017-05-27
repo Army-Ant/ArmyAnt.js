@@ -22,7 +22,6 @@
         data: null,
 
         ctor: function (url) {
-            this.base.ctor();
             if (url)
                 this.url = url;
         },
