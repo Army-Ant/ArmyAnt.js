@@ -35,7 +35,7 @@
 (function() {
 
     var libArmyAnt;
-    if (typeof require == "undefined")
+    if (typeof require === "undefined")
         libArmyAnt = window.libArmyAnt;
     else {
         libArmyAnt = require("../global.js");
@@ -129,7 +129,7 @@
         }
     });
 
-    if (typeof require == "undefined"){
+    if (typeof require === "undefined") {
         libArmyAnt.Scheduler = Scheduler;
         libArmyAnt._onInitialized();
     }

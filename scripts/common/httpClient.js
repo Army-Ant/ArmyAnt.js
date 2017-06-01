@@ -28,7 +28,7 @@
 (function () {
 
     var libArmyAnt;
-    if (typeof require == "undefined")
+    if (typeof require === "undefined")
         libArmyAnt = window.libArmyAnt;
     else {
         libArmyAnt = require("../global.js");
@@ -78,7 +78,7 @@
             var ret = {
                 type: type,
                 url: this._getUrlByParams(param)
-            }
+            };
             if (isSync)
                 ret.async = false;
             if (data)
@@ -112,9 +112,9 @@
         options: "OPTIONS",
         trace: "TRACE",
         connect: "CONNECT"
-    }
+    };
 
-    if (typeof require == "undefined") {
+    if (typeof require === "undefined") {
         libArmyAnt.HttpClient = HttpClient;
         libArmyAnt._onInitialized();
     }

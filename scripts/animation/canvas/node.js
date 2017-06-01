@@ -32,9 +32,9 @@ libArmyAnt.animation.Canvas.Node = libArmyAnt.animation.INode.inherit({
     },
 
     addChild: function (tag, node, x, y) {
-        if (typeof x == "number")
+        if (typeof x === "number")
             node.x = x;
-        if (typeof y == "number")
+        if (typeof y === "number")
             node.y = y;
         node.parent = this;
         node.scene = this.scene;

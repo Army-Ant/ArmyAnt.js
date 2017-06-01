@@ -73,12 +73,12 @@
             this.ctor.apply(this, arguments);
             return this;
         };
-        for (var k in parent.prototype) {
-            if (parent.prototype.hasOwnProperty(k))
-                if (k === "__objectProperties__")
-                    Object.copyTo(parent.prototype[k], ret.prototype, k);
+        for (var j in parent.prototype) {
+            if (parent.prototype.hasOwnProperty(j))
+                if (j === "__objectProperties__")
+                    Object.copyTo(parent.prototype[j], ret.prototype, j);
                 else
-                    ret.prototype[k] = parent.prototype[k];
+                    ret.prototype[j] = parent.prototype[j];
         }
         for (var k in extend) {
             if (extend.hasOwnProperty(k))

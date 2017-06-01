@@ -32,7 +32,7 @@
 (function() {
 
     var libArmyAnt;
-    if (typeof require != "undefined") {
+    if (typeof require !== "undefined") {
         libArmyAnt = require("../global.js");
         libArmyAnt.Object = require("../object.js");
     } else {
@@ -147,9 +147,9 @@
             words.remove(",");
 
             // Check words number
-            if (words.length !== 8 || (type == DateTime.TimeStringType.Ansi && words.length !== 7))
+            if (words.length !== 8 || (type === DateTime.TimeStringType.Ansi && words.length !== 7))
                 return false;
-            if (((typeof type == "undefined" || !type) && (Number(words[2]) !== NaN && Number(words[1]) === NaN)) || (type === DateTime.TimeStringType.Ansi)) {
+            if (((typeof type === "undefined" || !type) && (!Number.isNaN(Number(words[2])) && Number.isNaN(Number(words[1])))) || (type === DateTime.TimeStringType.Ansi)) {
                 var tmp = words[1];
                 words[1] = words[2];
                 words[2] = tmp;
@@ -220,7 +220,7 @@
         December: "Dec"
     };
 
-    if (typeof require == "undefined") {
+    if (typeof require === "undefined") {
         libArmyAnt.DateTime = DateTime;
         libArmyAnt._onInitialized();
     }

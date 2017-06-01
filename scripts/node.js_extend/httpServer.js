@@ -31,7 +31,7 @@
     libArmyAnt.Object = require("../object.js");
     libArmyAnt.File = require("./file.js");
     libArmyAnt.JsonParser = require("../common/jsonParser.js");
-    libArmyAnt.HttpClient = require("../common/httpClient.js")
+    libArmyAnt.HttpClient = require("../common/httpClient.js");
 	/*
 	 *
 	 *
@@ -60,7 +60,7 @@
 
         start: function (port) {
             if (port) {
-                if (typeof port == "number" && port > 0 && port < 65535)
+                if (typeof port === "number" && port > 0 && port < 65535)
                     this.port = port;
                 else {
                     libArmyAnt.error('Argument "port" is invalid in HttpServer.start! The value is ', port);
@@ -160,10 +160,9 @@
                 libArmyAnt.File.readFile(libArmyAnt.config.rootDir + pn, function (success, data) {
                     retCode = success ? 200 : 404;
                     if (afterMethod) {
-                        var options = null;
-                        options = afterMethod(request, response, retCode, contentType, data);
+                        var options = afterMethod(request, response, retCode, contentType, data);
                         if (options.hasOwnProperty("retCode"))
-                            retCode = options.returnCode;
+                            retCode = options["returnCode"];
                         if (options.hasOwnProperty("contentType"))
                             contentType = options.contentType;
                         if (options.hasOwnProperty("data"))
@@ -175,9 +174,9 @@
 
                     // Write the content of the file to response body
                     if (success || data)
-                        if (typeof data == "string")
+                        if (typeof data === "string")
                             response.write(data);
-                        else if (contentType.substr(0, 4) == "text" || contentType.substr(0, 11) == "application")
+                        else if (contentType.substr(0, 4) === "text" || contentType.substr(0, 11) === "application")
                             response.write(data.toString());
                         else
                             response.write(data, "binary");
@@ -186,12 +185,11 @@
                 return;
             }
             retCode = pn ? 200 : 404;
-            var options = null;
             if (!afterMethod)
                 afterMethod = function(){return {data:" "}};
-			options = afterMethod(request, response, retCode, contentType);
+            var options = afterMethod(request, response, retCode, contentType);
             if (options.hasOwnProperty("retCode"))
-                retCode = options.returnCode;
+                retCode = options["returnCode"];
             if (options.hasOwnProperty("contentType"))
                 contentType = options.contentType;
             if (!contentType)
@@ -213,7 +211,7 @@
                 response.end();
                 return;
             }
-            if (methodName != libArmyAnt.HttpClient.functionType.delete) {
+            if (methodName !== libArmyAnt.HttpClient.functionType.delete) {
                 var postData = "";
                 request.addListener("data", function (postDataChunk) {
                     postData += postDataChunk;

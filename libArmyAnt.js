@@ -44,15 +44,20 @@
      * This library depends on the jquery library. In web pages, you must add jquery script before this file
      * 本库依赖于jQuery库。在网页环境下，你必须在载入本库（本文件）之前先载入jquery脚本（任何较新版本）
      */
+    var constants = {
+        libConfigFile: "data/libConfig.json",
+        libInfoFile: "data/libInfo.json",
+        UNDEFINED: "undefined"
+    };
 
-    if (typeof require === "undefined" && typeof libArmyAnt !== "undefined" && libArmyAnt) {
+    if (typeof require === constants.UNDEFINED && typeof libArmyAnt !== constants.UNDEFINED && libArmyAnt) {
         console.warn('ArmyAnt : The module name "libArmyAnt" has been defined !');
     } else {
         /**
          * The base variable node of all this libArmyAnt content
          * 本库的基本命名空间，根节点
          */
-        if (typeof require !== "undefined")
+        if (typeof require !== constants.UNDEFINED)
             global.$ = require('jquery');
         var libArmyAnt = {
 
@@ -79,12 +84,12 @@
              * 如果在node.js环境中使用本库，此节点将会自动获取node.js的几个常用库，和本库所依赖的node.js的库
              * 如果不在node.js环境下，此节点为null。可据此判断是否具有node.js环境
              */
-            nodeJs: (typeof require === "undefined" || !require) ? null : {
+            nodeJs: (typeof require === constants.UNDEFINED || !require) ? null : {
                 http: require("http"),
                 url: require("url"),
                 fs: require("fs"),
                 child_process: require("child_process"),
-                querystring: require("querystring"),
+                querystring: require("querystring")
             },
 
             /**
@@ -131,9 +136,9 @@
             init: function () {
                 // node.js环境下，调用系统API直接读取本地磁盘上的文件，HTML5环境下发送虚拟ajax请求获取json数据
                 if (this.nodeJs) {
-                    this.nodeJs.fs["readFile"](libArmyAnt.config.nodeRootDir + "data/libConfig.json", function (err, jsonData) {
+                    this.nodeJs.fs["readFile"](libArmyAnt.config.nodeRootDir + constants.libConfigFile, function (err, jsonData) {
                         if (err) {
-                            console.error("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + "data/libConfig.json failed !");
+                            console.error("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + constants.libConfigFile + " failed !");
                         } else {
                             var data = JSON.parse(jsonData);
                             for (var key in data[0]) {
@@ -143,9 +148,9 @@
                         }
                         libArmyAnt._onInitialized();
                     });
-                    this.nodeJs.fs["readFile"](libArmyAnt.config.nodeRootDir + "data/libInfo.json", function (err, jsonData) {
+                    this.nodeJs.fs["readFile"](libArmyAnt.config.nodeRootDir + constants.libInfoFile, function (err, jsonData) {
                         if (err) {
-                            console.error("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + "data/libInfo.json failed !");
+                            console.error("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + constants.libInfoFile + " failed !");
                         } else {
                             var data = JSON.parse(jsonData);
                             libArmyAnt._onInitializingModules += data[0]["libFiles"].length + data[0]["nodeJsFiles"].length;
@@ -159,7 +164,7 @@
                 } else {
                     $.ajax({
                         type: "get",
-                        url: libArmyAnt.config.dataRootDir + "data/libConfig.json",
+                        url: libArmyAnt.config.dataRootDir + constants.libConfigFile,
                         cache: true,
                         async: false,
                         dataType: "json",
@@ -171,13 +176,13 @@
                             libArmyAnt._onInitialized();
                         },
                         error: function (data, err, exception) {
-                            console.error("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + "data/libConfig.json failed !");
+                            console.error("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + constants.libConfigFile + " failed !");
                             libArmyAnt._onInitialized();
                         }
                     });
                     $.ajax({
                         type: "get",
-                        url: libArmyAnt.config.dataRootDir + "data/libInfo.json",
+                        url: libArmyAnt.config.dataRootDir + constants.libInfoFile,
                         cache: true,
                         async: false,
                         dataType: "json",
@@ -191,7 +196,7 @@
                             libArmyAnt._onInitialized();
                         },
                         error: function (data, err, exception) {
-                            console.error("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + "data/libInfo.json failed !");
+                            console.error("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + constants.libInfoFile + " failed !");
                             libArmyAnt._onInitialized();
                         }
                     });
@@ -209,8 +214,9 @@
                     return;
                 }
                 var rootPath = this.config.dataRootDir;
+                var i = 0;
                 if (this.nodeJs) {
-                    for (var i = 0; i < this.info["libFiles"].length; ++i) {
+                    for (i = 0; i < this.info["libFiles"].length; ++i) {
                         ++this._onInitializedModules;
                         if (this.info["libFiles"][i].name === null) {
                             console.log("ArmyAnt : Library " + this.info["libFiles"][i].path + " will be loaded later.");
@@ -227,7 +233,7 @@
                             this[this.info["libFiles"][i].name] = this.importScript('./' + this.info["libFiles"][i].path);
                         }
                     }
-                    for (var i = 0; i < this.info["nodeJsFiles"].length; ++i) {
+                    for (i = 0; i < this.info["nodeJsFiles"].length; ++i) {
                         ++this._onInitializedModules;
                         if (this.info["nodeJsFiles"][i].name === null) {
                             console.log("ArmyAnt : Library " + this.info["nodeJsFiles"][i].path + " will be loaded later.");
@@ -253,7 +259,7 @@
                     else
                         currMod = this.info["webPageFiles"][this._onInitializedModules - libFileLength];
                     ++this._onInitializedModules;
-                } while (typeof currMod === "undefined" || !currMod);
+                } while (typeof currMod === constants.UNDEFINED || !currMod);
                 switch (currMod.type) {
                     case "style":
                         this.importStyle(rootPath + currMod["path"]);

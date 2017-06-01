@@ -179,12 +179,14 @@
     // This variable will be replaced after whole library loaded OK in node.js, and at once in web pages
     var debugMode = 0;
     if (typeof require === "undefined")
-        debugMode = libArmyAnt.config["debugMode"];
+        debugMode = window.libArmyAnt.config["debugMode"];
 
     /**
      * Root properties in this library;
      */
     var output = {
+
+        magics: {},
 
         /**
          * Print debug messages with setting mode
@@ -294,13 +296,14 @@
     };
 
     if (typeof require === "undefined") {
-        libArmyAnt.log = output.log;
-        libArmyAnt.warn = output.warn;
-        libArmyAnt.assert = output.assert;
-        libArmyAnt.error = output.error;
-        libArmyAnt.parseToWords = output.parseToWords;
+        window.libArmyAnt.log = output.log;
+        window.libArmyAnt.warn = output.warn;
+        window.libArmyAnt.assert = output.assert;
+        window.libArmyAnt.error = output.error;
+        window.libArmyAnt.parseToWords = output.parseToWords;
+        window.libArmyAnt.magics = output.magics;
         running.apply(window, null);
-        libArmyAnt._onInitialized(true);
+        window.libArmyAnt._onInitialized(true);
     } else {
         running.apply(global, null);
 

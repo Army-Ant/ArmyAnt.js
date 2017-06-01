@@ -52,8 +52,8 @@
 
         _timerFunc:function(dt){
             this.update(dt);
-            for(var k in this.children.lists.length){
-                if(this.children.lists[k].running)
+            for (var k in this.children.lists) {
+                if (this.children.lists.hasOwnProperty(k) && this.children.lists[k].running)
                     this.children.lists[k]._timerFunc(dt);
             }
         },
@@ -97,7 +97,7 @@
         },
 
         getChildZIndex:function(tagOrNode){
-            if(typeof tagOrNode != "string")
+            if (typeof tagOrNode !== "string")
                 tagOrNode = this.getChildTag(tagOrNode);
             if(!tagOrNode)
                 throw "Cannot found the child node";
@@ -105,7 +105,7 @@
         },
 
         setChildZIndex:function(tagOrNode, zIndex){
-            if(typeof tagOrNode != "string")
+            if (typeof tagOrNode !== "string")
                 tagOrNode = this.getChildTag(tagOrNode);
             if(!tagOrNode)
                 throw "Cannot found the child node";
@@ -118,7 +118,10 @@
         createSprite:null,
         removeAllNodes:null,
         removeSelf:function(){
-            delete this.parent.scenes.lists[tag];
+            var tag = this.getThisTag();
+            var parent = this.parent;
+            this.parent = null;
+            delete parent.scenes.lists[tag];
         },
         refresh:null,
         update:null

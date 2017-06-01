@@ -30,7 +30,7 @@
 (function() {
 
     var libArmyAnt;
-    if (typeof require == "undefined")
+    if (typeof require === "undefined")
         libArmyAnt = window.libArmyAnt;
     else {
         libArmyAnt = require("../global.js");
@@ -57,7 +57,7 @@
          * Create the dialog with current settings and return it
          * @returns {HTMLElement} canvas
          */
-        return: function () {
+        getDialog: function () {
             this._dialog.children["dialog_title"].innerText = this.title;
             this._dialog.children["dialog_text"].innerText = this.text;
             for (var i = 0; i < this.btnNames.length; i++) {
@@ -80,7 +80,7 @@
 
     Dialog.MESSAGE = 1;
 
-    if (typeof require == "undefined") {
+    if (typeof require === "undefined") {
         libArmyAnt.HTML5.Dialog = Dialog;
         libArmyAnt._onInitialized();
     }

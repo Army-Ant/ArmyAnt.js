@@ -33,7 +33,7 @@
 (function() {
 
     var libArmyAnt;
-    if (typeof require == "undefined")
+    if (typeof require === "undefined")
         libArmyAnt = window.libArmyAnt;
     else {
         libArmyAnt = require("../global.js");
@@ -59,7 +59,7 @@
             this.data = null;
             if (url)
                 this.url = url;
-            if (typeof require != "undefined") {
+            if (typeof require !== "undefined") {
                 this.data = require("./" + url);
             }
             else if (this.url)
@@ -85,7 +85,7 @@
      * @returns {*}
      */
     JsonParser.getJson = function (url, callback) {
-        return (typeof require == "undefined") ?
+        return (typeof require === "undefined") ?
             $.ajax({
                 type: "get",
                 url: url,
@@ -96,7 +96,7 @@
             }) : callback(require("./" + url));
     };
 
-    if (typeof require == "undefined"){
+    if (typeof require === "undefined") {
         libArmyAnt.JsonParser = JsonParser;
         libArmyAnt._onInitialized();
     }

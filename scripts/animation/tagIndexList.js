@@ -36,7 +36,7 @@ libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
             libArmyAnt.warn('The scene or node named "', tag, '" has been exist, please check the tag name or if it is added again!');
             return false;
         }
-        if (typeof zIndex != "number")
+        if (typeof zIndex !== "number")
             zIndex = 0;
         this.lists[tag] = {
             node: node,
@@ -51,7 +51,7 @@ libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
 
     getTag: function (node) {
         for (var k in this.lists) {
-            if (this.lists[k].node === node)
+            if (this.lists.hasOwnProperty(k) && this.lists[k].node === node)
                 return k;
         }
         return null;
@@ -59,7 +59,7 @@ libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
 
     rename: function (tagOrNode, newTag) {
         var node = tagOrNode;
-        if (typeof tagOrNode == "string") {
+        if (typeof tagOrNode === "string") {
             node = this.get(tagOrNode);
         } else
             tagOrNode = this.getTag(node);
@@ -88,7 +88,7 @@ libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
     getByIndex: function (index) {
         var ret = [];
         for (var k in this.lists) {
-            if (this.lists[k].zIndex === index)
+            if (this.lists.hasOwnProperty(k) && this.lists[k].zIndex === index)
                 ret.push(k);
         }
         return ret;
@@ -98,6 +98,8 @@ libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
         var ret = 0;
         var hasFound = false;
         for (var k in this.lists) {
+            if (!this.lists.hasOwnProperty(k))
+                continue;
             if (!hasFound) {
                 hasFound = true;
                 ret = this.lists[k].zIndex;
@@ -112,6 +114,8 @@ libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
         var ret = 0;
         var hasFound = false;
         for (var k in this.lists) {
+            if (!this.lists.hasOwnProperty(k))
+                continue;
             if (!hasFound) {
                 hasFound = true;
                 ret = this.lists[k].zIndex;
@@ -126,6 +130,8 @@ libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
         var ret = now;
         var hasFound = false;
         for (var k in this.lists) {
+            if (!this.lists.hasOwnProperty(k))
+                continue;
             if (this.lists[k].zIndex > now)
                 if (!hasFound) {
                     hasFound = true;
@@ -141,6 +147,8 @@ libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
         var ret = now;
         var hasFound = false;
         for (var k in this.lists) {
+            if (!this.lists.hasOwnProperty(k))
+                continue;
             if (this.lists[k].zIndex < now)
                 if (!hasFound) {
                     hasFound = true;
@@ -154,7 +162,8 @@ libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
 
     clear: function () {
         for (var k in this.lists) {
-            this.lists[k].removeSelf();
+            if (this.lists.hasOwnProperty(k))
+                this.lists[k].removeSelf();
         }
     }
 });
