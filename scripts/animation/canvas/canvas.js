@@ -24,11 +24,16 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
+import animation from "../base.js"
+import IMaker from "../maker.js"
 
-libArmyAnt.animation.Canvas = libArmyAnt.animation.IMaker.inherit({
-    type: libArmyAnt.animation.realization.canvas,
-    canvas: null,
-    context: null,
+import Avatar from "./avatar.js"
+import canvasHelper from "./canvasHelper.js"
+import Node from "./node.js"
+import Scene from "./scene.js"
+import Sprite from "./sprite.js"
+
+export default class Canvas extends IMaker {
 
     /**
      *
@@ -37,63 +42,66 @@ libArmyAnt.animation.Canvas = libArmyAnt.animation.IMaker.inherit({
      * @param height
      * @param style
      */
-    ctor: function (elem, width, height, style) {
+    constructor(elem, width, height, style) {
+        super(elem, width, height);
+
+        this.type = animation.realization.canvas;
         this.canvas = document.createElement("canvas");
         this.canvas.width = width;
         this.canvas.height = height;
         if (style)
             this.canvas.style = style;
         this.context = this.canvas.getContext("2d");
-        libArmyAnt.animation.IMaker.prototype.ctor.bind(this)(elem, width, height);
-    },
+    }
 
     /**
      *
      * @param elem {HTMLElement}
      */
-    addToElem: function (elem) {
+    addToElem(elem) {
         elem.appendChild(this.canvas);
         this.parentElem = elem;
-    },
+    }
 
-    removeFromElem: function () {
+    removeFromElem() {
         if (this.parentElem) {
             let cvs = Object.copy(this.canvas);
             $(this.canvas).remove();
             this.canvas = cvs;
             this.context = this.canvas.getContext("2d");
         }
-    },
+    }
 
-    createScene: function (tag, x, y, width, height) {
-        let ret = new libArmyAnt.animation.Canvas.Scene(this, x, y, width, height);
+    createScene(tag, x, y, width, height) {
+        let ret = new Scene(this, x, y, width, height);
         this.scenes.put(tag, ret);
         return ret;
-    },
+    }
 
-    removeScene: function (tag) {
+    removeScene(tag) {
         this.scenes.remove(tag);
-    },
+    }
 
-    createNode: function (x, y) {
-        return new libArmyAnt.animation.Canvas.Node(null, this, 0, x, y, 0, 0);
-    },
+    createNode(x, y) {
+        return new Node(null, this, 0, x, y, 0, 0);
+    }
 
-    createSprite: function (avatar, x, y, width, height) {
-        return new libArmyAnt.animation.Canvas.Sprite(avatar, null, null, 0, x, y, width, height);
-    },
+    createSprite(avatar, x, y, width, height) {
+        return new Sprite(avatar, null, null, 0, x, y, width, height);
+    }
 
-    createLabel: function (x, y) {
+    createLabel(x, y) {
 
-    },
+    }
 
-    createLayout: function (x, y, width, height) {
+    createLayout(x, y, width, height) {
+    }
 
-    },
+    createBoneUnit() {
 
-    createBoneUnit: null,
+    }
 
-    refresh: function () {
+    refresh() {
         for (let index = this.scenes.getMinIndex(); index !== null; index = this.scenes.getNextIndex(index)) {
             let scenes = this.scenes.getByIndex(index);
             if (scenes)
@@ -103,12 +111,16 @@ libArmyAnt.animation.Canvas = libArmyAnt.animation.IMaker.inherit({
                         scene.refresh();
                 }
         }
-    },
+    }
 
-    update: function (dt) {
+    update(dt) {
         this.refresh();
     }
-});
 
+}
 
-libArmyAnt._onInitialized();
+Canvas.Avatar = Avatar;
+Canvas.canvasHelper = canvasHelper;
+Canvas.Node = Node;
+Canvas.Scene = Scene;
+Canvas.Sprite = Sprite;

@@ -24,19 +24,19 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
+import AAObject from "../../object.js"
 
-libArmyAnt.animation.Canvas.canvasHelper = libArmyAnt.Object.extendSingleton({
-    ctor: function () {
-    },
+export default new class extends AAObject {
+    constructor() {
+        super();
 
-    RectPointStyle: {
-        default: "miter",
-        miter: "miter",
-        round: "round",
-        bevel: "bevel"
-    },
+        this.RectPointStyle = {
+            default: Symbol("miter"),
+            miter: Symbol("miter"),
+            round: Symbol("round"),
+            bevel: Symbol("bevel")
+        };
 
-    color: {}
-});
-
-libArmyAnt._onInitialized();
+        this.color = {};
+    }
+}

@@ -24,22 +24,24 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
+import AAObject from "../object.js"
+import animation from "./base.js"
 
-libArmyAnt.animation.INode = libArmyAnt.Object.inherit({
-    scene: null,
-    parent: null,
-    x: 0,
-    y: 0,
-    width: 0,
-    height: 0,
-    zIndex: 0,
+export default class extends AAObject {
 
-    shown: true,
-    running: true,
+    /**
+     *
+     * @param parent : animation.INode
+     * @param scene
+     * @param zIndex
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     */
+    constructor(parent, scene, zIndex, x, y, width, height) {
+        super();
 
-    children: null,
-
-    ctor: function (parent, scene, zIndex, x, y, width, height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -48,56 +50,86 @@ libArmyAnt.animation.INode = libArmyAnt.Object.inherit({
         this.scene = scene;
         if (parent)
             this.parent = parent;
-        this.children = new libArmyAnt.animation.TagIndexList();
-    },
+        else
+            this.parent = null;
+        this.shown = true;
+        this.running = true;
+        this.children = new animation.TagIndexList();
+    }
 
-    _timerFunc: function (dt) {
+    _timerFunc(dt) {
         this.update(dt);
-        for (let k in this.children.lists.length) {
-            if (this.children.lists[k].running)
+        for (let k in this.children.lists) {
+            if (this.children.lists.hasOwnProperty(k) && this.children.lists[k].running)
                 this.children.lists[k]._timerFunc(dt);
         }
-    },
+    }
 
-    show: function () {
+    show() {
         this.shown = true;
-    },
+    }
 
-    hide: function () {
+    hide() {
         this.shown = false;
-    },
+    }
 
-    pause: function () {
+    pause() {
         this.running = false;
-    },
+    }
 
-    resume: function () {
+    resume() {
         this.running = true;
-    },
+    }
 
-    getThisTag: function () {
+    getThisTag() {
         return this.parent.getChildTag(this);
-    },
+    }
 
-    setZIndex: function (zIndex) {
+    setZIndex(zIndex) {
         return this.parent.setChildZIndex(this, zIndex);
-    },
+    }
 
-    getZIndex: function () {
+    getZIndex() {
         return this.parent.getChildZIndex(this);
-    },
+    }
 
-    addChild: null,
-    removeChild: null,
-    createNode: null,
-    createSprite: null,
-    removeAllChildren: null,
-    setParent: null,
-    removeSelf: function () {
-        delete this.parent.children.lists[tag];
-    },
-    refresh: null,
-    update: null
-});
+    removeSelf() {
+        let p = this.parent;
+        let tag = this.getThisTag();
+        this.parent = null;
+        delete p.children.lists[tag];
+    }
 
-libArmyAnt._onInitialized();
+
+    addChild() {
+        throw "virtual function called";
+    }
+
+    removeChild() {
+        throw "virtual function called";
+    }
+
+    createNode() {
+        throw "virtual function called";
+    }
+
+    createSprite() {
+        throw "virtual function called";
+    }
+
+    removeAllChildren() {
+        throw "virtual function called";
+    }
+
+    setParent() {
+        throw "virtual function called";
+    }
+
+    refresh() {
+        throw "virtual function called";
+    }
+
+    update() {
+        throw "virtual function called";
+    }
+}

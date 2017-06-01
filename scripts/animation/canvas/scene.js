@@ -24,49 +24,50 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
+import libArmyAnt from "../../global.js"
+import INode from "../node.js"
 
 
-libArmyAnt.animation.Canvas.Scene = libArmyAnt.animation.IScene.inherit({
+export default class extends INode {
 
-    ctor: function (parent, x, y, width, height, background) {
-        libArmyAnt.animation.IScene.prototype.ctor.bind(this)(parent, x, y, width, height, background);
-    },
+    constructor(parent, x, y, width, height, background) {
+        super(parent, x, y, width, height, background);
+    }
 
-    addNode: function (tag, node, x, y) {
-        if (typeof x == "number")
+    addNode(tag, node, x, y) {
+        if (typeof x === libArmyAnt.magics.types.NUMBER)
             node.x = x;
-        if (typeof y == "number")
+        if (typeof y === libArmyAnt.magics.types.NUMBER)
             node.y = y;
         node.parent = this;
         node.scene = this;
         this.children.put(tag, node);
         return true;
-    },
+    }
 
-    removeNode: function (tag) {
+    removeNode(tag) {
         if (this.children.hasOwnProperty(tag))
             this.children[tag].removeSelf();
-    },
+    }
 
-    createNode: function (tag, x, y) {
+    createNode(tag, x, y) {
         return this.addNode(tag, this.parent.createNode(x, y));
-    },
+    }
 
-    createSprite: function (tag, avatar, x, y, width, height) {
+    createSprite(tag, avatar, x, y, width, height) {
         return this.addNode(tag, this.parent.createSprite(avatar, x, y, width, height));
-    },
+    }
 
-    removeAllNodes: function () {
+    removeAllNodes() {
         this.children.clear();
         return true;
-    },
+    }
 
-    removeSelf: function () {
+    removeSelf() {
+        super.removeSelf();
+    }
 
-        libArmyAnt.animation.IScene.prototype.removeSelf.apply(this);
-    },
-
-    refresh: function () {
+    refresh() {
         if (this.background)
             this.background.draw(this.parent.context, this);
         for (let index = this.children.getMinIndex(); index !== null; index = this.children.getNextIndex(index)) {
@@ -78,12 +79,9 @@ libArmyAnt.animation.Canvas.Scene = libArmyAnt.animation.IScene.inherit({
                         node.refresh();
                 }
         }
-    },
+    }
 
-    update: function (dt) {
+    update(dt) {
 
     }
-});
-
-
-libArmyAnt._onInitialized();
+}
