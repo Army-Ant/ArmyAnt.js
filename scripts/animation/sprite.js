@@ -24,7 +24,7 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-
+import INode from "./node.js"
 
 /**
  * 代表精灵Sprite对象的类
@@ -33,13 +33,10 @@
  * This library does not support the multi-inherit, and the "Sprite" must inheriting from "Node"
  * So, do not inherit from this class, only used as a helper and interface to outer user
  */
-libArmyAnt.animation.ISprite = libArmyAnt.animation.INode.inherit({
-    avatar: null,
-
-    ctor: function (avatar, parent, scene, zIndex, x, y, width, height) {
-        libArmyAnt.animation.INode.prototype.ctor.bind(this)(parent, scene, zIndex, x, y, width, height);
+export default class extends INode {
+    constructor(avatar, parent, scene, zIndex, x, y, width, height) {
+        super(parent, scene, zIndex, x, y, width, height);
         this.avatar = avatar;
     }
-});
 
-libArmyAnt._onInitialized();
+}

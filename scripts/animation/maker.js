@@ -24,64 +24,99 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
+import AAObject from "../object.js"
+import animation from "./base.js"
+import Scheduler from "../common/scheduler.js"
 
-libArmyAnt.animation.IMaker = libArmyAnt.Object.inherit({
-    type: libArmyAnt.animation.realization.unknown,
-    timer: null,
-    scenes: null,
-    parentElem: null,
+export default class extends AAObject {
 
-    ctor: function (elem, width, height) {
-        this.scenes = new libArmyAnt.animation.TagIndexList();
-        this.timer = new libArmyAnt.Scheduler(libArmyAnt.animation.factory.refreshTime);
+    constructor(elem, width, height) {
+        super();
+
+        this.type = animation.realization.unknown;
+        this.timer = null;
+        this.scenes = null;
+        this.parentElem = null;
+        this.scenes = new animation.TagIndexList();
+        this.timer = new Scheduler(animation.factory.refreshTime);
         if (elem)
             this.addToElem(elem);
         this.timer.run(this._timerFunc.bind(this));
-    },
+    }
 
-    addToElem: null,
-    removeFromElem: null,
-    createScene: null,
-    removeScene: null,
-    createNode: null,
-    createSprite: null,
-    createLabel: null,
-    createLayout: null,
-    createBoneUnit: null,
-    refresh: null,
-    update: null,
+    addToElem() {
+        throw "virtual function called";
+    }
 
-    getSceneByTag: function (tag) {
+    removeFromElem() {
+        throw "virtual function called";
+    }
+
+    createScene() {
+        throw "virtual function called";
+    }
+
+    removeScene() {
+        throw "virtual function called";
+    }
+
+    createNode() {
+        throw "virtual function called";
+    }
+
+    createSprite() {
+        throw "virtual function called";
+    }
+
+    createLabel() {
+        throw "virtual function called";
+    }
+
+    createLayout() {
+        throw "virtual function called";
+    }
+
+    createBoneUnit() {
+        throw "virtual function called";
+    }
+
+    refresh() {
+        throw "virtual function called";
+    }
+
+    update() {
+        throw "virtual function called";
+    }
+
+    getSceneByTag(tag) {
         return this.scenes.get(tag);
-    },
+    }
 
-    getSceneTag: function (scene) {
+    getSceneTag(scene) {
         return this.scenes.getTag(scene);
-    },
+    }
 
-    getSceneZIndex: function (tagOrScene) {
-        if (typeof tagOrScene != "string")
+    getSceneZIndex(tagOrScene) {
+        if (typeof tagOrScene !== "string")
             tagOrScene = this.getSceneTag(tagOrScene);
         if (!tagOrScene)
             throw "Cannot found the scene";
         return this.scenes.getZIndex(tagOrScene);
-    },
+    }
 
-    setSceneZIndex: function (tagOrScene, zIndex) {
-        if (typeof tagOrScene != "string")
+    setSceneZIndex(tagOrScene, zIndex) {
+        if (typeof tagOrScene !== "string")
             tagOrScene = this.getSceneTag(tagOrScene);
         if (!tagOrScene)
             throw "Cannot found the scene";
         return this.scenes.setZIndex(tagOrScene, zIndex);
-    },
+    }
 
-    _timerFunc: function (dt) {
+    _timerFunc(dt) {
         this.update(dt);
-        for (let k in this.scenes.lists.length) {
-            if (this.scenes.lists[k].running)
+        for (let k in this.scenes.lists) {
+            if (this.scenes.lists.hasOwnProperty(k) && this.scenes.lists[k].running)
                 this.scenes.lists[k]._timerFunc(dt);
         }
     }
-});
-
-libArmyAnt._onInitialized();
+}

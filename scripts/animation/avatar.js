@@ -24,48 +24,52 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
+import AAObject from "../object.js"
+import libArmyAnt from "../global.js"
 
-libArmyAnt.animation.IAvatar = libArmyAnt.Object.inherit({
-    type: "none",
-    args: {},
+let defaultType = Symbol("none");
 
-    ctor: function () {
+class IAvatar extends AAObject {
+
+    constructor() {
+        super();
+        this.type = defaultType;
+        this.args = {};
+        this.draw = null;
         //throw "This interface cannot be created an object";
-    },
-
-    draw: null
-});
-
-libArmyAnt.animation.IAvatar.Type = {
-    none: "none",
-    color: "color",
-    image: "image",
-    action: "action",
-    animation: "animation",
-    video: "video",
-    event: "event"
-};
-
-libArmyAnt.animation.IAvatar.Action = {
-    line: "line",
-    arc: "arc",
-    rect: "rect",
-    clear: "clear",
-    rotate: "rotate",
-    save: "save",
-    load: "load"
-};
-
-libArmyAnt.animation.IAvatar.create = function (animationType, avatarType, args) {
-    let ret = null;
-    switch (animationType) {
-        case libArmyAnt.animation.realization.canvas:
-            ret = new libArmyAnt.animation.Canvas.Avatar();
-            break;
     }
-    ret.type = avatarType;
-    ret.args = args;
-    return ret;
+
+    static create(animationType, avatarType, args) {
+        let ret = null;
+        switch (animationType) {
+            case libArmyAnt.animation.realization.canvas:
+                ret = new libArmyAnt.animation.Canvas.Avatar();
+                break;
+        }
+        ret.type = avatarType;
+        ret.args = args;
+        return ret;
+    }
+}
+
+IAvatar.Type = {
+    none: defaultType,
+    color: Symbol("color"),
+    image: Symbol("image"),
+    action: Symbol("action"),
+    animation: Symbol("animation"),
+    video: Symbol("video"),
+    event: Symbol("event")
 };
 
-libArmyAnt._onInitialized();
+IAvatar.Action = {
+    line: Symbol("line"),
+    arc: Symbol("arc"),
+    rect: Symbol("rect"),
+    clear: Symbol("clear"),
+    rotate: Symbol("rotate"),
+    save: Symbol("save"),
+    load: Symbol("load")
+};
+
+export default IAvatar

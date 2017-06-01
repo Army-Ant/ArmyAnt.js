@@ -26,57 +26,51 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
+import libArmyAnt from "../global.js"
+import AAObject from "../object.js"
 
 /**
  * The class to download and parse json file async
  */
-(function() {
 
-    let libArmyAnt;
-    if (typeof require == "undefined")
-        libArmyAnt = window.libArmyAnt;
-    else {
-        libArmyAnt = require("../global.js");
-        libArmyAnt.Object = require("../object.js");
+export default class JsonParser extends AAObject {
+
+    constructor(url) {
+        super();
+        this.url = null
+        this.data = null
+        if (url)
+            this.url = url;
     }
 
-    let JsonParser = libArmyAnt.Object.inherit({
-        url: null,
-        data: null,
-
-        ctor: function (url) {
-            if (url)
-                this.url = url;
-        },
-
-        /**
-         * To get and parse the json file async
-         * 异步获取并解析json (node环境下为同步载入json数据)
-         * @param url : string
-         *      The net url or file path of json file
-         */
-        loadJson: function (url) {
-            this.data = null;
-            if (url)
-                this.url = url;
-            if (typeof require != "undefined") {
-                this.data = require("./" + url);
-            }
-            else if (this.url)
-                $.ajax({
-                    type: "get",
-                    url: this.url,
-                    cache: true,
-                    async: false,
-                    dataType: "json",
-                    success: function (data) {
-                        this.data = data;
-                    }.bind(this)
-                });
-            else
-                throw "Error url string for json file";
+    /**
+     * To get and parse the json file async
+     * 异步获取并解析json (node环境下为同步载入json数据)
+     * @param url : string
+     *      The net url or file path of json file
+     */
+    loadJson(url) {
+        this.data = null;
+        if (url)
+            this.url = url;
+        if (libArmyAnt.nodeJs) {
+            this.data = require("./" + url);
         }
-    });
+        else if (this.url)
+            $.ajax({
+                type: "get",
+                url: this.url,
+                cache: true,
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    this.data = data;
+                }.bind(this)
+            });
+        else
+            return false;//throw "Error url string for json file";
+        return true;
+    }
 
     /**
      * 调用此方法, 以在不创建对象的情况下, 异步读取json数据, 并将数据传入回调方法
@@ -84,8 +78,8 @@
      * @param callback : Function
      * @returns {*}
      */
-    JsonParser.getJson = function (url, callback) {
-        return (typeof require == "undefined") ?
+    static getJson(url, callback) {
+        return (!libArmyAnt.nodeJs) ?
             $.ajax({
                 type: "get",
                 url: url,
@@ -94,12 +88,5 @@
                 dataType: "json",
                 success: callback
             }) : callback(require("./" + url));
-    };
-
-    if (typeof require == "undefined"){
-        libArmyAnt.JsonParser = JsonParser;
-        libArmyAnt._onInitialized();
     }
-    else
-        module.exports = JsonParser;
-})();
+}

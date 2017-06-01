@@ -7,7 +7,42 @@
     <META HTTP-EQUIV="Expires" CONTENT="0">
     <style></style>
     <script src="externals/jquery-2.2.4.min.js"></script>
-    <script src="libArmyAnt.js"></script>
+    <script type="module" src="libArmyAnt.js"></script>
+    <script>
+        import libArmyAnt from "./libArmyAnt.js"
+
+        window._test_clicked = 0;
+        window._test = function () {
+
+            switch (window._test_clicked) {
+                case 0:
+                    //(new libArmyAnt.Scheduler(1)).run(function(dt){document.getElementById('tester').innerHTML += ('<br/>delayTime='+dt);});
+                    window._test.cvs = libArmyAnt.animation.factory.getMaker(libArmyAnt.animation.realization.canvas,
+                        document.getElementById("animation_tester"),
+                        {width: 640, height: 960, style: ""});
+                    window._test.scene = window._test.cvs.createScene("starter", 0, 0, 640, 960);
+                    libArmyAnt.log("Canvas created!");
+                    break;
+                case 1:
+                    window._test.avatar = libArmyAnt.animation.IAvatar.create(libArmyAnt.animation.realization.canvas,
+                        libArmyAnt.animation.IAvatar.Type.color, {color: "red"});
+                    window._test.scene.background = window._test.avatar;
+                    libArmyAnt.log("Red avatar enjoyed");
+                    break;
+                case 2:
+                    window.picture_img = new Image();
+                    window.picture_img.onload = function () {
+                        window._test.picture = libArmyAnt.animation.IAvatar.create(libArmyAnt.animation.realization.canvas,
+                            libArmyAnt.animation.IAvatar.Type.image, {img: window.picture_img, imgX: 10, imgY: 10});
+                        window._test.scene.createSprite("pic", window._test.picture, 10, 10, 60, 60);
+                        libArmyAnt.log("Picture avatar enjoyed");
+                    }.bind(window.picture_img);
+                    window.picture_img.src = "testResources/Actor01-Braver01_1_1.png";
+                    break;
+            }
+            ++window._test_clicked;
+        };
+    </script>
     <title></title>
 </head>
 <body>

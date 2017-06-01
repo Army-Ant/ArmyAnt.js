@@ -24,21 +24,13 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
+import AAObject from "../object.js"
+import animation from "./base.js"
 
-    libArmyAnt.animation.IScene = libArmyAnt.Object.inherit({
-        parent:null,
-        x:0,
-        y:0,
-        width:0,
-        height:0,
+export default class extends AAObject {
 
-        shown:true,
-        running:true,
-        background:null,
-
-        children:null,
-
-        ctor:function(parent, x, y, width, height, background){
+    constructor(parent, x, y, width, height, background) {
+        super();
             this.x = x;
             this.y = y;
             this.width = width;
@@ -46,82 +38,107 @@
             this.parent = parent;
             if(background)
                 this.background = background;
-            this.children = new libArmyAnt.animation.TagIndexList();
-        },
+            else
+                this.background = null;
+        this.shown = true;
+        this.running = true;
+        this.children = new animation.TagIndexList();
+    }
 
-
-        _timerFunc:function(dt){
+    _timerFunc(dt) {
             this.update(dt);
-            for (let k in this.children.lists.length) {
-                if(this.children.lists[k].running)
+        for (let k in this.children.lists) {
+            if (this.children.lists.hasOwnProperty(k) && this.children.lists[k].running)
                     this.children.lists[k]._timerFunc(dt);
             }
-        },
+    }
 
-        show:function(){
+    show() {
             this.shown = true;
             this.parent.refresh();
-        },
+    }
 
-        hide:function(){
+    hide() {
             this.shown = false;
             this.parent.refresh();
-        },
+    }
 
-        pause:function(){
+    pause() {
             this.running = false;
-        },
+    }
 
-        resume:function(){
+    resume() {
             this.running = true;
-        },
+    }
 
-        getThisTag:function(){
+    getThisTag() {
             return this.parent.getSceneTag(this);
-        },
+    }
 
-        setZIndex:function(zIndex){
+    setZIndex(zIndex) {
             return this.parent.setSceneZIndex(this, zIndex);
-        },
+    }
 
-        getZIndex:function(){
+    getZIndex() {
             return this.parent.getSceneZIndex(this);
-        },
+    }
 
-        getChildByTag:function(tag){
+    getChildByTag(tag) {
             return this.children.get(tag);
-        },
+    }
 
-        getChildTag:function(scene){
+    getChildTag(scene) {
             return this.children.getTag(scene);
-        },
+    }
 
-        getChildZIndex:function(tagOrNode){
-            if(typeof tagOrNode != "string")
+    getChildZIndex(tagOrNode) {
+        if (typeof tagOrNode !== "string")
                 tagOrNode = this.getChildTag(tagOrNode);
             if(!tagOrNode)
                 throw "Cannot found the child node";
             return this.children.getZIndex(tagOrNode);
-        },
+    }
 
-        setChildZIndex:function(tagOrNode, zIndex){
-            if(typeof tagOrNode != "string")
+    setChildZIndex(tagOrNode, zIndex) {
+        if (typeof tagOrNode !== "string")
                 tagOrNode = this.getChildTag(tagOrNode);
             if(!tagOrNode)
                 throw "Cannot found the child node";
             return this.children.setZIndex(tagOrNode, zIndex);
-        },
+    }
 
-        addNode:null,
-        removeNode:null,
-        createNode:null,
-        createSprite:null,
-        removeAllNodes:null,
-        removeSelf:function(){
-            delete this.parent.scenes.lists[tag];
-        },
-        refresh:null,
-        update:null
-    });
+    removeSelf() {
+        let p = this.parent;
+        let tag = this.getThisTag();
+        this.parent = null;
+        delete p.children.lists[tag];
+    }
 
-    libArmyAnt._onInitialized();
+    addNode() {
+        throw "virtual function called";
+    }
+
+    removeNode() {
+        throw "virtual function called";
+    }
+
+    createNode() {
+        throw "virtual function called";
+    }
+
+    createSprite() {
+        throw "virtual function called";
+    }
+
+    removeAllNodes() {
+        throw "virtual function called";
+    }
+
+    refresh() {
+        throw "virtual function called";
+    }
+
+    update() {
+        throw "virtual function called";
+    }
+}

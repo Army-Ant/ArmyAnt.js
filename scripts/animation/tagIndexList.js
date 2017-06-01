@@ -24,42 +24,44 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
+import libArmyAnt from "../global.js"
+import AAObject from "../object.js"
 
-libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
-    lists: {},
-    ctor: function () {
+export default class extends AAObject {
+    constructor() {
+        super();
+        this.lists = {};
+    }
 
-    },
-
-    put: function (tag, node, zIndex) {
+    put(tag, node, zIndex) {
         if (this.lists[tag]) {
             libArmyAnt.warn('The scene or node named "', tag, '" has been exist, please check the tag name or if it is added again!');
             return false;
         }
-        if (typeof zIndex != "number")
+        if (typeof zIndex !== "number")
             zIndex = 0;
         this.lists[tag] = {
             node: node,
             zIndex: zIndex
         };
         return true;
-    },
+    }
 
-    get: function (tag) {
+    get(tag) {
         return this.lists[tag].node;
-    },
+    }
 
-    getTag: function (node) {
+    getTag(node) {
         for (let k in this.lists) {
-            if (this.lists[k].node === node)
+            if (this.lists.hasOwnProperty(k) && this.lists[k].node === node)
                 return k;
         }
         return null;
-    },
+    }
 
-    rename: function (tagOrNode, newTag) {
+    rename(tagOrNode, newTag) {
         let node = tagOrNode;
-        if (typeof tagOrNode == "string") {
+        if (typeof tagOrNode === "string") {
             node = this.get(tagOrNode);
         } else
             tagOrNode = this.getTag(node);
@@ -71,33 +73,35 @@ libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
         this.remove(tagOrNode);
         this.put(newTag, node, zIndex);
         return true;
-    },
+    }
 
-    remove: function (tag) {
+    remove(tag) {
         this.lists[tag].node.removeSelf();
-    },
+    }
 
-    getZIndex: function (tag) {
+    getZIndex(tag) {
         return this.lists[tag].zIndex;
-    },
+    }
 
-    setZIndex: function (tag, zIndex) {
+    setZIndex(tag, zIndex) {
         this.lists[tag].zIndex = zIndex;
-    },
+    }
 
-    getByIndex: function (index) {
+    getByIndex(index) {
         let ret = [];
         for (let k in this.lists) {
-            if (this.lists[k].zIndex === index)
+            if (this.lists.hasOwnProperty(k) && this.lists[k].zIndex === index)
                 ret.push(k);
         }
         return ret;
-    },
+    }
 
-    getMinIndex: function () {
+    getMinIndex() {
         let ret = 0;
         let hasFound = false;
         for (let k in this.lists) {
+            if (!this.lists.hasOwnProperty(k))
+                continue;
             if (!hasFound) {
                 hasFound = true;
                 ret = this.lists[k].zIndex;
@@ -106,12 +110,14 @@ libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
             }
         }
         return hasFound ? ret : null;
-    },
+    }
 
-    getMaxIndex: function () {
+    getMaxIndex() {
         let ret = 0;
         let hasFound = false;
         for (let k in this.lists) {
+            if (!this.lists.hasOwnProperty(k))
+                continue;
             if (!hasFound) {
                 hasFound = true;
                 ret = this.lists[k].zIndex;
@@ -120,12 +126,14 @@ libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
             }
         }
         return hasFound ? ret : null;
-    },
+    }
 
-    getNextIndex: function (now) {
+    getNextIndex(now) {
         let ret = now;
         let hasFound = false;
         for (let k in this.lists) {
+            if (!this.lists.hasOwnProperty(k))
+                continue;
             if (this.lists[k].zIndex > now)
                 if (!hasFound) {
                     hasFound = true;
@@ -135,12 +143,14 @@ libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
                 }
         }
         return hasFound ? ret : null;
-    },
+    }
 
-    getBackIndex: function (now) {
+    getBackIndex(now) {
         let ret = now;
         let hasFound = false;
         for (let k in this.lists) {
+            if (!this.lists.hasOwnProperty(k))
+                continue;
             if (this.lists[k].zIndex < now)
                 if (!hasFound) {
                     hasFound = true;
@@ -150,13 +160,13 @@ libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
                 }
         }
         return hasFound ? ret : null;
-    },
+    }
 
-    clear: function () {
+    clear() {
         for (let k in this.lists) {
+            if (!this.lists.hasOwnProperty(k))
+                continue;
             this.lists[k].removeSelf();
         }
     }
-});
-
-libArmyAnt._onInitialized();
+}
