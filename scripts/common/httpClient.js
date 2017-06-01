@@ -103,4 +103,4 @@ HttpClient.functionType = {
     options: "OPTIONS",
     trace: "TRACE",
     connect: "CONNECT"
-}
+};

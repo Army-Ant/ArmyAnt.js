@@ -7,14 +7,12 @@ import libArmyAnt from "./libArmyAnt"
 let serverHost = {
     onStart: function () {
         let svr = new libArmyAnt.HttpServer();
-        console.log(Object.getPrototypeOf(svr) === Object.prototype);
-        //svr.start(8765);
-        libArmyAnt.HttpServer.prototype.start.call(svr)
+        svr.start(8765);
     },
 
     onTest: function () {
 
     }
-}
+};
 
 serverHost.onStart();

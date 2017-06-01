@@ -44,25 +44,23 @@ export default class DateTime extends AAObject {
      *          如果第一个参数是HTTP的日期时间字符串, 则本参数传入字符串的类型,本方法将按照指定类型进行解析.如不传,则本方法将逐一检测字符串的类型
      *          如果第一个参数是ANSI-C格式的秒数, 则本参数传入时区代表字符串. 如不传, 则默认为GMT
      */
-    constructor(httpStringOrCSeconds, formatTypeOrTimeZone) {
+    constructor(httpStringOrCSeconds = null, formatTypeOrTimeZone = null) {
         super();
         this.jsTime = null;
-        this.timeZone = "GMT";
-        if ((typeof httpStringOrCSeconds === "undefined" || !httpStringOrCSeconds) && (typeof formatTypeOrTimeZone === "undefined" || !formatTypeOrTimeZone))
+        this.timeZone = DateTime.GMT;
+        if (!httpStringOrCSeconds && !formatTypeOrTimeZone)
             this.jsTime = (new Date());
         else {
-            if ((formatTypeOrTimeZone != NaN && (typeof formatTypeOrTimeZone === "number" || Number(formatTypeOrTimeZone) != NaN))
-                (typeof formatTypeOrTimeZone === "string" && (typeof httpStringOrCSeconds === "undefined" || !httpStringOrCSeconds))
-            ) {
+            if (!Number.isNaN(Number(formatTypeOrTimeZone)) || !httpStringOrCSeconds) {
                 [formatTypeOrTimeZone, httpStringOrCSeconds] = [httpStringOrCSeconds, formatTypeOrTimeZone];
             }
-            if (httpStringOrCSeconds != NaN && (typeof httpStringOrCSeconds === "number" || Number(httpStringOrCSeconds) != NaN)) {
+            if (!Number.isNaN(Number(httpStringOrCSeconds))) {
                 this.jsTime = new Date();
-                this.jsTime.setTime(httpStringOrCSeconds * 1000);
-                if (typeof formatTypeOrTimeZone === "string")
+                this.jsTime.setTime(Number(httpStringOrCSeconds) * 1000);
+                if (typeof formatTypeOrTimeZone === libArmyAnt.magics.types.STRING)
                     this.timeZone = formatTypeOrTimeZone;
-            } else if (typeof httpStringOrCSeconds === "string") {
-                if (!this._setFromHttpString(httpStringOrCSeconds, formatTypeOrTimeZone) && (typeof formatTypeOrTimeZone === "string" || !this._setFromHttpString(formatTypeOrTimeZone, httpStringOrCSeconds))) {
+            } else if (typeof httpStringOrCSeconds === libArmyAnt.magics.types.STRING) {
+                if (!this._setFromHttpString(httpStringOrCSeconds, formatTypeOrTimeZone) && (typeof formatTypeOrTimeZone === libArmyAnt.magics.types.STRING || !this._setFromHttpString(formatTypeOrTimeZone, httpStringOrCSeconds))) {
                     libArmyAnt.warn("Cannot parse the time string of : ", httpStringOrCSeconds);
                 }
             }
@@ -115,14 +113,14 @@ export default class DateTime extends AAObject {
 
     /**
      * Output the datetime as the ANSI-C time milliseconds number
-     * @returns {string}
+     * @returns {number}
      */
     getMilliseconds() {
         return this.jsTime.getMilliseconds();
     }
 
 
-    _setFromHttpString(str, type) {
+    _setFromHttpString(str, type = DateTime.TimeStringType.Http) {
         // Parse to words
         let words = libArmyAnt.parseToWords(str, "TIME");
         if (!words)
@@ -140,7 +138,7 @@ export default class DateTime extends AAObject {
         // Check words number
         if (words.length !== 8 || (type === DateTime.TimeStringType.Ansi && words.length !== 7))
             return false;
-        if (((typeof type === "undefined" || !type) && (Number(words[2]) !== NaN && Number(words[1]) === NaN)) || (type === DateTime.TimeStringType.Ansi)) {
+        if (type === DateTime.TimeStringType.Ansi) {
             let tmp = words[1];
             words[1] = words[2];
             words[2] = tmp;
@@ -152,7 +150,7 @@ export default class DateTime extends AAObject {
         }
 
         // Check words type
-        if (isNaN(Number(words[1])) || isNaN(Number(words[3])) || isNaN(Number(words[4])) || isNaN(Number(words[5])) || isNaN(Number(words[6])) || !isNaN(Number(words[0])) || !isNaN(Number(words[2])))
+        if (Number.isNaN(Number(words[1])) || Number.isNaN(Number(words[3])) || Number.isNaN(Number(words[4])) || Number.isNaN(Number(words[5])) || Number.isNaN(Number(words[6])) || !Number.isNaN(Number(words[0])) || !Number.isNaN(Number(words[2])))
             return false;
 
         // Set time
@@ -181,7 +179,7 @@ DateTime.TimeStringType = {Obsolete: Symbol("RFC1036"), Http: Symbol("RFC1123"),
  * The array of each day in a week
  * @type {string[]}
  */
-DateTime.daysInWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+DateTime.daysInWeek = [Symbol("Sunday"), Symbol("Monday"), Symbol("Tuesday"), Symbol("Wednesday"), Symbol("Thursday"), Symbol("Friday"), Symbol("Saturday")];
 
 DateTime.weekday = {
     Sunday: "Sun",
@@ -191,13 +189,13 @@ DateTime.weekday = {
     Thursday: "Thur",
     Friday: "Fri",
     Saturday: "Sat"
-}
+};
 
 /**
  * The array of each month in a year
  * @type {string[]}
  */
-DateTime.monthsInYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+DateTime.monthsInYear = [Symbol("January"), Symbol("February"), Symbol("March"), Symbol("April"), Symbol("May"), Symbol("June"), Symbol("July"), Symbol("August"), Symbol("September"), Symbol("October"), Symbol("November"), Symbol("December")];
 DateTime.month = {
     January: "Jan",
     February: "Feb",
@@ -211,4 +209,6 @@ DateTime.month = {
     October: "Oct",
     November: "Nov",
     December: "Dec"
-}
+};
+
+DateTime.GMT = "GMT";

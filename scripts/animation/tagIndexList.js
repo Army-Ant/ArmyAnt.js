@@ -38,7 +38,7 @@ export default class extends AAObject {
             libArmyAnt.warn('The scene or node named "', tag, '" has been exist, please check the tag name or if it is added again!');
             return false;
         }
-        if (typeof zIndex !== "number")
+        if (typeof zIndex !== libArmyAnt.magics.types.NUMBER)
             zIndex = 0;
         this.lists[tag] = {
             node: node,
@@ -61,7 +61,7 @@ export default class extends AAObject {
 
     rename(tagOrNode, newTag) {
         let node = tagOrNode;
-        if (typeof tagOrNode === "string") {
+        if (typeof tagOrNode === libArmyAnt.magics.types.STRING) {
             node = this.get(tagOrNode);
         } else
             tagOrNode = this.getTag(node);

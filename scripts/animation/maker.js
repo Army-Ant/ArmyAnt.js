@@ -24,6 +24,7 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
+import libArmyAnt from "../global.js"
 import AAObject from "../object.js"
 import animation from "./base.js"
 import Scheduler from "../common/scheduler.js"
@@ -97,7 +98,7 @@ export default class extends AAObject {
     }
 
     getSceneZIndex(tagOrScene) {
-        if (typeof tagOrScene !== "string")
+        if (typeof tagOrScene !== libArmyAnt.magics.types.STRING)
             tagOrScene = this.getSceneTag(tagOrScene);
         if (!tagOrScene)
             throw "Cannot found the scene";
@@ -105,7 +106,7 @@ export default class extends AAObject {
     }
 
     setSceneZIndex(tagOrScene, zIndex) {
-        if (typeof tagOrScene !== "string")
+        if (typeof tagOrScene !== libArmyAnt.magics.types.STRING)
             tagOrScene = this.getSceneTag(tagOrScene);
         if (!tagOrScene)
             throw "Cannot found the scene";

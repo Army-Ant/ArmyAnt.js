@@ -24,6 +24,7 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
+import libArmyAnt from "../../global.js"
 import INode from "../node.js"
 
 
@@ -34,9 +35,9 @@ export default class extends INode {
     }
 
     addNode(tag, node, x, y) {
-        if (typeof x === "number")
+        if (typeof x === libArmyAnt.magics.types.NUMBER)
             node.x = x;
-        if (typeof y === "number")
+        if (typeof y === libArmyAnt.magics.types.NUMBER)
             node.y = y;
         node.parent = this;
         node.scene = this;

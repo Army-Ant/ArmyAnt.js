@@ -38,9 +38,9 @@ export default class File extends AAObject {
     /**
      * if new this object with params, the file will be open at the same time
      * 如果构造函数带参，则会在创建此对象后立刻打开参数所指定的文件
-     * @param filename : {String}
+     * @param filename : string
      *          The file opened when create the object, if need;
-     * @param callback : {Function} （See the function "open"）
+     * @param callback : function （See the function "open"）
      *          The callback after file opened when create the object, if need;
      */
     constructor(filename, callback) {
@@ -55,9 +55,9 @@ export default class File extends AAObject {
     /**
      * Open the file
      * 打开文件
-     * @param filename : {String}
+     * @param filename : string
      *          If the filename is invalid, The file which is opened last time will be open again. If this is the first time to call "open", the open will return false
-     * @param callback : {Function}     undefined Function(isSuccess(boolean))
+     * @param callback : function     undefined Function(isSuccess(boolean))
      *          The callback will told you whether the file opened successful or not
      * @returns {boolean}
      */
@@ -89,7 +89,7 @@ export default class File extends AAObject {
 
     /**
      * Close the file
-     * @param callback : {Function}     undefined Function(isSuccess(boolean))
+     * @param callback : function     undefined Function(isSuccess(boolean))
      *          The callback will told you whether the file closed successful or not
      */
     close(callback) {
@@ -107,13 +107,13 @@ export default class File extends AAObject {
 
     /**
      * Read data from the opened file
-     * @param buffer : {Buffer}
+     * @param buffer : Buffer
      *          The node.js buffer that you want to receive the data read from this file
-     * @param pos : {Numeric}
+     * @param pos : numeric
      *          The position in file that you want to read begin
-     * @param length : {Numeric}
+     * @param length : numeric
      *          The max data length that you want to read from file
-     * @param callback : {Function}     undefined Function(error(Error), bytesRead(Numeric), buffer(Buffer))
+     * @param callback : function     undefined Function(error(Error), bytesRead(Numeric), buffer(Buffer))
      *          The function will be called after read success or failure. If failed, the error param will be not empty
      * @returns {boolean} : If there is no file opened, the function will return false
      */
@@ -131,13 +131,13 @@ export default class File extends AAObject {
 
     /**
      * Write data to the opened file
-     * @param buffer : {Buffer}
+     * @param buffer : Buffer
      *          The node.js buffer that you want to write data from
-     * @param pos : {Numeric}
+     * @param pos : numeric
      *          The position in file that you want to write begin
-     * @param length : {Numeric}
+     * @param length : numeric
      *          The max data length that you want to write to file
-     * @param callback : {Function}     undefined Function(error(Error), bytesWritten(Numeric), buffer(Buffer))
+     * @param callback : function     undefined Function(error(Error), bytesWritten(Numeric), buffer(Buffer))
      *          The function will be called after write success or failure. If failed, the error param will be not empty
      * @returns {boolean} : If there is no file opened, the function will return false
      */
@@ -155,7 +155,7 @@ export default class File extends AAObject {
 
     /**
      * Quickly read all text from the opened file sync.
-     * @returns {String}    The result will be returned here, or null will be returned if the file is not opened or file operation failed
+     * @returns {string/null}    The result will be returned here, or null will be returned if the file is not opened or file operation failed
      */
     readAllTextSync() {
         if (!this.file_descriptor)
@@ -172,9 +172,9 @@ export default class File extends AAObject {
 
     /**
      * Static reading function to read whole file
-     * @param filepath : {String}
+     * @param filepath : string
      *          The file path you want to read from
-     * @param callback : {Function}     undefined Function(isSuccess(Boolean), data)
+     * @param callback : function     undefined Function(isSuccess(Boolean), data)
      */
     static readFile(filepath, callback) {
         libArmyAnt.nodeJs.fs.readFile(filepath, function (err, data) {

@@ -37,8 +37,8 @@ export default class JsonParser extends AAObject {
 
     constructor(url) {
         super();
-        this.url = null
-        this.data = null
+        this.url = null;
+        this.data = null;
         if (url)
             this.url = url;
     }
@@ -74,9 +74,9 @@ export default class JsonParser extends AAObject {
 
     /**
      * 调用此方法, 以在不创建对象的情况下, 异步读取json数据, 并将数据传入回调方法
-     * @param url : String
-     * @param callback : Function
-     * @returns {*}
+     * @param url : string
+     * @param callback : function
+     * @returns {boolean}
      */
     static getJson(url, callback) {
         return (!libArmyAnt.nodeJs) ?

@@ -42,13 +42,40 @@ const libArmyAnt = {
         major: 1,
         minor: 0,
         publish: 0,
-        build: 0,
+        build: 1,
         toNumeric: function () {
             return this.major * 256 * 256 * 256 + this.minor * 256 * 256 + this.publish * 256 + this.build;
         },
         toString: function () {
             return this.major + "." + this.minor + "." + this.publish + "." + this.build + ".";
         }
+    },
+
+    magics: {
+        types: {
+            UNDEFINED: "undefined",
+            NULL: "null",
+            BOOLEAN: "boolean",
+            NUMBER: "number",
+            STRING: "string",
+            OBJECT: "object",
+            ARRAY: "array",
+            SYMBOL: "symbol",
+            FUNCTION: "function",
+            MAP: "map",
+            SET: "set"
+        },
+        specials: {
+            NAN: Number.NaN,
+            INFINITE: Number.infinite,
+            ZERO: 0,
+            D_ZERO: -0,
+            EMPTY_STRING: "",
+            TRUE: true,
+            FALSE: false,
+        },
+        numbers: {},
+        strings: {}
     },
 
     /**
@@ -81,7 +108,7 @@ const libArmyAnt = {
      * 如果在node.js环境中使用本库，此节点将会自动获取node.js的几个常用库，和本库所依赖的node.js的库
      * 如果不在node.js环境下，此节点为null。可据此判断是否具有node.js环境
      */
-    nodeJs: (typeof require === "undefined" || !require) ? null : {
+    nodeJs: (typeof require === libArmyAnt.magics.types.UNDEFINED || !require) ? null : {
         http: require("http"),
         url: require("url"),
         fs: require("fs"),
@@ -99,7 +126,7 @@ const libArmyAnt = {
 
     _print (mode, array) {
         let modeNum = 0;
-        switch (this.config.debugMode) {
+        switch (this.config["debugMode"]) {
             case "log":
                 modeNum = 1;
                 break;
@@ -160,8 +187,8 @@ const libArmyAnt = {
         this._print("error", args);
     },
 
-    parseToWords (string, separators) {
-        if (typeof separators === "undefined" || !separators || separators === "PRO") {
+    parseToWords (string, separators = "default") {
+        if (separators === "PRO") {
             separators = ["===", "!==", "::", "++", "--", "+=", "-=", "*=", "/=", "%=", "<=", ">=", "==", "!=", "||", "&&",
                 ",", ' ', '\t', '\r', '\n', ':', '.', '+', '-', '*', '/', '%', '&', '!', '|', '?', '>', '<', ';']
         } else if (separators === "TIME") {
@@ -242,7 +269,7 @@ const libArmyAnt = {
         console.log("ArmyAnt : loading script " + url);
         if (this.nodeJs)
             return require(url);
-        return libArmyAnt.insertElement("script", document.head, {src: url, type: "text/javascript"});
+        return this.insertElement("script", document.head, {src: url, type: "text/javascript"});
     },
 
     /**
@@ -259,7 +286,7 @@ const libArmyAnt = {
      */
     importStyle (url) {
         console.log("ArmyAnt : load style " + url);
-        return libArmyAnt.insertElement("link", document.head, {
+        return this.insertElement("link", document.head, {
             href: url,
             type: "text/css",
             rel: "stylesheet"
@@ -274,14 +301,14 @@ const libArmyAnt = {
 
 if (libArmyAnt.nodeJs)
     global.$ = require('jquery');
-else if (typeof global === "undefined") {
-    if (typeof window !== "undefined")
+else if (typeof global === libArmyAnt.magics.types.UNDEFINED) {
+    if (typeof window !== libArmyAnt.magics.types.UNDEFINED)
         window.global = window;
-    else if (typeof self !== "undefined")
+    else if (typeof self !== libArmyAnt.magics.types.UNDEFINED)
         self.global = self;
 }
 
-if (typeof global.Object.copy === "undefined" || !this.Object.copy)
+if (typeof global.Object.copy === libArmyAnt.magics.types.UNDEFINED || !this.Object.copy)
     /**
      * clone the object with its every child member. Each array and object in its children will also clone recursively
      * 创建指定Object对象的一个副本，且其所有Object和Array类型的子成员都会被递归式克隆
@@ -296,7 +323,7 @@ if (typeof global.Object.copy === "undefined" || !this.Object.copy)
         let ret = Object.create(obj);
         for (let k in obj) {
             if (obj.hasOwnProperty(k))
-                if (typeof obj[k] === "object")
+                if (typeof obj[k] === libArmyAnt.magics.types.OBJECT)
                     Object.copyTo(obj[k], ret, k);
                 else
                     ret[k] = obj[k];
@@ -312,7 +339,7 @@ global.Object.copyTo = function (src, dst, dstKey) {
     dst[dstKey] = Object.create(src);
     for (let k in src) {
         if (src.hasOwnProperty(k))
-            if (typeof src[k] === "object")
+            if (typeof src[k] === libArmyAnt.magics.types.OBJECT)
                 Object.copyTo(src[k], dst[dstKey], k);
             else
                 dst[dstKey][k] = src[k];
@@ -359,9 +386,9 @@ global.Array.prototype.copy = function () {
     let ret = new Array(this.length);
     for (let i = 0; i < this.length; i++) {
         switch (typeof this[i]) {
-            case "undefined":
+            case libArmyAnt.magics.types.UNDEFINED:
                 break;
-            case "object":
+            case libArmyAnt.magics.types.OBJECT:
                 Object.copyTo(this[i], ret, i);
                 break;
             default:
@@ -422,4 +449,36 @@ if (!global.Function.prototype.bind)
         };
     };
 
+if (libArmyAnt.nodeJs) {
+    libArmyAnt.nodeJs.fs["readFile"](libArmyAnt.config.nodeRootDir + "data/libConfig.json", (err, jsonData) => {
+        if (err) {
+            console.error("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + "data/libConfig.json failed !");
+        } else {
+            let data = JSON.parse(jsonData);
+            for (let key in data[0]) {
+                if (data[0].hasOwnProperty(key))
+                    libArmyAnt.config[key] = data[0][key];
+            }
+            console.log("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + "data/libConfig.json OK !");
+        }
+    });
+} else {
+    $.ajax({
+        type: "get",
+        url: libArmyAnt.config.dataRootDir + "data/libConfig.json",
+        cache: true,
+        async: false,
+        dataType: "json",
+        success (data) {
+            for (let key in data[0]) {
+                if (data[0].hasOwnProperty(key))
+                    libArmyAnt.config[key] = data[0][key];
+            }
+            console.log("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + "data/libConfig.json OK !");
+        },
+        error (data, err, exception) {
+            console.error("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + "data/libConfig.json failed !");
+        }
+    });
+}
 export default libArmyAnt

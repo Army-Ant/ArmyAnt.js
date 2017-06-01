@@ -51,7 +51,7 @@ export default class Scheduler extends AAObject {
     /**
      * To run the scheduler with the timed call back function
      * 开始运行计时器
-     * @param func : {Function}
+     * @param func : function
      *      If no param input into, the scheduler will run latest set function
      *      如果没有传入回调方法的参数, 则使用之前设定的回调方法. 如果之前也不曾设定过, 则不能启动计时器
      * @returns {boolean}

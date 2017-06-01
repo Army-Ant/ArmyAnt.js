@@ -24,6 +24,7 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
+import libArmyAnt from "../global.js"
 import AAObject from "../object.js"
 import animation from "./base.js"
 
@@ -92,7 +93,7 @@ export default class extends AAObject {
     }
 
     getChildZIndex(tagOrNode) {
-        if (typeof tagOrNode !== "string")
+        if (typeof tagOrNode !== libArmyAnt.magics.types.STRING)
                 tagOrNode = this.getChildTag(tagOrNode);
             if(!tagOrNode)
                 throw "Cannot found the child node";
@@ -100,7 +101,7 @@ export default class extends AAObject {
     }
 
     setChildZIndex(tagOrNode, zIndex) {
-        if (typeof tagOrNode !== "string")
+        if (typeof tagOrNode !== libArmyAnt.magics.types.STRING)
                 tagOrNode = this.getChildTag(tagOrNode);
             if(!tagOrNode)
                 throw "Cannot found the child node";

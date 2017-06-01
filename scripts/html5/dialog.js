@@ -30,38 +30,34 @@ import HTML5 from "./base.js"
 import AAObject from "../object.js"
 
 export default class Dialog extends AAObject {
-
-
     constructor(text, title, type) {
         super();
-            this._getModal();
-            this.title = title;
-            this.text = text;
-            this.type = type;
+        this._getModal();
+        this.title = title;
+        this.text = text;
+        this.type = type;
         this.btnNames = [];
         this.btnCallbacks = [];
         this._dialog = null;
     }
 
-        /**
-         * Create the dialog with current settings and return it
-         * @returns {HTMLElement} canvas
-         */
-        return() {
-            this._dialog.children["dialog_title"].innerText = this.title;
-            this._dialog.children["dialog_text"].innerText = this.text;
-            for (let i = 0; i < this.btnNames.length; i++) {
-                this._dialog.children["dialog_btn" + i].innerText = this.btnNames[i];
-                this._dialog.children["dialog_btn" + i].onclick = this.btnCallbacks[i];
-            }
-            return this._dialog;
+    /**
+     * Create the dialog with current settings and return it
+     * @returns {HTMLElement} canvas
+     */
+    getDialog() {
+        this._dialog.children["dialog_title"].innerText = this.title;
+        this._dialog.children["dialog_text"].innerText = this.text;
+        for (let i = 0; i < this.btnNames.length; i++) {
+            this._dialog.children["dialog_btn" + i].innerText = this.btnNames[i];
+            this._dialog.children["dialog_btn" + i].onclick = this.btnCallbacks[i];
         }
+        return this._dialog;
+    }
 
-    _parseType(type) {
-            if (!type && type !== 0 && this) {
-                type = this.type;
-            }
-        }
+    _parseType(type = this.type) {
+
+    }
 
     _getModal() {
         this._dialog = HTML5.data.getElementById("dialog");
