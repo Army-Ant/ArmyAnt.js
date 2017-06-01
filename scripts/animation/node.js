@@ -94,7 +94,10 @@ libArmyAnt.animation.INode = libArmyAnt.Object.inherit({
     removeAllChildren: null,
     setParent: null,
     removeSelf: function () {
-        delete this.parent.children.lists[tag];
+        var tag = this.getThisTag();
+        var parent = this.parent;
+        this.parent = null;
+        delete parent.scenes.lists[tag];
     },
     refresh: null,
     update: null

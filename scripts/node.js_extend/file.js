@@ -33,7 +33,6 @@
     /**
      * The file reader included the simplified node.js file operation
      * 封装了一些操作来简化node.js的文件操作
-     * @type {class}
      */
 
     var File = libArmyAnt.Object.inherit({

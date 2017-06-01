@@ -69,7 +69,7 @@
                 major: 1,
                 minor: 0,
                 publish: 0,
-                build: 0,
+                build: 1,
                 toNumeric: function () {
                     return this.major * 256 * 256 * 256 + this.minor * 256 * 256 + this.publish * 256 + this.build;
                 },

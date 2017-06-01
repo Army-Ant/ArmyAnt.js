@@ -204,7 +204,7 @@
                 D_ZERO: -0,
                 EMPTY_STRING: "",
                 TRUE: true,
-                FALSE: false,
+                FALSE: false
             },
             numbers: {},
             strings: {}

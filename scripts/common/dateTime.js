@@ -29,7 +29,7 @@
  * The datetime class, used to convert between different format of datetime
  * 一个表示日期时间的类, 可以进行不同格式的时间的转换和输出
  */
-(function() {
+(function () {
 
     var libArmyAnt;
     if (typeof require !== "undefined") {
@@ -55,23 +55,21 @@
          *          如果第一个参数是ANSI-C格式的秒数, 则本参数传入时区代表字符串. 如不传, 则默认为GMT
          */
         ctor: function (httpStringOrCSeconds, formatTypeOrTimeZone) {
-            var tmp = formatTypeOrTimeZone;
-            if ((typeof httpStringOrCSeconds == libArmyAnt.magics.types.UNDEFINED || !httpStringOrCSeconds) && (typeof formatTypeOrTimeZone == libArmyAnt.magics.types.UNDEFINED || !formatTypeOrTimeZone))
+            if ((typeof httpStringOrCSeconds === libArmyAnt.magics.types.UNDEFINED || !httpStringOrCSeconds) && (typeof formatTypeOrTimeZone === libArmyAnt.magics.types.UNDEFINED || !formatTypeOrTimeZone))
                 this.jsTime = (new Date());
             else {
-                if ((formatTypeOrTimeZone != NaN && (typeof formatTypeOrTimeZone == libArmyAnt.magics.types.NUMBER || Number(formatTypeOrTimeZone) != NaN))
-                    (typeof formatTypeOrTimeZone == libArmyAnt.magics.types.STRING && (typeof httpStringOrCSeconds == libArmyAnt.magics.types.UNDEFINED || !httpStringOrCSeconds))
-                ) {
+                if (!Number.isNaN(Number(formatTypeOrTimeZone)) || !httpStringOrCSeconds) {
+                    var tmp = formatTypeOrTimeZone;
                     formatTypeOrTimeZone = httpStringOrCSeconds;
                     httpStringOrCSeconds = tmp;
                 }
-                if (httpStringOrCSeconds != NaN && (typeof httpStringOrCSeconds == libArmyAnt.magics.types.NUMBER || Number(httpStringOrCSeconds) != NaN)) {
+                if (!Number.isNaN(Number(httpStringOrCSeconds))) {
                     this.jsTime = new Date();
-                    this.jsTime.setTime(httpStringOrCSeconds * 1000);
-                    if (typeof formatTypeOrTimeZone == libArmyAnt.magics.types.STRING)
+                    this.jsTime.setTime(Number(httpStringOrCSeconds) * 1000);
+                    if (typeof formatTypeOrTimeZone === libArmyAnt.magics.types.STRING)
                         this.timeZone = formatTypeOrTimeZone;
-                } else if (typeof httpStringOrCSeconds == libArmyAnt.magics.types.STRING) {
-                    if (!this._setFromHttpString(httpStringOrCSeconds, formatTypeOrTimeZone) && (typeof formatTypeOrTimeZone == libArmyAnt.magics.types.STRING || !this._setFromHttpString(formatTypeOrTimeZone, httpStringOrCSeconds))) {
+                } else if (typeof httpStringOrCSeconds === libArmyAnt.magics.types.STRING) {
+                    if (!this._setFromHttpString(httpStringOrCSeconds, formatTypeOrTimeZone) && (typeof formatTypeOrTimeZone === libArmyAnt.magics.types.STRING || !this._setFromHttpString(formatTypeOrTimeZone, httpStringOrCSeconds))) {
                         libArmyAnt.warn("Cannot parse the time string of : ", httpStringOrCSeconds);
                     }
                 }

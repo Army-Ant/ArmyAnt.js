@@ -71,6 +71,7 @@
             if (!type && type !== 0 && this) {
                 type = this.type;
             }
+
         },
 
         _getModal: function () {
