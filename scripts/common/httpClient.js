@@ -114,7 +114,7 @@
         connect: "CONNECT"
     };
 
-    if (typeof require === "undefined") {
+    if (typeof require === libArmyAnt.magics.types.UNDEFINED) {
         libArmyAnt.HttpClient = HttpClient;
         libArmyAnt._onInitialized();
     }

@@ -60,7 +60,7 @@ libArmyAnt.animation.IMaker = libArmyAnt.Object.inherit({
     },
 
     getSceneZIndex: function (tagOrScene) {
-        if (typeof tagOrScene !== "string")
+        if (typeof tagOrScene !== libArmyAnt.magics.types.STRING)
             tagOrScene = this.getSceneTag(tagOrScene);
         if (!tagOrScene)
             throw "Cannot found the scene";
@@ -68,7 +68,7 @@ libArmyAnt.animation.IMaker = libArmyAnt.Object.inherit({
     },
 
     setSceneZIndex: function (tagOrScene, zIndex) {
-        if (typeof tagOrScene !== "string")
+        if (typeof tagOrScene !== libArmyAnt.magics.types.STRING)
             tagOrScene = this.getSceneTag(tagOrScene);
         if (!tagOrScene)
             throw "Cannot found the scene";

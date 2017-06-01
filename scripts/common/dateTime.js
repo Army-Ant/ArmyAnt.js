@@ -56,22 +56,22 @@
          */
         ctor: function (httpStringOrCSeconds, formatTypeOrTimeZone) {
             var tmp = formatTypeOrTimeZone;
-            if ((typeof httpStringOrCSeconds == "undefined" || !httpStringOrCSeconds) && (typeof formatTypeOrTimeZone == "undefined" || !formatTypeOrTimeZone))
+            if ((typeof httpStringOrCSeconds == libArmyAnt.magics.types.UNDEFINED || !httpStringOrCSeconds) && (typeof formatTypeOrTimeZone == libArmyAnt.magics.types.UNDEFINED || !formatTypeOrTimeZone))
                 this.jsTime = (new Date());
             else {
-                if ((formatTypeOrTimeZone != NaN && (typeof formatTypeOrTimeZone == "number" || Number(formatTypeOrTimeZone) != NaN))
-                    (typeof formatTypeOrTimeZone == "string" && (typeof httpStringOrCSeconds == "undefined" || !httpStringOrCSeconds))
+                if ((formatTypeOrTimeZone != NaN && (typeof formatTypeOrTimeZone == libArmyAnt.magics.types.NUMBER || Number(formatTypeOrTimeZone) != NaN))
+                    (typeof formatTypeOrTimeZone == libArmyAnt.magics.types.STRING && (typeof httpStringOrCSeconds == libArmyAnt.magics.types.UNDEFINED || !httpStringOrCSeconds))
                 ) {
                     formatTypeOrTimeZone = httpStringOrCSeconds;
                     httpStringOrCSeconds = tmp;
                 }
-                if (httpStringOrCSeconds != NaN && (typeof httpStringOrCSeconds == "number" || Number(httpStringOrCSeconds) != NaN)) {
+                if (httpStringOrCSeconds != NaN && (typeof httpStringOrCSeconds == libArmyAnt.magics.types.NUMBER || Number(httpStringOrCSeconds) != NaN)) {
                     this.jsTime = new Date();
                     this.jsTime.setTime(httpStringOrCSeconds * 1000);
-                    if (typeof formatTypeOrTimeZone == "string")
+                    if (typeof formatTypeOrTimeZone == libArmyAnt.magics.types.STRING)
                         this.timeZone = formatTypeOrTimeZone;
-                } else if (typeof httpStringOrCSeconds == "string") {
-                    if (!this._setFromHttpString(httpStringOrCSeconds, formatTypeOrTimeZone) && (typeof formatTypeOrTimeZone == "string" || !this._setFromHttpString(formatTypeOrTimeZone, httpStringOrCSeconds))) {
+                } else if (typeof httpStringOrCSeconds == libArmyAnt.magics.types.STRING) {
+                    if (!this._setFromHttpString(httpStringOrCSeconds, formatTypeOrTimeZone) && (typeof formatTypeOrTimeZone == libArmyAnt.magics.types.STRING || !this._setFromHttpString(formatTypeOrTimeZone, httpStringOrCSeconds))) {
                         libArmyAnt.warn("Cannot parse the time string of : ", httpStringOrCSeconds);
                     }
                 }
@@ -149,7 +149,7 @@
             // Check words number
             if (words.length !== 8 || (type === DateTime.TimeStringType.Ansi && words.length !== 7))
                 return false;
-            if (((typeof type === "undefined" || !type) && (!Number.isNaN(Number(words[2])) && Number.isNaN(Number(words[1])))) || (type === DateTime.TimeStringType.Ansi)) {
+            if (((typeof type === libArmyAnt.magics.types.UNDEFINED || !type) && (!Number.isNaN(Number(words[2])) && Number.isNaN(Number(words[1])))) || (type === DateTime.TimeStringType.Ansi)) {
                 var tmp = words[1];
                 words[1] = words[2];
                 words[2] = tmp;
@@ -220,7 +220,7 @@
         December: "Dec"
     };
 
-    if (typeof require === "undefined") {
+    if (typeof require === libArmyAnt.magics.types.UNDEFINED) {
         libArmyAnt.DateTime = DateTime;
         libArmyAnt._onInitialized();
     }

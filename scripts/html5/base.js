@@ -63,7 +63,7 @@
 
     });
 
-    if (typeof require === "undefined") {
+    if (typeof require === libArmyAnt.magics.types.UNDEFINED) {
         libArmyAnt.HTML5 = HTML5;
         libArmyAnt._onInitialized();
     }

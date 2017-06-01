@@ -80,7 +80,7 @@
 
     Dialog.MESSAGE = 1;
 
-    if (typeof require === "undefined") {
+    if (typeof require === libArmyAnt.magics.types.UNDEFINED) {
         libArmyAnt.HTML5.Dialog = Dialog;
         libArmyAnt._onInitialized();
     }

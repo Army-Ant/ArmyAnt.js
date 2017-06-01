@@ -33,9 +33,9 @@ libArmyAnt.animation.Canvas.Scene = libArmyAnt.animation.IScene.inherit({
     },
 
     addNode: function (tag, node, x, y) {
-        if (typeof x === "number")
+        if (typeof x === libArmyAnt.magics.types.NUMBER)
             node.x = x;
-        if (typeof y === "number")
+        if (typeof y === libArmyAnt.magics.types.NUMBER)
             node.y = y;
         node.parent = this;
         node.scene = this;

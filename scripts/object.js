@@ -58,12 +58,12 @@
     newObject.inherit = function (extend) {
         var parent = this;
         var ret = function () {
-            if (typeof this["__objectProperties__"] !== "undefined") {
+            if (typeof this["__objectProperties__"] !== libArmyAnt.magics.types.UNDEFINED) {
                 for (var k in this["__objectProperties__"]) {
                     if (!this["__objectProperties__"].hasOwnProperty(k))
                         continue;
                     var oldObj = this["__objectProperties__"][k];
-                    if (typeof this["__objectProperties__"][k] === "object") {
+                    if (typeof this["__objectProperties__"][k] === libArmyAnt.magics.types.OBJECT) {
                         Object.copyTo(oldObj, this, k);
                     } else {
                         this[k] = oldObj;
@@ -84,12 +84,12 @@
             if (extend.hasOwnProperty(k))
                 if (k === "__objectProperties__")
                     libArmyAnt.warn("There is a property named '" + k + "' !");
-                else if (typeof extend[k] === "object") {
+                else if (typeof extend[k] === libArmyAnt.magics.types.OBJECT) {
                     Object.copyTo(extend[k], ret.prototype["__objectProperties__"], k);
                 }
-                else if (typeof extend[k] === "function") {
+                else if (typeof extend[k] === libArmyAnt.magics.types.FUNCTION) {
                     ret.prototype[k] = extend[k];
-                    if (typeof ret.prototype["__objectProperties__"][k] !== "undefined")
+                    if (typeof ret.prototype["__objectProperties__"][k] !== libArmyAnt.magics.types.UNDEFINED)
                         delete ret.prototype["__objectProperties__"][k];
                 }
                 else
@@ -109,7 +109,7 @@
         var ret = new this(newArgs);
         for (var k in extend) {
             if (extend.hasOwnProperty(k))
-                if (typeof extend[k] === "object") {
+                if (typeof extend[k] === libArmyAnt.magics.types.OBJECT) {
                     Object.copyTo(extend[k], ret, k);
                 }
                 else
@@ -118,7 +118,7 @@
         return ret;
     };
 
-    if (typeof require === "undefined") {
+    if (typeof require === libArmyAnt.magics.types.UNDEFINED) {
         libArmyAnt.Object = newObject;
         libArmyAnt._onInitialized();
     } else {

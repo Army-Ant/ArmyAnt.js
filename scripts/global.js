@@ -49,7 +49,7 @@
                 var ret = Object.create(obj);
                 for (var k in obj) {
                     if (obj.hasOwnProperty(k))
-                        if (typeof obj[k] === "object")
+                        if (typeof obj[k] === output.magics.types.OBJECT)
                             Object.copyTo(obj[k], ret, k);
                         else
                             ret[k] = obj[k];
@@ -65,7 +65,7 @@
             dst[dstKey] = Object.create(src);
             for (var k in src) {
                 if (src.hasOwnProperty(k))
-                    if (typeof src[k] === "object")
+                    if (typeof src[k] === output.magics.types.OBJECT)
                         Object.copyTo(src[k], dst[dstKey], k);
                     else
                         dst[dstKey][k] = src[k];
@@ -112,9 +112,9 @@
             var ret = new Array(this.length);
             for (var i = 0; i < this.length; i++) {
                 switch (typeof this[i]) {
-                    case "undefined":
+                    case output.types.UNDEFINED:
                         break;
-                    case "object":
+                    case output.types.OBJECT:
                         Object.copyTo(this[i], ret, i);
                         break;
                     default:
@@ -186,7 +186,29 @@
      */
     var output = {
 
-        magics: {},
+        magics: {
+            types: {
+                UNDEFINED: "undefined",
+                NULL: "null",
+                BOOLEAN: "boolean",
+                NUMBER: "number",
+                STRING: "string",
+                OBJECT: "object",
+                ARRAY: "array",
+                FUNCTION: "function"
+            },
+            specials: {
+                NAN: Number.NaN,
+                INFINITE: Number.infinite,
+                ZERO: 0,
+                D_ZERO: -0,
+                EMPTY_STRING: "",
+                TRUE: true,
+                FALSE: false,
+            },
+            numbers: {},
+            strings: {}
+        },
 
         /**
          * Print debug messages with setting mode
@@ -260,7 +282,7 @@
         },
 
         parseToWords: function (string, separators) {
-            if (typeof separators === "undefined" || !separators || separators === "PRO") {
+            if (typeof separators === output.types.UNDEFINED || !separators || separators === "PRO") {
                 separators = ["===", "!==", "::", "++", "--", "+=", "-=", "*=", "/=", "%=", "<=", ">=", "==", "!=", "||", "&&",
                     ",", ' ', '\t', '\r', '\n', ':', '.', '+', '-', '*', '/', '%', '&', '!', '|', '?', '>', '<', ';']
             } else if (separators === "TIME") {
@@ -295,7 +317,7 @@
         }
     };
 
-    if (typeof require === "undefined") {
+    if (typeof require === output.magics.types.UNDEFINED) {
         window.libArmyAnt.log = output.log;
         window.libArmyAnt.warn = output.warn;
         window.libArmyAnt.assert = output.assert;

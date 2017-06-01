@@ -97,7 +97,7 @@
         },
 
         getChildZIndex:function(tagOrNode){
-            if (typeof tagOrNode !== "string")
+            if (typeof tagOrNode !== libArmyAnt.magics.types.STRING)
                 tagOrNode = this.getChildTag(tagOrNode);
             if(!tagOrNode)
                 throw "Cannot found the child node";
@@ -105,7 +105,7 @@
         },
 
         setChildZIndex:function(tagOrNode, zIndex){
-            if (typeof tagOrNode !== "string")
+            if (typeof tagOrNode !== libArmyAnt.magics.types.STRING)
                 tagOrNode = this.getChildTag(tagOrNode);
             if(!tagOrNode)
                 throw "Cannot found the child node";

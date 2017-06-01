@@ -129,7 +129,7 @@
         }
     });
 
-    if (typeof require === "undefined") {
+    if (typeof require === libArmyAnt.magics.types.UNDEFINED) {
         libArmyAnt.Scheduler = Scheduler;
         libArmyAnt._onInitialized();
     }

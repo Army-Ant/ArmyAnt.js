@@ -60,7 +60,7 @@
 
         start: function (port) {
             if (port) {
-                if (typeof port === "number" && port > 0 && port < 65535)
+                if (typeof port === libArmyAnt.magics.types.NUMBER && port > 0 && port < 65535)
                     this.port = port;
                 else {
                     libArmyAnt.error('Argument "port" is invalid in HttpServer.start! The value is ', port);
@@ -174,7 +174,7 @@
 
                     // Write the content of the file to response body
                     if (success || data)
-                        if (typeof data === "string")
+                        if (typeof data === libArmyAnt.magics.types.STRING)
                             response.write(data);
                         else if (contentType.substr(0, 4) === "text" || contentType.substr(0, 11) === "application")
                             response.write(data.toString());
