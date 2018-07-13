@@ -24,42 +24,44 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
+import libArmyAnt from "../global.js"
+import AAObject from "../object.js"
 
-libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
-    lists: {},
-    ctor: function () {
+export default class extends AAObject {
+    constructor() {
+        super();
+        this.lists = {};
+    }
 
-    },
-
-    put: function (tag, node, zIndex) {
+    put(tag, node, zIndex) {
         if (this.lists[tag]) {
             libArmyAnt.warn('The scene or node named "', tag, '" has been exist, please check the tag name or if it is added again!');
             return false;
         }
-        if (typeof zIndex != "number")
+        if (typeof zIndex !== libArmyAnt.magics.types.NUMBER)
             zIndex = 0;
         this.lists[tag] = {
             node: node,
             zIndex: zIndex
         };
         return true;
-    },
+    }
 
-    get: function (tag) {
+    get(tag) {
         return this.lists[tag].node;
-    },
+    }
 
-    getTag: function (node) {
-        for (var k in this.lists) {
-            if (this.lists[k].node === node)
+    getTag(node) {
+        for (let k in this.lists) {
+            if (this.lists.hasOwnProperty(k) && this.lists[k].node === node)
                 return k;
         }
         return null;
-    },
+    }
 
-    rename: function (tagOrNode, newTag) {
-        var node = tagOrNode;
-        if (typeof tagOrNode == "string") {
+    rename(tagOrNode, newTag) {
+        let node = tagOrNode;
+        if (typeof tagOrNode === libArmyAnt.magics.types.STRING) {
             node = this.get(tagOrNode);
         } else
             tagOrNode = this.getTag(node);
@@ -67,37 +69,39 @@ libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
             return false;
         if (tagOrNode === newTag)
             return true;
-        var zIndex = this.getZIndex(tagOrNode);
+        let zIndex = this.getZIndex(tagOrNode);
         this.remove(tagOrNode);
         this.put(newTag, node, zIndex);
         return true;
-    },
+    }
 
-    remove: function (tag) {
+    remove(tag) {
         this.lists[tag].node.removeSelf();
-    },
+    }
 
-    getZIndex: function (tag) {
+    getZIndex(tag) {
         return this.lists[tag].zIndex;
-    },
+    }
 
-    setZIndex: function (tag, zIndex) {
+    setZIndex(tag, zIndex) {
         this.lists[tag].zIndex = zIndex;
-    },
+    }
 
-    getByIndex: function (index) {
-        var ret = [];
-        for (var k in this.lists) {
-            if (this.lists[k].zIndex === index)
+    getByIndex(index) {
+        let ret = [];
+        for (let k in this.lists) {
+            if (this.lists.hasOwnProperty(k) && this.lists[k].zIndex === index)
                 ret.push(k);
         }
         return ret;
-    },
+    }
 
-    getMinIndex: function () {
-        var ret = 0;
-        var hasFound = false;
-        for (var k in this.lists) {
+    getMinIndex() {
+        let ret = 0;
+        let hasFound = false;
+        for (let k in this.lists) {
+            if (!this.lists.hasOwnProperty(k))
+                continue;
             if (!hasFound) {
                 hasFound = true;
                 ret = this.lists[k].zIndex;
@@ -106,12 +110,14 @@ libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
             }
         }
         return hasFound ? ret : null;
-    },
+    }
 
-    getMaxIndex: function () {
-        var ret = 0;
-        var hasFound = false;
-        for (var k in this.lists) {
+    getMaxIndex() {
+        let ret = 0;
+        let hasFound = false;
+        for (let k in this.lists) {
+            if (!this.lists.hasOwnProperty(k))
+                continue;
             if (!hasFound) {
                 hasFound = true;
                 ret = this.lists[k].zIndex;
@@ -120,12 +126,14 @@ libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
             }
         }
         return hasFound ? ret : null;
-    },
+    }
 
-    getNextIndex: function (now) {
-        var ret = now;
-        var hasFound = false;
-        for (var k in this.lists) {
+    getNextIndex(now) {
+        let ret = now;
+        let hasFound = false;
+        for (let k in this.lists) {
+            if (!this.lists.hasOwnProperty(k))
+                continue;
             if (this.lists[k].zIndex > now)
                 if (!hasFound) {
                     hasFound = true;
@@ -135,12 +143,14 @@ libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
                 }
         }
         return hasFound ? ret : null;
-    },
+    }
 
-    getBackIndex: function (now) {
-        var ret = now;
-        var hasFound = false;
-        for (var k in this.lists) {
+    getBackIndex(now) {
+        let ret = now;
+        let hasFound = false;
+        for (let k in this.lists) {
+            if (!this.lists.hasOwnProperty(k))
+                continue;
             if (this.lists[k].zIndex < now)
                 if (!hasFound) {
                     hasFound = true;
@@ -150,13 +160,13 @@ libArmyAnt.animation.TagIndexList = libArmyAnt.Object.inherit({
                 }
         }
         return hasFound ? ret : null;
-    },
+    }
 
-    clear: function () {
-        for (var k in this.lists) {
+    clear() {
+        for (let k in this.lists) {
+            if (!this.lists.hasOwnProperty(k))
+                continue;
             this.lists[k].removeSelf();
         }
     }
-});
-
-libArmyAnt._onInitialized();
+}

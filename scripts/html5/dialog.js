@@ -26,64 +26,40 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
+import HTML5 from "./base.js"
+import AAObject from "../object.js"
 
-(function() {
-
-    var libArmyAnt;
-    if (typeof require == "undefined")
-        libArmyAnt = window.libArmyAnt;
-    else {
-        libArmyAnt = require("../global.js");
-        libArmyAnt.Object = require("../object.js");
+export default class Dialog extends AAObject {
+    constructor(text, title, type) {
+        super();
+        this._getModal();
+        this.title = title;
+        this.text = text;
+        this.type = type;
+        this.btnNames = [];
+        this.btnCallbacks = [];
+        this._dialog = null;
     }
 
-    var Dialog = libArmyAnt.Object.inherit({
-        title: "Message",
-        type: 0,
-        text: "",
-        btnNames: [],
-        btnCallbacks: [],
-
-        _dialog: null,
-
-        ctor: function (text, title, type) {
-            this._getModal();
-            this.title = title;
-            this.text = text;
-            this.type = type;
-        },
-
-        /**
-         * Create the dialog with current settings and return it
-         * @returns {HTMLElement} canvas
-         */
-        return: function () {
-            this._dialog.children["dialog_title"].innerText = this.title;
-            this._dialog.children["dialog_text"].innerText = this.text;
-            for (var i = 0; i < this.btnNames.length; i++) {
-                this._dialog.children["dialog_btn" + i].innerText = this.btnNames[i];
-                this._dialog.children["dialog_btn" + i].onclick = this.btnCallbacks[i];
-            }
-            return this._dialog;
-        },
-
-        _parseType: function (type) {
-            if (!type && type !== 0 && this) {
-                type = this.type;
-            }
-        },
-
-        _getModal: function () {
-            this._dialog = libArmyAnt.HTML5.data.getElementById("dialog");
+    /**
+     * Create the dialog with current settings and return it
+     * @returns {HTMLElement} canvas
+     */
+    getDialog() {
+        this._dialog.children["dialog_title"].innerText = this.title;
+        this._dialog.children["dialog_text"].innerText = this.text;
+        for (let i = 0; i < this.btnNames.length; i++) {
+            this._dialog.children["dialog_btn" + i].innerText = this.btnNames[i];
+            this._dialog.children["dialog_btn" + i].onclick = this.btnCallbacks[i];
         }
-    });
-
-    Dialog.MESSAGE = 1;
-
-    if (typeof require == "undefined") {
-        libArmyAnt.HTML5.Dialog = Dialog;
-        libArmyAnt._onInitialized();
+        return this._dialog;
     }
-    else
-        module.exports = Dialog;
-})();
+
+    _parseType(type = this.type) {
+
+    }
+
+    _getModal() {
+        this._dialog = HTML5.data.getElementById("dialog");
+    }
+}

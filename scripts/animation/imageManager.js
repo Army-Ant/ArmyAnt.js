@@ -24,15 +24,17 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
+import AAObject from "../object.js"
 
-libArmyAnt.animation.ImageManager = libArmyAnt.Object.inherit({
-    resourceList: {},
+export default class extends AAObject {
 
-    ctor: function () {
-    },
+    constructor() {
+        super();
+        this.resourceList = {};
+    }
 
-    updateImage: function (tag, url) {
-        var newImg = new Image();
+    updateImage(tag, url) {
+        let newImg = new Image();
         newImg.onload = function () {
             this.resourceList[tag] = newImg;
         };
@@ -40,25 +42,23 @@ libArmyAnt.animation.ImageManager = libArmyAnt.Object.inherit({
 
         };
         newImg.src = url;
-    },
+    }
 
-    updateImageByDom: function (tag, img) {
+    updateImageByDom(tag, img) {
         this.resourceList[tag] = img;
-    },
+    }
 
-    removeImage: function (tag) {
+    removeImage(tag) {
         this.resourceList.remove(tag);
-    },
+    }
 
-    getImage: function (tag) {
+    getImage(tag) {
         if (this.resourceList.hasOwnProperty(tag))
             return this.resourceList[tag];
         return null;
-    },
+    }
 
-    clearResource: function (tag) {
+    clearResource(tag) {
         this.resourceList = {};
     }
-});
-
-libArmyAnt._onInitialized();
+}

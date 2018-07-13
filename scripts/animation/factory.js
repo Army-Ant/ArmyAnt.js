@@ -24,29 +24,28 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
+import AAObject from "../object.js"
+import animation from "./base.js"
 
-libArmyAnt.animation.factory = libArmyAnt.Object.extendSingleton({
-    manager: [],
-    refreshTime: 0.0166,
+export default new class extends AAObject {
 
-    ctor: function () {
+    constructor() {
+        super();
+        this.manager = [];
+        this.refreshTime = 0.0166;
+    }
 
-    },
-
-    getMaker: function (type, elem, args) {
+    getMaker(type, elem, args) {
         switch (type) {
-            case libArmyAnt.animation.realization.canvas:
-                return new libArmyAnt.animation.Canvas(elem, args.width, args.height, args.style);
-            case libArmyAnt.animation.realization.multiCanvas:
-            case libArmyAnt.animation.realization.css3:
-            case libArmyAnt.animation.realization.svg:
-            case libArmyAnt.animation.realization.jQuery:
-            case libArmyAnt.animation.realization.webGL:
+            case animation.realization.canvas:
+                return new animation.Canvas(elem, args.width, args.height, args.style);
+            case animation.realization.multiCanvas:
+            case animation.realization.css3:
+            case animation.realization.svg:
+            case animation.realization.jQuery:
+            case animation.realization.webGL:
             default:
                 break;
         }
     }
-});
-
-
-libArmyAnt._onInitialized();
+}
