@@ -25,22 +25,20 @@
  */
 "use strict";
 import libArmyAnt from "../global.js"
-import AAObject from "../object.js"
 import animation from "./base.js"
 
-export default class extends AAObject {
+export default class Scene{
 
     constructor(parent, x, y, width, height, background) {
-        super();
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
-            this.parent = parent;
-            if(background)
-                this.background = background;
-            else
-                this.background = null;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.parent = parent;
+        if(background)
+            this.background = background;
+        else
+            this.background = null;
         this.shown = true;
         this.running = true;
         this.children = new animation.TagIndexList();

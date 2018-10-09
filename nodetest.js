@@ -6,7 +6,7 @@ import libArmyAnt from "./libArmyAnt"
 
 let serverHost = {
     onStart: function () {
-        let svr = new libArmyAnt.HttpServer();
+        let svr = new libArmyAnt.HttpServer;
         svr.start(8765);
     },
 

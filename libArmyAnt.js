@@ -32,7 +32,6 @@
  *
  */
 import libArmyAnt from "./scripts/global.js"
-import AAObject from "./scripts/object.js"
 import DateTime from "./scripts/common/dateTime.js"
 import HttpClient from "./scripts/common/httpClient.js"
 import JsonParser from "./scripts/common/jsonParser.js"
@@ -62,7 +61,6 @@ if (typeof require === "undefined" && (
     console.warn('ArmyAnt : The module name "libArmyAnt" has been defined !');
 } else {
 
-    libArmyAnt.Object = AAObject;
     libArmyAnt.DateTime = DateTime;
     libArmyAnt.HttpClient = HttpClient;
     libArmyAnt.JsonParser = JsonParser;

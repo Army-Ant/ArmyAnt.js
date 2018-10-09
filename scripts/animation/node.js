@@ -24,10 +24,9 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-import AAObject from "../object.js"
 import animation from "./base.js"
 
-export default class extends AAObject {
+export default class Node {
 
     /**
      *
@@ -40,8 +39,6 @@ export default class extends AAObject {
      * @param height
      */
     constructor(parent, scene, zIndex, x, y, width, height) {
-        super();
-
         this.x = x;
         this.y = y;
         this.width = width;

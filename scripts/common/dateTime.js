@@ -25,13 +25,12 @@
  */
 "use strict";
 import libArmyAnt from "../global.js"
-import AAObject from "../object.js"
 
 /**
  * The datetime class, used to convert between different format of datetime
  * 一个表示日期时间的类, 可以进行不同格式的时间的转换和输出
  */
-export default class DateTime extends AAObject {
+export default class DateTime {
 
     /**
      * Constructor, with params, the position of params can be exchange
@@ -45,7 +44,6 @@ export default class DateTime extends AAObject {
      *          如果第一个参数是ANSI-C格式的秒数, 则本参数传入时区代表字符串. 如不传, 则默认为GMT
      */
     constructor(httpStringOrCSeconds = null, formatTypeOrTimeZone = null) {
-        super();
         this.jsTime = null;
         this.timeZone = DateTime.GMT;
         if (!httpStringOrCSeconds && !formatTypeOrTimeZone)

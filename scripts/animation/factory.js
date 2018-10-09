@@ -24,16 +24,12 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-import AAObject from "../object.js"
 import animation from "./base.js"
 
-export default new class extends AAObject {
+export default {
 
-    constructor() {
-        super();
-        this.manager = [];
-        this.refreshTime = 0.0166;
-    }
+    manager: [],
+    refreshTime: 0.0166,
 
     getMaker(type, elem, args) {
         switch (type) {

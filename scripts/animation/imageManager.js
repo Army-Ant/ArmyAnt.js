@@ -24,12 +24,10 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-import AAObject from "../object.js"
 
-export default class extends AAObject {
+export default class ImageManager {
 
     constructor() {
-        super();
         this.resourceList = {};
     }
 

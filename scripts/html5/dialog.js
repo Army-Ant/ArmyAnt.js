@@ -27,11 +27,9 @@
  */
 "use strict";
 import HTML5 from "./base.js"
-import AAObject from "../object.js"
 
-export default class Dialog extends AAObject {
+export default class Dialog {
     constructor(text, title, type) {
-        super();
         this._getModal();
         this.title = title;
         this.text = text;

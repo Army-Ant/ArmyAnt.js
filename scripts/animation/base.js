@@ -25,7 +25,6 @@
  */
 "use strict";
 import libArmyAnt from "../global.js"
-import AAObject from "../object.js"
 
 import IAvatar from "./avatar.js"
 import factory from "./factory.js"
@@ -37,47 +36,43 @@ import ISprite from "./sprite.js"
 import TagIndexList from "./tagIndexList.js"
 
 import Canvas from "./canvas/canvas.js"
-
-export default new class extends AAObject {
-
-    constructor() {
-        super();
-        this.style = "assets/animation.css";
-        this.data = null;
-        this.realization = {
-            unknown: Symbol("unknown"),
-            canvas: Symbol("canvas"),
-            multiCanvas: Symbol("multiCanvas"),
-            css3: Symbol("css3"),
-            svg: Symbol("SVG"),
-            jQuery: Symbol("jQuery"),
-            webGL: Symbol("webGL"),
-            flash: Symbol("flash")
-        };
-        this.IAvatar = IAvatar;
-        this.factory = factory;
-        this.ImageManager = ImageManager;
-        this.IMaker = IMaker;
-        this.INode = INode;
-        this.IScene = IScene;
-        this.ISprite = ISprite;
-        this.TagIndexList = TagIndexList;
-
-        this.Canvas = Canvas;
-        if (libArmyAnt.nodeJs) {
-
-        } else {
-            global.$.ajax({
-                type: "get",
-                url: libArmyAnt.config.dataRootDir + this.style,
-                cache: true,
-                async: true,
-                dataType: "text",
-                success: (data, statue, jqXHR) => {
-                    this.data = data;
-                }
-            });
-        }
-    }
-
+	
+let base = {
+    style: "assets/animation.css",
+    data: null,
+    realization: {
+        unknown: Symbol("unknown"),
+        canvas: Symbol("canvas"),
+        multiCanvas: Symbol("multiCanvas"),
+        css3: Symbol("css3"),
+        svg: Symbol("SVG"),
+        jQuery: Symbol("jQuery"),
+        webGL: Symbol("webGL"),
+        flash: Symbol("flash")
+    },
+    IAvatar: IAvatar,
+    factory: factory,
+    ImageManager: ImageManager,
+    IMaker: IMaker,
+    INode: INode,
+    IScene: IScene,
+    ISprite: ISprite,
+    TagIndexList: TagIndexList,
+    Canvas: Canvas,
 }
+
+if (libArmyAnt.nodeJs) {
+} else {
+    global.$.ajax({
+        type: "get",
+        url: libArmyAnt.config.dataRootDir + base.style,
+        cache: true,
+        async: true,
+        dataType: "text",
+        success: (data, statue, jqXHR) => {
+            base.data = data;
+        }
+    });
+}
+
+export default base

@@ -27,34 +27,29 @@
  */
 "use strict";
 import libArmyAnt from "../global.js"
-import AAObject from "../object.js"
 import Dialog from "./dialog.js"
 
-
-export default new class HTML5 extends AAObject {
-
-    constructor() {
-        super();
-        this.modal = "assets/modals.html";
-        this.data = null;
-        this.Dialog = Dialog;
-        let self = this;
-        if (libArmyAnt.nodeJs) {
-            self.data = libArmyAnt.nodeJs.fs["readFile"]("../" + this.modal, function (err, filedata) {
-                self.data = filedata;
-            });
-        } else {
-            $.ajax({
-                type: "get",
-                url: libArmyAnt.config.dataRootDir + this.modal,
-                cache: true,
-                async: true,
-                dataType: "html",
-                success: function (data, statue, jqXHR) {
-                    self.data = data;
-                }
-            });
-        }
-    }
-
+let base = {
+	modal: "assets/modals.html",
+	data: null,
+	Dialog: Dialog,
 }
+
+if (libArmyAnt.nodeJs) {
+    base.data = libArmyAnt.nodeJs.fs["readFile"]("../" + base.modal, function (err, filedata) {
+        base.data = filedata;
+    });
+} else {
+    $.ajax({
+        type: "get",
+        url: libArmyAnt.config.dataRootDir + base.modal,
+        cache: true,
+        async: true,
+        dataType: "html",
+        success: function (data, statue, jqXHR) {
+            base.data = data;
+        }
+    });
+}
+
+export default base

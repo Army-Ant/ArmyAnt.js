@@ -24,15 +24,12 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-import AAObject from "../object.js"
 import libArmyAnt from "../global.js"
 
 let defaultType = Symbol("none");
 
-class IAvatar extends AAObject {
-
+class IAvatar {
     constructor() {
-        super();
         this.type = defaultType;
         this.args = {};
         this.draw = null;

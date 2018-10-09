@@ -24,19 +24,14 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-import AAObject from "../../object.js"
 
-export default new class extends AAObject {
-    constructor() {
-        super();
-
-        this.RectPointStyle = {
+export default {
+    RectPointStyle: {
             default: Symbol("miter"),
             miter: Symbol("miter"),
             round: Symbol("round"),
             bevel: Symbol("bevel")
-        };
+    },
 
-        this.color = {};
-    }
+    color: {},
 }

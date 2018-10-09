@@ -25,7 +25,6 @@
  */
 "use strict";
 import libArmyAnt from "../global.js"
-import AAObject from "../object.js"
 
 /**
  * The file reader included the simplified node.js file operation
@@ -33,7 +32,7 @@ import AAObject from "../object.js"
  * @type {class}
  */
 
-export default class File extends AAObject {
+export default class File {
 
     /**
      * if new this object with params, the file will be open at the same time
@@ -44,7 +43,6 @@ export default class File extends AAObject {
      *          The callback after file opened when create the object, if need;
      */
     constructor(filename, callback) {
-        super();
         this.filename = "";
         this.file_descriptor = null;
         this.file_stats = null;

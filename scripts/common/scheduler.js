@@ -26,17 +26,15 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-import AAObject from "../object.js"
 
 /**
  * The class to build a scheduler, which can recycle call a function
  * 建立一个定时器, 以便循环调用某个方法
  */
 
-class Scheduler extends AAObject {
+class Scheduler {
 
     constructor(dt = 0.01) {
-        super();
         this.delayTime = dt;
         this.callFunc = null;
 

@@ -24,16 +24,14 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-import AAObject from "../object.js"
 
 /*
  *
  *
  */
-export default class HttpClient extends AAObject {
+export default class HttpClient {
 
     constructor() {
-        super();
         this.serverURL = "http://127.0.0.1:80";
         this.beforeSend = null;    // function(XMLHttpRequest), used to change the XMLHttpRequest parameters, before the request sends
         this.complete = null; // function(XMLHttpRequest, requestType), used to resolve something after called back and before you resolve result

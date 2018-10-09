@@ -25,11 +25,9 @@
  */
 "use strict";
 import libArmyAnt from "../global.js"
-import AAObject from "../object.js"
 
-export default class extends AAObject {
+export default class TagIndexList {
     constructor() {
-        super();
         this.lists = {};
     }
 

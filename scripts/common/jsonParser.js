@@ -27,16 +27,14 @@
  */
 "use strict";
 import libArmyAnt from "../global.js"
-import AAObject from "../object.js"
 
 /**
  * The class to download and parse json file async
  */
 
-export default class JsonParser extends AAObject {
+export default class JsonParser {
 
     constructor(url) {
-        super();
         this.url = null;
         this.data = null;
         if (url)

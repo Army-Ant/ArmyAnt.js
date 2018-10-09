@@ -25,7 +25,6 @@
  */
 "use strict";
 import libArmyAnt from "../global.js"
-import AAObject from "../object.js"
 import File from "./file.js"
 import JsonParser from "../common/jsonParser.js"
 import HttpClient from "../common/httpClient.js"
@@ -39,11 +38,10 @@ let _statusCode = null;
  *
  *
  */
-export default class HttpServer extends AAObject {
+export default class HttpServer {
 
 
     constructor() {
-        super();
         this.port = 8080;
         this.listening = false;
         this.listenFunc = null;

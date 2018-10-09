@@ -25,15 +25,12 @@
  */
 "use strict";
 import libArmyAnt from "../global.js"
-import AAObject from "../object.js"
 import animation from "./base.js"
 import Scheduler from "../common/scheduler.js"
 
-export default class extends AAObject {
+export default class Maker {
 
     constructor(elem, width, height) {
-        super();
-
         this.type = animation.realization.unknown;
         this.timer = null;
         this.scenes = null;

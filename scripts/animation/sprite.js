@@ -33,7 +33,7 @@ import INode from "./node.js"
  * This library does not support the multi-inherit, and the "Sprite" must inheriting from "Node"
  * So, do not inherit from this class, only used as a helper and interface to outer user
  */
-export default class extends INode {
+export default class Sprite extends INode {
     constructor(avatar, parent, scene, zIndex, x, y, width, height) {
         super(parent, scene, zIndex, x, y, width, height);
         this.avatar = avatar;
