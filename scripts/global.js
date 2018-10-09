@@ -32,6 +32,35 @@
  * The base variable node of all this libArmyAnt content
  * 本库的基本命名空间，根节点
  */
+
+const localMagics = {
+    types: {
+        UNDEFINED: "undefined",
+        NULL: "null",
+        BOOLEAN: "boolean",
+        NUMBER: "number",
+        STRING: "string",
+        OBJECT: "object",
+        ARRAY: "array",
+        SYMBOL: "symbol",
+        FUNCTION: "function",
+        MAP: "map",
+        SET: "set"
+    },
+    specials: {
+        NAN: Number.NaN,
+        INFINITE: Number.NEGATIVE_INFINITY,
+        ZERO: 0,
+        D_ZERO: -0,
+        EMPTY_STRING: "",
+        TRUE: true,
+        FALSE: false,
+    },
+    numbers: {},
+    strings: {}
+}
+
+
 const libArmyAnt = {
 
     /**
@@ -51,32 +80,7 @@ const libArmyAnt = {
         }
     },
 
-    magics: {
-        types: {
-            UNDEFINED: "undefined",
-            NULL: "null",
-            BOOLEAN: "boolean",
-            NUMBER: "number",
-            STRING: "string",
-            OBJECT: "object",
-            ARRAY: "array",
-            SYMBOL: "symbol",
-            FUNCTION: "function",
-            MAP: "map",
-            SET: "set"
-        },
-        specials: {
-            NAN: Number.NaN,
-            INFINITE: Number.infinite,
-            ZERO: 0,
-            D_ZERO: -0,
-            EMPTY_STRING: "",
-            TRUE: true,
-            FALSE: false,
-        },
-        numbers: {},
-        strings: {}
-    },
+    magics: localMagics,
 
     /**
      * The information of this library, loaded from "libInfo.json"
@@ -108,7 +112,7 @@ const libArmyAnt = {
      * 如果在node.js环境中使用本库，此节点将会自动获取node.js的几个常用库，和本库所依赖的node.js的库
      * 如果不在node.js环境下，此节点为null。可据此判断是否具有node.js环境
      */
-    nodeJs: (typeof require === libArmyAnt.magics.types.UNDEFINED || !require) ? null : {
+    nodeJs: (typeof require === localMagics.types.UNDEFINED || !require) ? null : {
         http: require("http"),
         url: require("url"),
         fs: require("fs"),
@@ -301,14 +305,14 @@ const libArmyAnt = {
 
 if (libArmyAnt.nodeJs)
     global.$ = require('jquery');
-else if (typeof global === libArmyAnt.magics.types.UNDEFINED) {
-    if (typeof window !== libArmyAnt.magics.types.UNDEFINED)
+else if (typeof global === localMagics.types.UNDEFINED) {
+    if (typeof window !== localMagics.types.UNDEFINED)
         window.global = window;
-    else if (typeof self !== libArmyAnt.magics.types.UNDEFINED)
+    else if (typeof self !== localMagics.types.UNDEFINED)
         self.global = self;
 }
 
-if (typeof global.Object.copy === libArmyAnt.magics.types.UNDEFINED || !this.Object.copy)
+if (typeof global.Object.copy === localMagics.types.UNDEFINED || !this.Object.copy)
     /**
      * clone the object with its every child member. Each array and object in its children will also clone recursively
      * 创建指定Object对象的一个副本，且其所有Object和Array类型的子成员都会被递归式克隆

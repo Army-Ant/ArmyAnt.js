@@ -33,19 +33,16 @@ import AAObject from "../object.js"
  * 建立一个定时器, 以便循环调用某个方法
  */
 
-export default class Scheduler extends AAObject {
+class Scheduler extends AAObject {
 
-    constructor(dt) {
+    constructor(dt = 0.01) {
         super();
-        this.delayTime = 0.001;
+        this.delayTime = dt;
         this.callFunc = null;
 
         this._running = false;
         this._runningID = null;
         this._lastTime = 0;
-
-        if (dt)
-            this.delayTime = dt;
     }
 
     /**
@@ -61,7 +58,7 @@ export default class Scheduler extends AAObject {
             this.callFunc = func;
         if (this.callFunc && !this._running) {
             this._running = true;
-            this._lastTime = Date.parse(new Date());
+            this._lastTime = new Date().getTime();
             this._runningID = setInterval(this._callback.bind(this), this.delayTime * 1000);
             return true;
         }
@@ -111,15 +108,19 @@ export default class Scheduler extends AAObject {
         if (this._runningID)
             clearInterval(this._runningID);
         else
-            this._lastTime = Date.parse(new Date());
+            this._lastTime = new Date().getTime();
         this._runningID = setInterval(this._callback.bind(this), this.delayTime * 1000);
     }
 
     _callback() {
-        let nd = Date.parse(new Date());
-        this.callFunc(nd - this._lastTime);
+        let nd = new Date().getTime();
+        this.callFunc((nd - this._lastTime)/1000);
         this._lastTime = nd;
     }
-
 }
 
+Scheduler.callAfterDelay = function(func, dt){
+    return setTimeout(func, dt * 1000);
+}
+
+export default Scheduler
