@@ -269,11 +269,15 @@ const libArmyAnt = {
      *      Object : the module root of the node.js require returned
      *      当在node.js环境下时，返回载入成功的javascript模块引用。载入失败时，返回null
      */
-    importScript (url) {
+    importScript (url, isAsync, isDefer) {
         console.log("ArmyAnt : loading script " + url);
         if (this.nodeJs)
             return require(url);
-        return this.insertElement("script", document.head, {src: url, type: "text/javascript"});
+		if(isAsync)
+			return this.insertElement("script", document.head, {src: url, type: "text/javascript", async: "async"});
+		else if(isDefer)
+			return this.insertElement("script", document.head, {src: url, type: "text/javascript", defer: "defer"});
+		return this.insertElement("script", document.head, {src: url, type: "text/javascript"});
     },
 
     /**
