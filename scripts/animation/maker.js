@@ -30,13 +30,14 @@ import Scheduler from "../common/scheduler.js"
 
 export default class Maker {
 
-    constructor(elem, width, height) {
+    constructor(elem, width, height, createParams) {
         this.type = animation.realization.unknown;
         this.timer = null;
         this.scenes = null;
         this.parentElem = null;
         this.scenes = new animation.TagIndexList();
         this.timer = new Scheduler(animation.factory.refreshTime);
+		this._createElem(createParams);
         if (elem)
             this.addToElem(elem);
         this.timer.run(this._timerFunc.bind(this));
@@ -109,6 +110,9 @@ export default class Maker {
             throw "Cannot found the scene";
         return this.scenes.setZIndex(tagOrScene, zIndex);
     }
+	
+	_createElem(createParams) {
+	}
 
     _timerFunc(dt) {
         this.update(dt);

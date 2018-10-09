@@ -42,14 +42,8 @@ export default class Canvas extends IMaker {
      * @param height
      * @param style
      */
-    constructor(elem, width, height, style) {
-        this.canvas = document.createElement("canvas");
-        this.canvas.width = width;
-        this.canvas.height = height;
-        if (style)
-            this.canvas.style = style;
-		
-        super(elem, width, height);
+    constructor(elem, width, height, style) {		
+        super(elem, width, height, {style: style});
 
         this.type = animation.realization.canvas;
         this.context = this.canvas.getContext("2d");
@@ -118,6 +112,13 @@ export default class Canvas extends IMaker {
         this.refresh();
     }
 
+	_createElem(createParams){
+        this.canvas = document.createElement("canvas");
+        this.canvas.width = width;
+        this.canvas.height = height;
+        if (createParams && createParams.style)
+            this.canvas.style = createParams.style;
+	}
 }
 
 Canvas.Avatar = Avatar;
