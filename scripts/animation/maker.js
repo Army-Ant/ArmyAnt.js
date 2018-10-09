@@ -30,7 +30,7 @@ import Scheduler from "../common/scheduler.js"
 
 export default class Maker {
 
-    constructor(elem, width, height, createParams) {
+    constructor(elem, createParams) {
         this.type = animation.realization.unknown;
         this.timer = null;
         this.scenes = null;
