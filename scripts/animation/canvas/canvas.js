@@ -59,7 +59,7 @@ export default class Canvas extends IMaker {
      * @param elem {HTMLElement}
      */
     addToElem(elem) {
-        elem.appendChild(this.canvas);
+        this.canvas.appendChild(elem);
         this.parentElem = elem;
     }
 
