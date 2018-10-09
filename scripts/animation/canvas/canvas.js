@@ -43,14 +43,15 @@ export default class Canvas extends IMaker {
      * @param style
      */
     constructor(elem, width, height, style) {
-        super(elem, width, height);
-
-        this.type = animation.realization.canvas;
         this.canvas = document.createElement("canvas");
         this.canvas.width = width;
         this.canvas.height = height;
         if (style)
             this.canvas.style = style;
+		
+        super(elem, width, height);
+
+        this.type = animation.realization.canvas;
         this.context = this.canvas.getContext("2d");
     }
 
