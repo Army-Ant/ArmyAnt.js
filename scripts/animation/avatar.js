@@ -32,9 +32,12 @@ class IAvatar {
     constructor() {
         this.type = defaultType;
         this.args = {};
-        this.draw = null;
         //throw "This interface cannot be created an object";
     }
+	
+	draw(context, parent) {
+        throw "virtual function called";
+	}
 
     static create(animationType, avatarType, args) {
         let ret = null;
