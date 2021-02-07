@@ -24,7 +24,7 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-import animation from "../base.js"
+import realization from "../realization.js"
 import IMaker from "../maker.js"
 
 import Avatar from "./avatar.js"
@@ -45,7 +45,7 @@ export default class Canvas extends IMaker {
     constructor(elem, width, height, style) {		
         super(elem, {width: width, height: height, style: style});
 
-        this.type = animation.realization.canvas;
+        this.type = realization.canvas;
         this.context = this.canvas.getContext("2d");
     }
 

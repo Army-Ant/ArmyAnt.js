@@ -26,7 +26,6 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-import libArmyAnt from "../global.js"
 
 /**
  * The class to download and parse json file async
@@ -51,7 +50,7 @@ export default class JsonParser {
         this.data = null;
         if (url)
             this.url = url;
-        if (libArmyAnt.nodeJs) {
+        if (nodeJs) {
             this.data = require("./" + url);
         }
         else if (this.url)
@@ -77,7 +76,7 @@ export default class JsonParser {
      * @returns {boolean}
      */
     static getJson(url, callback) {
-        return (!libArmyAnt.nodeJs) ?
+        return (!nodeJs) ?
             $.ajax({
                 type: "get",
                 url: url,

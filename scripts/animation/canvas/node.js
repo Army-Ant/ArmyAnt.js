@@ -24,19 +24,19 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-import libArmyAnt from "../../global.js"
+import constants from "../../constants.js";
 import INode from "../node.js"
 
-export default class extends INode {
+class Node extends INode {
 
     constructor(parent, scene, zIndex, x, y, width, height) {
         super(parent, scene, zIndex, x, y, width, height);
     }
 
     addChild(tag, node, x, y) {
-        if (typeof x === libArmyAnt.magics.types.NUMBER)
+        if (typeof x === constants.types.NUMBER)
             node.x = x;
-        if (typeof y === libArmyAnt.magics.types.NUMBER)
+        if (typeof y === constants.types.NUMBER)
             node.y = y;
         node.parent = this;
         node.scene = this.scene;
@@ -85,3 +85,5 @@ export default class extends INode {
 
     }
 }
+
+export default Node

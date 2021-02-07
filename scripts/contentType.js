@@ -1,4 +1,4 @@
-[
+const contentType = [
   {
     "001": "application/x-001",
     "301": "application/x-301",
@@ -329,3 +329,5 @@
   },
   "application/octet-stream"
 ]
+
+export default contentType;

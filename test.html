@@ -1,53 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
-    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
-    <META HTTP-EQUIV="Expires" CONTENT="0">
-    <style></style>
-    <script src="externals/jquery-2.2.4.min.js"></script>
-    <script type="module" src="libArmyAnt.js"></script>
-    <script type="module">
-        import libArmyAnt from "./libArmyAnt.js"
+  <meta charset="UTF-8">
+  <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+  <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+  <META HTTP-EQUIV="Expires" CONTENT="0">
+  <style></style>
+  <script src="externals/jquery-2.2.4.min.js"></script>
+  <script type="module">
+    import logger from "./scripts/common/logger.js"
+    import factory from "./scripts/animation/factory.js"
+    import realization from "./scripts/animation/realization.js"
+    import IAvatar from "./scripts/animation/avatar.js"
+    import Canvas from "./scripts/animation/canvas/canvas.js"
 
-        window._test_clicked = 0;
-        window._test = function () {
+    window._test_clicked = 0;
+    window._test = function () {
 
-            switch (window._test_clicked) {
-                case 0:
-                    //(new libArmyAnt.Scheduler(1)).run(function(dt){document.getElementById('tester').innerHTML += ('<br/>delayTime='+dt);});
-                    window._test.cvs = libArmyAnt.animation.factory.getMaker(libArmyAnt.animation.realization.canvas,
-                        document.getElementById("animation_tester"),
-                        {width: 640, height: 960, style: ""});
-                    window._test.scene = window._test.cvs.createScene("starter", 0, 0, 640, 960);
-                    libArmyAnt.log("Canvas created!");
-                    break;
-                case 1:
-                    window._test.avatar = libArmyAnt.animation.IAvatar.create(libArmyAnt.animation.realization.canvas,
-                        libArmyAnt.animation.IAvatar.Type.color, {color: "red"});
-                    window._test.scene.background = window._test.avatar;
-                    libArmyAnt.log("Red avatar enjoyed");
-                    break;
-                case 2:
-                    window.picture_img = new Image();
-                    window.picture_img.onload = function () {
-                        window._test.picture = libArmyAnt.animation.IAvatar.create(libArmyAnt.animation.realization.canvas,
-                            libArmyAnt.animation.IAvatar.Type.image, {img: window.picture_img, imgX: 10, imgY: 10});
-                        window._test.scene.createSprite("pic", window._test.picture, 10, 10, 60, 60);
-                        libArmyAnt.log("Picture avatar enjoyed");
-                    }.bind(window.picture_img);
-                    window.picture_img.src = "testResources/Actor01-Braver01_1_1.png";
-                    break;
-            }
-            ++window._test_clicked;
-        };
-    </script>
-    <title></title>
+      switch (window._test_clicked) {
+        case 0:
+          //(new Scheduler(1)).run(function(dt){document.getElementById('tester').innerHTML += ('<br/>delayTime='+dt);});
+          window._test.cvs = factory.getMaker(realization.canvas,
+            document.getElementById("animation_tester"),
+            { width: 640, height: 960, style: "" });
+          window._test.scene = window._test.cvs.createScene("starter", 0, 0, 640, 960);
+          logger.log("Canvas created!");
+          break;
+        case 1:
+          window._test.avatar = new Canvas.Avatar;
+          window._test.avatar.type = IAvatar.Type.color;
+          window._test.avatar.args = { color: "red" };
+          window._test.scene.background = window._test.avatar;
+          logger.log("Red avatar enjoyed");
+          break;
+        case 2:
+          window.picture_img = new Image();
+          window.picture_img.onload = function () {
+            window._test.picture = new Canvas.Avatar;
+            window._test.picture.type = IAvatar.Type.image;
+            window._test.picture.args = { img: window.picture_img, imgX: 10, imgY: 10 };
+            window._test.scene.createSprite("pic", window._test.picture, 10, 10, 60, 60);
+            logger.log("Picture avatar enjoyed");
+          }.bind(window.picture_img);
+          window.picture_img.src = "testResources/Actor01-Braver01_1_1.png";
+          break;
+      }
+      ++window._test_clicked;
+    };
+  </script>
+  <title></title>
 </head>
+
 <body>
-    <div id="animation_tester" style="height:960px;width:640px" ></div>
-    <button style="height:60px;width:200px" onclick="libArmyAnt._test()">Test scheduler</button>
-    <a id="tester"></a>
+  <div id="animation_tester" style="height:960px;width:640px"></div>
+  <button style="height:60px;width:200px" onclick="_test()">Test scheduler</button>
+  <a id="tester"></a>
 </body>
+
 </html>

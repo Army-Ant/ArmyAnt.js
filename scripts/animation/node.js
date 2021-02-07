@@ -24,13 +24,13 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-import animation from "./base.js"
+import TagIndexList from "./tagIndexList.js"
 
 export default class Node {
 
     /**
      *
-     * @param parent : animation.INode
+     * @param parent : INode
      * @param scene
      * @param zIndex
      * @param x
@@ -51,7 +51,7 @@ export default class Node {
             this.parent = null;
         this.shown = true;
         this.running = true;
-        this.children = new animation.TagIndexList();
+        this.children = new TagIndexList();
     }
 
     _timerFunc(dt) {

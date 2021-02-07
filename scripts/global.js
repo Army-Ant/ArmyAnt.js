@@ -27,299 +27,26 @@
  */
 "use strict";
 
-
-/**
- * The base variable node of all this libArmyAnt content
- * 本库的基本命名空间，根节点
- */
-
-const localMagics = {
-    types: {
-        UNDEFINED: "undefined",
-        NULL: "null",
-        BOOLEAN: "boolean",
-        NUMBER: "number",
-        STRING: "string",
-        OBJECT: "object",
-        ARRAY: "array",
-        SYMBOL: "symbol",
-        FUNCTION: "function",
-        MAP: "map",
-        SET: "set"
-    },
-    specials: {
-        NAN: Number.NaN,
-        INFINITE: Number.NEGATIVE_INFINITY,
-        ZERO: 0,
-        D_ZERO: -0,
-        EMPTY_STRING: "",
-        TRUE: true,
-        FALSE: false,
-    },
-    numbers: {},
-    strings: {}
-}
+import constants from "./constants";
 
 
-const libArmyAnt = {
-
-    /**
-     * The version of library
-     * 本库的版本号
-     */
-    version: {
-        major: 1,
-        minor: 0,
-        publish: 0,
-        build: 1,
-        toNumeric: function () {
-            return this.major * 256 * 256 * 256 + this.minor * 256 * 256 + this.publish * 256 + this.build;
-        },
-        toString: function () {
-            return this.major + "." + this.minor + "." + this.publish + "." + this.build + ".";
-        }
-    },
-
-    magics: localMagics,
-
-    /**
-     * The information of this library, loaded from "libInfo.json"
-     * 本库的一些信息，载入自数据文件“libInfo.json”
-     */
-    info: {},
-
-    /**
-     * The configurations of this library, some of it is loaded from "libConfig.json"
-     * 本库的一些配置，除下述节点外，还包括从数据文件“libConfig.json”中载入的配置项
-     */
-    config: {
-        /**
-         * Please change these string value when you use this library in your project
-         * 本库的一些路径参数，记录着你的项目的工作目录。只有设置正确，才能成功载入本库。
-         * 很多情况下，你不会（也不应该）把本库直接放置在工作目录的根目录，因此有必要对这些项进行配置
-         * rootDir代表从你服务器脚本所在目录，到你的网站的前端根目录的相对路径
-         * nodeRootDir代表从你服务器脚本所在目录，到本文件所在目录的相对路径
-         * dataRootDir代表从你的网站的前端根目录，到本文件所在目录的相对路径
-         */
-        rootDir: "./",
-        nodeRootDir: "./",
-        dataRootDir: "./",
-    },
-
-    /**
-     * If in the node.js environment, this object contains every modules from node.js system packages.
-     * If out of the node.js, this variable is null.
-     * 如果在node.js环境中使用本库，此节点将会自动获取node.js的几个常用库，和本库所依赖的node.js的库
-     * 如果不在node.js环境下，此节点为null。可据此判断是否具有node.js环境
-     */
-    nodeJs: (typeof require === localMagics.types.UNDEFINED || !require) ? null : {
-        http: require("http"),
-        url: require("url"),
-        fs: require("fs"),
-        child_process: require("child_process"),
-        querystring: require("querystring"),
-    },
-
-    /**
-     * Print debug messages with setting mode
-     * @param mode : string
-     *              Set the mode, one of "log" "warn" "assert" "error"
-     * @param array : Array
-     * @private
-     */
-
-    _print (mode, array) {
-        let modeNum = 0;
-        switch (this.config["debugMode"]) {
-            case "log":
-                modeNum = 1;
-                break;
-            case "warn":
-                modeNum = 2;
-                break;
-            case "assert":
-                modeNum = 3;
-                break;
-            case "error":
-                modeNum = 4;
-                break;
-            default:
-                modeNum = 0;
-                return;
-        }
-        let ret = "ArmyAnt : ";
-        for (let i = 0; i < array.length; i++) {
-            ret += " " + array[i];
-        }
-        switch (mode) {
-            case "log":
-                if (modeNum > 1)
-                    return;
-                console.log(ret);
-                break;
-            case "warn":
-                if (modeNum > 2)
-                    return;
-                console.warn(ret);
-                break;
-            case "assert":
-                if (modeNum > 3)
-                    return;
-                console.assert(ret);
-                break;
-            case "error":
-                if (modeNum > 4)
-                    return;
-                console.error(ret);
-                break;
-            default:
-                console.info(ret);
-                break;
-        }
-    },
-
-    log (...args) {
-        this._print("log", args);
-    },
-    warn (...args) {
-        this._print("warn", args);
-    },
-    assert (...args) {
-        this._print("assert", args);
-    },
-    error (...args) {
-        this._print("error", args);
-    },
-
-    parseToWords (string, separators = "default") {
-        if (separators === "PRO") {
-            separators = ["===", "!==", "::", "++", "--", "+=", "-=", "*=", "/=", "%=", "<=", ">=", "==", "!=", "||", "&&",
-                ",", ' ', '\t', '\r', '\n', ':', '.', '+', '-', '*', '/', '%', '&', '!', '|', '?', '>', '<', ';']
-        } else if (separators === "TIME") {
-            separators = [" ", "\r", "\n", "\t", ":", "-", ","];
-        } else if (separators === "NAT") {
-            separators = [" ", "\t", ":", ",", ".", ";", "\n", "\r", "?", "!", '"', "'", "<", ">", "(", ")", "[", "]"];
-        }
-        let ret = [];
-        let curr = "";
-        for (let i = 0; i < string.length; ++i) {
-            let index = i + 3 < string.length ? separators.contains(string.slice(i, i + 4)) : false;
-            if (index === false)
-                index = i + 2 < string.length ? separators.contains(string.slice(i, i + 3)) : false;
-            if (index === false)
-                index = i + 1 < string.length ? separators.contains(string.slice(i, i + 2)) : false;
-            if (index === false)
-                index = i < string.length ? separators.contains(string[i]) : false;
-            if (index === false)
-                curr += string[i];
-            else {
-                if (curr !== "")
-                    ret.push(curr);
-                ret.push(separators[index]);
-                curr = "";
-                i += separators[index].length - 1;
-            }
-        }
-        if (curr !== "") {
-            ret.push(curr);
-        }
-        return ret;
-    },
-
-    /**
-     * Dynamically insert an HTML element
-     * 动态嵌入一个HTML元素。
-     * @param typename : string
-     *      The type of the element you will add
-     *      要添加的HTML元素的类型名
-     * @param parentElem : HTMLElement
-     *      The parent element node you will add to
-     *      要添加到哪个HTML元素之下。可以是head或者body
-     * @param properties : Object
-     *      The properties of this element you will add
-     *      要添加的HTML元素的属性集
-     * @returns {HTMLElement}
-     *      The element you add
-     *      返回你添加成功的元素引用。如果元素创建失败，返回null
-     *      If you worked at node.js application, this function shall not work, and always returned null.
-     *      如果是在node.js环境中，则此方法将不起作用，并且总是返回null
-     */
-    insertElement (typename, parentElem, properties) {
-        if (this.nodeJs)
-            return null;
-        const insertingElem = document.createElement(typename);
-        if (properties) {
-            for (const key in properties) {
-                insertingElem[key] = properties[key];
-            }
-        }
-        parentElem.appendChild(insertingElem);
-        return insertingElem;
-    },
-
-    /**
-     * Dynamically insert javascript file
-     * 动态添加/载入一个javascript脚本
-     * @param url : string
-     *      The javascript file path
-     *      要添加的javascript文件的路径
-     * @return {HTMLElement / Object}
-     *      HTMLElement : The script element reference in document
-     *      当在HTML环境下时，该方法返回添加成功的script元素引用。如果创建失败，返回null
-     *      Object : the module root of the node.js require returned
-     *      当在node.js环境下时，返回载入成功的javascript模块引用。载入失败时，返回null
-     */
-    importScript (url, isAsync, isDefer, onload) {
-        console.log("ArmyAnt : loading script " + url);
-        if (this.nodeJs)
-            return require(url);
-		let properties = {src: url, type: "text/javascript"}
-		if(isAsync)
-			properties.async = "async";
-		if(isDefer)
-			properties.defer = "defer";
-		if(onload)
-			properties.onload = onload;
-		return this.insertElement("script", document.head, properties);
-    },
-
-    /**
-     * Dynamically insert css file
-     * 动态加载一个css布局style文件
-     * @param url : string
-     *      The style file path
-     *      要添加的style文件路径
-     * @return {HTMLElement}
-     *      The style element reference in document
-     *      返回添加成功的style元素的引用
-     *      If you worked at node.js application, this function shall not work, and always returned null.
-     *      如果是在node.js环境中，则此方法将不起作用，并且总是返回null
-     */
-    importStyle (url) {
-        console.log("ArmyAnt : load style " + url);
-        return this.insertElement("link", document.head, {
-            href: url,
-            type: "text/css",
-            rel: "stylesheet"
-        });
-    },
-};
+global.nodeJs = (typeof require === constants.types.UNDEFINED || !require) ? false : true
 
 /**
  * Defined some global complement functions
  * 以下定义了一些对全局量的补充方法
  */
 
-if (libArmyAnt.nodeJs)
+if (nodeJs)
     global.$ = require('jquery');
-else if (typeof global === localMagics.types.UNDEFINED) {
-    if (typeof window !== localMagics.types.UNDEFINED)
+else if (typeof global === constants.types.UNDEFINED) {
+    if (typeof window !== constants.types.UNDEFINED)
         window.global = window;
-    else if (typeof self !== localMagics.types.UNDEFINED)
+    else if (typeof self !== constants.types.UNDEFINED)
         self.global = self;
 }
 
-if (typeof global.Object.copy === localMagics.types.UNDEFINED || !this.Object.copy)
+if (typeof global.Object.copy === constants.types.UNDEFINED || !this.Object.copy){
     /**
      * clone the object with its every child member. Each array and object in its children will also clone recursively
      * 创建指定Object对象的一个副本，且其所有Object和Array类型的子成员都会被递归式克隆
@@ -334,13 +61,14 @@ if (typeof global.Object.copy === localMagics.types.UNDEFINED || !this.Object.co
         let ret = Object.create(obj);
         for (let k in obj) {
             if (obj.hasOwnProperty(k))
-                if (typeof obj[k] === libArmyAnt.magics.types.OBJECT)
+                if (typeof obj[k] === constants.types.OBJECT)
                     Object.copyTo(obj[k], ret, k);
                 else
                     ret[k] = obj[k];
         }
         return ret;
     };
+}
 
 global.Object.copyTo = function (src, dst, dstKey) {
     if (!src || !dst) {
@@ -350,7 +78,7 @@ global.Object.copyTo = function (src, dst, dstKey) {
     dst[dstKey] = Object.create(src);
     for (let k in src) {
         if (src.hasOwnProperty(k))
-            if (typeof src[k] === libArmyAnt.magics.types.OBJECT)
+            if (typeof src[k] === constants.types.OBJECT)
                 Object.copyTo(src[k], dst[dstKey], k);
             else
                 dst[dstKey][k] = src[k];
@@ -397,9 +125,9 @@ global.Array.prototype.copy = function () {
     let ret = new Array(this.length);
     for (let i = 0; i < this.length; i++) {
         switch (typeof this[i]) {
-            case libArmyAnt.magics.types.UNDEFINED:
+            case constants.types.UNDEFINED:
                 break;
-            case libArmyAnt.magics.types.OBJECT:
+            case constants.types.OBJECT:
                 Object.copyTo(this[i], ret, i);
                 break;
             default:
@@ -450,7 +178,7 @@ global.Array.prototype.remove = function (value) {
  *                  Bind target the returned function's "this" will bind to
  * @returns {Function}
  */
-if (!global.Function.prototype.bind)
+if (!global.Function.prototype.bind){
     global.Function.prototype.bind = function (thisBind) {
         let self = this;
         let selfBind = thisBind;
@@ -458,38 +186,7 @@ if (!global.Function.prototype.bind)
         return function (...args) {
             return self.apply(selfBind, args);
         };
-    };
-
-if (libArmyAnt.nodeJs) {
-    libArmyAnt.nodeJs.fs["readFile"](libArmyAnt.config.nodeRootDir + "data/libConfig.json", (err, jsonData) => {
-        if (err) {
-            console.error("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + "data/libConfig.json failed !");
-        } else {
-            let data = JSON.parse(jsonData);
-            for (let key in data[0]) {
-                if (data[0].hasOwnProperty(key))
-                    libArmyAnt.config[key] = data[0][key];
-            }
-            console.log("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + "data/libConfig.json OK !");
-        }
-    });
-} else {
-    $.ajax({
-        type: "get",
-        url: libArmyAnt.config.dataRootDir + "data/libConfig.json",
-        cache: true,
-        async: false,
-        dataType: "json",
-        success (data) {
-            for (let key in data[0]) {
-                if (data[0].hasOwnProperty(key))
-                    libArmyAnt.config[key] = data[0][key];
-            }
-            console.log("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + "data/libConfig.json OK !");
-        },
-        error (data, err, exception) {
-            console.error("ArmyAnt : load config " + libArmyAnt.config.nodeRootDir + "data/libConfig.json failed !");
-        }
-    });
+    }
 }
-export default libArmyAnt
+
+export default {}

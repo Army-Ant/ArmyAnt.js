@@ -24,8 +24,8 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-import libArmyAnt from "../global.js"
-import animation from "./base.js"
+import constants from "../constants.js";
+import TagIndexList from "./tagIndexList.js"
 
 export default class Scene{
 
@@ -41,7 +41,7 @@ export default class Scene{
             this.background = null;
         this.shown = true;
         this.running = true;
-        this.children = new animation.TagIndexList();
+        this.children = new TagIndexList();
     }
 
     _timerFunc(dt) {
@@ -91,7 +91,7 @@ export default class Scene{
     }
 
     getChildZIndex(tagOrNode) {
-        if (typeof tagOrNode !== libArmyAnt.magics.types.STRING)
+        if (typeof tagOrNode !== constants.types.STRING)
                 tagOrNode = this.getChildTag(tagOrNode);
             if(!tagOrNode)
                 throw "Cannot found the child node";
@@ -99,7 +99,7 @@ export default class Scene{
     }
 
     setChildZIndex(tagOrNode, zIndex) {
-        if (typeof tagOrNode !== libArmyAnt.magics.types.STRING)
+        if (typeof tagOrNode !== constants.types.STRING)
                 tagOrNode = this.getChildTag(tagOrNode);
             if(!tagOrNode)
                 throw "Cannot found the child node";

@@ -24,7 +24,9 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-import libArmyAnt from "../global.js"
+
+import logger from "../common/logger.js";
+import constants from "../constants.js";
 
 export default class TagIndexList {
     constructor() {
@@ -33,10 +35,10 @@ export default class TagIndexList {
 
     put(tag, node, zIndex) {
         if (this.lists[tag]) {
-            libArmyAnt.warn('The scene or node named "', tag, '" has been exist, please check the tag name or if it is added again!');
+            logger.warn('The scene or node named "', tag, '" has been exist, please check the tag name or if it is added again!');
             return false;
         }
-        if (typeof zIndex !== libArmyAnt.magics.types.NUMBER)
+        if (typeof zIndex !== constants.types.NUMBER)
             zIndex = 0;
         this.lists[tag] = {
             node: node,
@@ -59,7 +61,7 @@ export default class TagIndexList {
 
     rename(tagOrNode, newTag) {
         let node = tagOrNode;
-        if (typeof tagOrNode === libArmyAnt.magics.types.STRING) {
+        if (typeof tagOrNode === constants.types.STRING) {
             node = this.get(tagOrNode);
         } else
             tagOrNode = this.getTag(node);

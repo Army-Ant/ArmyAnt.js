@@ -1,7 +1,5 @@
 /**
- * Created by Jason Z.J on 2015/8/26.
- * @author Jason Z.J
- * @date 2015/8/26
+ * Created by Jason Zhao Jie on 2016/12/12.
  */
 
 /**
@@ -26,30 +24,16 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-import libArmyAnt from "../global.js"
-import Dialog from "./dialog.js"
 
-let base = {
-	modal: "assets/modals.html",
-	data: null,
-	Dialog: Dialog,
+let realization = {
+    unknown: Symbol("unknown"),
+    canvas: Symbol("canvas"),
+    multiCanvas: Symbol("multiCanvas"),
+    css3: Symbol("css3"),
+    svg: Symbol("SVG"),
+    jQuery: Symbol("jQuery"),
+    webGL: Symbol("webGL"),
+    flash: Symbol("flash")
 }
 
-if (libArmyAnt.nodeJs) {
-    base.data = libArmyAnt.nodeJs.fs["readFile"]("../" + base.modal, function (err, filedata) {
-        base.data = filedata;
-    });
-} else {
-    $.ajax({
-        type: "get",
-        url: libArmyAnt.config.dataRootDir + base.modal,
-        cache: true,
-        async: true,
-        dataType: "html",
-        success: function (data, statue, jqXHR) {
-            base.data = data;
-        }
-    });
-}
-
-export default base
+export default realization

@@ -24,7 +24,8 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-import animation from "./base.js"
+import Canvas from "./canvas/canvas.js";
+import realization from "./realization.js"
 
 export default {
 
@@ -33,13 +34,13 @@ export default {
 
     getMaker(type, elem, args) {
         switch (type) {
-            case animation.realization.canvas:
-                return new animation.Canvas(elem, args.width, args.height, args.style);
-            case animation.realization.multiCanvas:
-            case animation.realization.css3:
-            case animation.realization.svg:
-            case animation.realization.jQuery:
-            case animation.realization.webGL:
+            case realization.canvas:
+                return new Canvas(elem, args.width, args.height, args.style);
+            case realization.multiCanvas:
+            case realization.css3:
+            case realization.svg:
+            case realization.jQuery:
+            case realization.webGL:
             default:
                 break;
         }

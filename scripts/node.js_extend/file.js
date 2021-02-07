@@ -24,7 +24,9 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-import libArmyAnt from "../global.js"
+
+import fs from "fs"
+import logger from "../common/logger.js";
 
 /**
  * The file reader included the simplified node.js file operation
@@ -67,18 +69,18 @@ export default class File {
         } else {
             return false;
         }
-        libArmyAnt.nodeJs.fs.open(filename, "a+", function (err, fd) {
+        fs.open(filename, "a+", function (err, fd) {
             if (!err) {
                 this.file_descriptor = fd;
-                libArmyAnt.nodeJs.fs.stat(filename, function (err, stat) {
+                fs.stat(filename, function (err, stat) {
                     if (!err) {
                         this.file_stats = stat;
                     } else
-                        libArmyAnt.warn("Get the status of file ", filename, " failed, error code: ", err.code, ", error message: ", err.message);
+                        logger.warn("Get the status of file ", filename, " failed, error code: ", err.code, ", error message: ", err.message);
                     callback(!err);
                 }.bind(this));
             } else {
-                libArmyAnt.warn("Open the file ", filename, " failed, error code: ", err.code, ", error message: ", err.message);
+                logger.warn("Open the file ", filename, " failed, error code: ", err.code, ", error message: ", err.message);
                 callback(!err);
             }
         }.bind(this));
@@ -92,12 +94,12 @@ export default class File {
      */
     close(callback) {
         if (this.file_descriptor)
-            libArmyAnt.nodeJs.fs.close(this.file_descriptor, function (err) {
+            fs.close(this.file_descriptor, function (err) {
                 if (!err) {
                     this.file_descriptor = null;
                     this.file_stats = null;
                 } else {
-                    libArmyAnt.warn("Close the file ", filename, " failed, error code: ", err.code, ", error message: ", err.message);
+                    logger.warn("Close the file ", filename, " failed, error code: ", err.code, ", error message: ", err.message);
                 }
                 callback(!err);
             }.bind(this));
@@ -118,9 +120,9 @@ export default class File {
     read(buffer, pos, length, callback) {
         if (!this.file_descriptor)
             return false;
-        libArmyAnt.nodeJs.fs.read(this.file_descriptor, buffer, 0, length, pos, function (err, bytesRead, buffer) {
+        fs.read(this.file_descriptor, buffer, 0, length, pos, function (err, bytesRead, buffer) {
             if (err) {
-                libArmyAnt.warn("Error in reading file ", this.filename, " , error code: ", err.code, ", error message: ", err.message);
+                logger.warn("Error in reading file ", this.filename, " , error code: ", err.code, ", error message: ", err.message);
             }
             callback(err, bytesRead, buffer);
         }.bind(this));
@@ -142,9 +144,9 @@ export default class File {
     write(buffer, pos, length, callback) {
         if (!this.file_descriptor)
             return false;
-        libArmyAnt.nodeJs.fs.write(this.file_descriptor, buffer, 0, length, pos, function (err, bytesWritten, buffer) {
+        fs.write(this.file_descriptor, buffer, 0, length, pos, function (err, bytesWritten, buffer) {
             if (err) {
-                libArmyAnt.warn("Error in writing file ", this.filename, " , error code: ", err.code, ", error message: ", err.message);
+                logger.warn("Error in writing file ", this.filename, " , error code: ", err.code, ", error message: ", err.message);
             }
             callback(err, bytesWritten, buffer);
         }.bind(this));
@@ -159,9 +161,9 @@ export default class File {
         if (!this.file_descriptor)
             return null;
         let ret = Buffer.alloc(this.file_stats.size + 1);
-        let err = libArmyAnt.nodeJs.fs.readSync(this.file_descriptor, ret, 0, this.file_stats.size + 1, 0);
+        let err = fs.readSync(this.file_descriptor, ret, 0, this.file_stats.size + 1, 0);
         if (err) {
-            libArmyAnt.warn("Error in reading file ", this.filename, " , error code: ", err.code, ", error message: ", err.message);
+            logger.warn("Error in reading file ", this.filename, " , error code: ", err.code, ", error message: ", err.message);
             return null;
         }
         return ret.toString();
@@ -175,9 +177,9 @@ export default class File {
      * @param callback : function     undefined Function(isSuccess(Boolean), data)
      */
     static readFile(filepath, callback) {
-        libArmyAnt.nodeJs.fs.readFile(filepath, function (err, data) {
+        fs.readFile(filepath, function (err, data) {
             if (err)
-                libArmyAnt.warn("Error in reading file ", filepath, " , error code: ", err.code, ", error message: ", err.message);
+                logger.warn("Error in reading file ", filepath, " , error code: ", err.code, ", error message: ", err.message);
             callback(!err, data);
         }.bind(this));
     }

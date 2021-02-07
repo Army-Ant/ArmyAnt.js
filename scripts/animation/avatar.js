@@ -24,7 +24,6 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-import libArmyAnt from "../global.js"
 
 let defaultType = Symbol("none");
 
@@ -38,18 +37,6 @@ class IAvatar {
 	draw(context, parent) {
         throw "virtual function called";
 	}
-
-    static create(animationType, avatarType, args) {
-        let ret = null;
-        switch (animationType) {
-            case libArmyAnt.animation.realization.canvas:
-                ret = new libArmyAnt.animation.Canvas.Avatar();
-                break;
-        }
-        ret.type = avatarType;
-        ret.args = args;
-        return ret;
-    }
 }
 
 IAvatar.Type = {

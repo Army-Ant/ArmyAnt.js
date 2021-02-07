@@ -24,7 +24,9 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-import libArmyAnt from "../global.js"
+
+import constants from "../constants";
+import logger from "./logger";
 
 /**
  * The datetime class, used to convert between different format of datetime
@@ -55,11 +57,11 @@ export default class DateTime {
             if (!Number.isNaN(Number(httpStringOrCSeconds))) {
                 this.jsTime = new Date();
                 this.jsTime.setTime(Number(httpStringOrCSeconds) * 1000);
-                if (typeof formatTypeOrTimeZone === libArmyAnt.magics.types.STRING)
+                if (typeof formatTypeOrTimeZone === constants.types.STRING)
                     this.timeZone = formatTypeOrTimeZone;
-            } else if (typeof httpStringOrCSeconds === libArmyAnt.magics.types.STRING) {
-                if (!this._setFromHttpString(httpStringOrCSeconds, formatTypeOrTimeZone) && (typeof formatTypeOrTimeZone === libArmyAnt.magics.types.STRING || !this._setFromHttpString(formatTypeOrTimeZone, httpStringOrCSeconds))) {
-                    libArmyAnt.warn("Cannot parse the time string of : ", httpStringOrCSeconds);
+            } else if (typeof httpStringOrCSeconds === constants.types.STRING) {
+                if (!this._setFromHttpString(httpStringOrCSeconds, formatTypeOrTimeZone) && (typeof formatTypeOrTimeZone === constants.types.STRING || !this._setFromHttpString(formatTypeOrTimeZone, httpStringOrCSeconds))) {
+                    logger.warn("Cannot parse the time string of : ", httpStringOrCSeconds);
                 }
             }
         }
@@ -120,7 +122,7 @@ export default class DateTime {
 
     _setFromHttpString(str, type = DateTime.TimeStringType.Http) {
         // Parse to words
-        let words = libArmyAnt.parseToWords(str, "TIME");
+        let words = logger.parseToWords(str, "TIME");
         if (!words)
             return false;
 

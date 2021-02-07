@@ -1,0 +1,18 @@
+{
+  "[json]": {
+    "editor.quickSuggestions": {
+      "strings": true
+    },
+    "editor.suggest.insertMode": "replace"
+  },
+  //vscode es6语法检测配置
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "html",
+    "vue",
+  ],
+  "explorer.confirmDragAndDrop": false,
+  "editor.detectIndentation": false,
+  "editor.tabSize": 2
+}

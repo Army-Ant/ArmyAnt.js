@@ -24,19 +24,21 @@
  * 请在特定限制或语言管理权限下阅读协议
  */
 "use strict";
-import libArmyAnt from "../global.js"
-import animation from "./base.js"
+import realization from "./realization.js"
+import TagIndexList from "./tagIndexList.js"
 import Scheduler from "../common/scheduler.js"
+import constants from "../constants.js"
+import factory from "./factory.js";
 
 export default class Maker {
 
     constructor(elem, createParams) {
-        this.type = animation.realization.unknown;
+        this.type = realization.unknown;
         this.timer = null;
         this.scenes = null;
         this.parentElem = null;
-        this.scenes = new animation.TagIndexList();
-        this.timer = new Scheduler(animation.factory.refreshTime);
+        this.scenes = new TagIndexList;
+        this.timer = new Scheduler(factory.refreshTime);
 		this._createElem(createParams);
         if (elem)
             this.addToElem(elem);
@@ -96,7 +98,7 @@ export default class Maker {
     }
 
     getSceneZIndex(tagOrScene) {
-        if (typeof tagOrScene !== libArmyAnt.magics.types.STRING)
+        if (typeof tagOrScene !== constants.types.STRING)
             tagOrScene = this.getSceneTag(tagOrScene);
         if (!tagOrScene)
             throw "Cannot found the scene";
@@ -104,7 +106,7 @@ export default class Maker {
     }
 
     setSceneZIndex(tagOrScene, zIndex) {
-        if (typeof tagOrScene !== libArmyAnt.magics.types.STRING)
+        if (typeof tagOrScene !== constants.types.STRING)
             tagOrScene = this.getSceneTag(tagOrScene);
         if (!tagOrScene)
             throw "Cannot found the scene";
